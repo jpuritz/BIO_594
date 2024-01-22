@@ -1,5 +1,5 @@
 # Readings for Week 2 
-## Due 2/1/2023
+## Due 1/31/2024
 
 ### For Discussion
 1. Textbook Chapters 1-4 on [Perusall](https://www.perusall.com/)
