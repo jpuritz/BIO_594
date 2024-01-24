@@ -81,7 +81,7 @@ Enter the password that's on the board and you should be set.
 
 ### Windows 
 
-Using OpenSSH [LINK](https://phoenixnap.com/kb/generate-ssh-key-windows-10)
+Using OpenSSH [LINK](https://www.ionos.com/digitalguide/server/configuration/windows-11-ssh/)
 
 >1. Verify if OpenSSH Client is Installed
 >      * Open the Settings panel, then click Apps.
