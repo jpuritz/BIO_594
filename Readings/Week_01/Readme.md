@@ -1,3 +1,3 @@
 # Readings for Week 1
 
-None
+Just the textbook chapters
