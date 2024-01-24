@@ -27,7 +27,7 @@ After completing this course, students should be able to:
 ## Readings
 
 ### Part I- Theory
-For the first half of class, readings will be from the Allendorf et al. textbook, [Conservation and the Genomics of Populations](https://doi-org.uri.idm.oclc.org/10.1093/oso/9780198856566.001.0001).  We will be using the [Perusall platform](https://www.perusall.com/) to allow for collaborative note-taking and discussion.  Please use course code PURITZ-ZLXT7 to join the class.  Readings during this part of class will be paired with students fullfilling different roles in class.  Please see [Reading Discussions](#Reading-Discussions) below for more details. 
+For the first half of class, readings will be from the Allendorf et al. textbook, [Conservation and the Genomics of Populations](https://doi-org.uri.idm.oclc.org/10.1093/oso/9780198856566.001.0001).  We will be using the [Perusall platform](https://www.perusall.com/) to allow for collaborative note-taking and discussion.  Please use course code PURITZ-8KWM3 to join the class.  Readings during this part of class will be paired with students fullfilling different roles in class.  Please see [Reading Discussions](#Reading-Discussions) below for more details. 
 
 ### Part II- Practice
 Readings will be selected from web based tutorials, package vignettes, software documentation, and the primary literature.  Readings will be assigned on a week by week basis.  
