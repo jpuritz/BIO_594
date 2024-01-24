@@ -8,7 +8,7 @@ Feel free to come by during this time without an appointment, otherwise schedule
 *I will do my best to respond promptly during business hours (M-F: 9-5)*
 
 ## Meeting Time and Location for Spring 2024
-#### TBD
+#### Thursdays, 2:00 PM to 4:30 PM
 #### TBD
 
 ## Course Description
