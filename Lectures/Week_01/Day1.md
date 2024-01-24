@@ -2,7 +2,7 @@
 
 ## Goals
 * Setup an RSA key for sshing into the class server
-* Clone the class git repository to both your server account
+* Clone the class git repository to both your server account and personal computer
 * Test out terminal functionality in RStudio
 
 ### Logging into the class server
@@ -106,30 +106,13 @@ Using OpenSSH [LINK](https://phoenixnap.com/kb/generate-ssh-key-windows-10)
 >      * Navigate to `C:\Users\your_username/.ssh`.
 >      * You should see two files. The identification is saved in the `id_rsa` file and the public key is labeled `id_rsa.pub`. This is your SSH key pair.
 
-To copy your key to KITT follow the instructions [here](https://www.chrisjhart.com/Windows-10-ssh-copy-id/)
-
-Essentially run this command with your username in PowerShell: `type $env:USERPROFILE\.ssh\id_rsa.pub | ssh {IP-ADDRESS-OR-FQDN} "cat >> .ssh/authorized_keys"`
+> Unless you changed the name of your key pair above
 
 
-#### I no longer recommend using PuTTYgen to do this, but it will work
+To copy your key to KITT, run this command in PowerShell: `cat $env:userprofile/.ssh/id_rsa.pub | ssh -p 22 user@kitt.uri.edu 'cat >> .ssh/authorized_keys'`
 
-I reccomend following the steps in this [LINK](https://docs.joyent.com/public-cloud/getting-started/ssh-keys/generating-an-ssh-key-manually/manually-generating-your-ssh-key-in-windows) through step 8.
 
->To generate an SSH key with PuTTYgen, follow these steps:
 
-> 1. Open the PuTTYgen program.
-> 2. For Type of key to generate, select SSH-2 RSA.
-> 3. Click the Generate button.
-> 4. Move your mouse in the area below the progress bar. When the progress bar is full, PuTTYgen generates your key pair.
-> 5. Type a passphrase in the Key passphrase field. Type the same passphrase in the Confirm passphrase field. You can use a key >without a passphrase, but this is not recommended.
-> 6. Click the Save private key button to save the private key. Warning! You must save the private key. You will need it to connect to your machine.
-> 7. Right-click in the text field labeled Public key for pasting into OpenSSH authorized_keys file and choose Select All.
-> 8. Right-click again in the same text field and choose Copy.
-
-* Once the key is copied, log into the server using your password and navigate to: `~/.ssh`
-* Then, enter `nano authorized_keys`
-* Copy the contents into the window
-* Hit CTL+X to exit and save.  Press Y to confirm. Then hit enter.
 
 ## Using git to clone class repository
 
@@ -145,12 +128,12 @@ Next make a directory called `repos`
 
 Change into that directory: `cd repos`
 
-Now, you can clone (copy) the whole repository: `git clone https://github.com/jpuritz/BIO_594_2023.git`
+Now, you can clone (copy) the whole repository: `git clone git@github.com:jpuritz/BIO_594.git`
 
-You should have a directory called `BIO_594_2023` that will have all the current class materials.
+You should have a directory called `BIO_594` that will have all the current class materials.
 We'll get into this more next week, but you can always update this repo with these two commands:
 ```
-cd ~/repos/BIO_594_2023
+cd ~/repos/BIO_594
 git pull
 ```
 
