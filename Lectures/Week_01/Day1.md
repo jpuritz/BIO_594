@@ -136,6 +136,10 @@ We'll get into this more next week, but you can always update this repo with the
 cd ~/repos/BIO_594
 git pull
 ```
+then
+`gh auth login`
+and follow the prompts.  
+
 
 ### I also highly recommend cloning the class repository to your own laptop for reference.  
 All class materials and exercises will be posted to the repository, so it will be useful to have access to it in multiple places.
