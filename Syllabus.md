@@ -55,12 +55,12 @@ Updated 1/21/2024 and still subject to change
 | Date    | Week | Topic                                                                    | Reading                                               | Exercises and Problem Sets |
 | ------- | ---- | ------------------------------------------------------------------------ | ----------------------------------------------------- | -------------------------- |
 | 1/25/24 | 1    | Course Intro and Computer Setup and Testing                              | None                                                  |                            |
-| 2/01/24 |      | NO CLASS- Github, Rmarkdown, and open science using RStudio              | [Web Links](/Lectures/Week_02/Readme.md); [BES Guide to Open Science](/Readings/Week_02/BES-Guide_to_reproducible_code.pdf);  Text Book Chapters: 1-4 |                             | Exercise 1                 |
-| 2/8/24  | 2    | Introduction to Phenotypic and Genetic Variaiton and Population Genomics | Text Book Chapters: 1-4                               | Exercise 1                 |
-| 2/15/24 | 3    | Probability and Random Mating Populations: HWE                           | Appendix, Chap 5                                      | None                       |
-| 2/22/24 | 4    | Effective Population Size and Genetic Drift                              | Text Book Chapters: 6-7                               | Prob Set 1                 |
-| 2/29/24 | 5    | Natual Selection and Population Structure                                | Text Book Chapters: 8-9                               | Prob Set 2                 |
-| 3/07/24 | 6    | Genetics to Genomics                                                     | Text Book Chapters: 10-12                             | Prob Set 3                 |
+| 2/01/24 | 2    | NO CLASS- Github, Rmarkdown, and open science using RStudio              | [Web Links](/Lectures/Week_02/Readme.md); [BES Guide to Open Science](/Readings/Week_02/BES-Guide_to_reproducible_code.pdf);  Text Book Chapters: 1-4 |                             | Exercise 1                 |
+| 2/8/24  | 3    | Introduction to Phenotypic and Genetic Variaiton and Population Genomics | Text Book Chapters: 1-4                               | Exercise 1                 |
+| 2/15/24 | 4    | Probability and Random Mating Populations: HWE                           | Appendix, Chap 5                                      | None                       |
+| 2/22/24 | 5    | Effective Population Size and Genetic Drift                              | Text Book Chapters: 6-7                               | Prob Set 1                 |
+| 2/29/24 | 6    | Natual Selection and Population Structure                                | Text Book Chapters: 8-9                               | Prob Set 2                 |
+| 3/07/24 | 7    | Genetics to Genomics                                                     | Text Book Chapters: 10-12                             | Prob Set 3                 |
 | 3/14/24 |      | SPRING BREAK!!                                                           |                                                       |                            |
 | 3/21/24 | 8    | Exploited Populations and Climate Change & Unix Command Line             | Text Book Chapters: 15-16                             | Prob Set 4                 |
 | 3/28/24 | 9    | NGS Data Structures- Visualization and Manipulation                      |                                                       |                            |
