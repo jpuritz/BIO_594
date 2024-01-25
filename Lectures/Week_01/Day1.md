@@ -123,12 +123,12 @@ Run this command:
 then
 `git config --global user.name "Your Name"`
 
-Next make a directory called `repos`
+Next make a directory called "repos"
 `mkdir ~/repos`
 
 Change into that directory: `cd repos`
 
-Now, you can clone (copy) the whole repository: `git clone git@github.com:jpuritz/BIO_594.git`
+Now, you can clone (copy) the whole repository: `git clone https://github.com/jpuritz/BIO_594.git`
 
 You should have a directory called `BIO_594` that will have all the current class materials.
 We'll get into this more next week, but you can always update this repo with these two commands:
