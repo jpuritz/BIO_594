@@ -54,23 +54,22 @@ Updated 1/21/2024 and still subject to change
 
 | Date    | Week | Topic                                                                    | Reading                                               | Exercises and Problem Sets |
 | ------- | ---- | ------------------------------------------------------------------------ | ----------------------------------------------------- | -------------------------- |
-| 1/24/24 | 1    | Course Intro and Computer Setup and Testing                              | None                                                  |                            |
-| 1/31/24 | 2    | Introduction to Phenotypic and Genetic Variaiton and Population Genomics | Text Book Chapters: 1-4                                             | Exercise 1                 |
-|         |      | Github, Rmarkdown, and open science using RStudio                        | [Web Links](/Readings/Week_03/Web_Readings.md); [BES Guide to Open Science](https://github.com/jpuritz/BIO_594_2022/blob/main/Readings/Week_03/BES-Guide_to_reproducible_code.pdf)|
-| 2/7/24  | 3    | Probability and Random Mating Populations: HWE                           | Appendix, Chap 5                                      | None                       |
-| 2/14/24 | 4    | Effective Population Size and Genetic Drift                              | Text Book Chapters: 6-7                               | Prob Set 1                 |
-| 2/21/24 | 5    | Natual Selection and Population Structure                                | Text Book Chapters: 8-9                               | Prob Set 2                 |
-| 2/28/24 | 6    | Genetics to Genomics                                                     | Text Book Chapters: 10-12                             | Prob Set 3                 |
-| 3/06/24 | 7    | Exploited Populations and Climate Change                                 | Text Book Chapters: 15-16                             | Prob Set 4                 |
-| 3/13/24 |      | SPRING BREAK!!                                                           |                                                       |                            |
-| 3/20/24 | 8    | Unix Command Line                                                        |                                                       |                            |
-| 3/27/24 | 9    | NGS Data Structures- Visualization and Manipulation                      |                                                       |                            |
-| 4/03/24 | 10   | RADseq: De novo assembly and read mapping                                |                                                       |                            |
-| 4/10/24 | 11   | RADseq: SNP Calling and Filtering                                        |                                                       |                            |
-| 4/17/24 | 12   | Detecting Loci Under Selection                                           |                                                       |                            |
-| 4/24/24 | 13   | Analyzing Population Structure                                           |                                                       |                            |
-| 5/8/24  |      | FINAL PROJECTS DUE                                                       |                                                       |                            |
-| 5/31/24 |      | ALL CLASS USER ACCOUNTS DELETED FROM KITT                                | Contact Dr. Puritz if you need different arrangements |
+| 1/25/24 | 1    | Course Intro and Computer Setup and Testing                              | None                                                  |                            |
+| 2/01/24 |      | NO CLASS- Github, Rmarkdown, and open science using RStudio              | [Web Links](/Lectures/Week_02/Readme.md); [BES Guide to Open Science](/Readings/Week_02/BES-Guide_to_reproducible_code.pdf);  Text Book Chapters: 1-4 |                             | Exercise 1                 |
+| 2/8/24  | 2    | Introduction to Phenotypic and Genetic Variaiton and Population Genomics | Text Book Chapters: 1-4                               | Exercise 1                 |
+| 2/15/24 | 3    | Probability and Random Mating Populations: HWE                           | Appendix, Chap 5                                      | None                       |
+| 2/22/24 | 4    | Effective Population Size and Genetic Drift                              | Text Book Chapters: 6-7                               | Prob Set 1                 |
+| 2/29/24 | 5    | Natual Selection and Population Structure                                | Text Book Chapters: 8-9                               | Prob Set 2                 |
+| 3/07/24 | 6    | Genetics to Genomics                                                     | Text Book Chapters: 10-12                             | Prob Set 3                 |
+| 3/14/24 |      | SPRING BREAK!!                                                           |                                                       |                            |
+| 3/21/24 | 8    | Exploited Populations and Climate Change & Unix Command Line             | Text Book Chapters: 15-16                             | Prob Set 4                 |
+| 3/28/24 | 9    | NGS Data Structures- Visualization and Manipulation                      |                                                       |                            |
+| 4/04/24 | 10   | RADseq: De novo assembly and read mapping                                |                                                       |                            |
+| 4/11/24 | 11   | RADseq: SNP Calling and Filtering                                        |                                                       |                            |
+| 4/18/24 | 12   | Detecting Loci Under Selection                                           |                                                       |                            |
+| 4/25/24 | 13   | Analyzing Population Structure                                           |                                                       |                            |
+| 5/9/24  |      | FINAL PROJECTS DUE                                                       |                                                       |                            |
+| 5/31/24 |      | ALL CLASS USER ACCOUNTS DELETED FROM KITT                                | Contact Dr. Puritz if you need different arrangements |                            | 
 
 
 ## Grading
