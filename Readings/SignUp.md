@@ -2,15 +2,15 @@
 
 | Date    | Chapter    | Lecturer  | Discussion Leader | Scribe    |
 | ------- | ---------- | --------- | ----------------- | --------- |
-| 1/31/24 | Chapter 3  |     Jon   |                   |           |
-| 2/7/24  | Appendix   |     Jon   |                   |           |
-| 2/7/24  | Chapter 5  |           |                   |           |
-| 2/14/24 | Chapter 6  |           |                   |           |
-| 2/14/24 | Chapter 7  |  |             |        |
-| 2/21/24 | Chapter 8  |    |              |      |
-| 2/21/24 | Chapter 9  |      |                   |     |
-| 2/28/24  | Chapter 10 |      |                |      |
-| 2/28/24  | Chapter 11 |      |              |   |
-| 2/28/24  | Chapter 12 |     |            |  |
-| 3/06/24  | Chapter 15 |           |              |      |
-| 3/06/24  | Chapter 16 |        |                   |    |
+| 2/8/24  | Chapter 3  |     Jon   |                   |           |
+| 2/15/24 | Appendix   |     Jon   |                   |           |
+| 2/15/24 | Chapter 5  |           |                   |           |
+| 2/22/24 | Chapter 6  |           |                   |           |
+| 2/22/24 | Chapter 7  |           |                   |        |
+| 2/29/24 | Chapter 8  |           |              |      |
+| 2/29/24 | Chapter 9  |           |                   |     |
+| 3/07/24 | Chapter 10 |           |                |      |
+| 3/07/24 | Chapter 11 |           |              |   |
+| 3/07/24 | Chapter 12 |           |            |  |
+| 3/21/24 | Chapter 15 |           |              |      |
+| 3/21/24 | Chapter 16 |           |                   |    |
