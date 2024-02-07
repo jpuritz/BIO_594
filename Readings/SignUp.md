@@ -2,7 +2,7 @@
 
 | Date    | Chapter    | Lecturer  | Discussion Leader | Scribe    |
 | ------- | ---------- | --------- | ----------------- | --------- |
-| 2/8/24  | Chapter 3  |     Jon   |       Caitlin     |           |
+| 2/8/24  | Chapter 3  |     Jon   |       Caitlin     | Brittany  |
 | 2/15/24 | Appendix   |     Jon   |                   |           |
 | 2/15/24 | Chapter 5  |           |                   |           |
 | 2/22/24 | Chapter 6  |           |                   |           |
