@@ -3,11 +3,11 @@
 | Date    | Chapter    | Lecturer  | Discussion Leader | Scribe    |
 | ------- | ---------- | --------- | ----------------- | --------- |
 | 2/8/24  | Chapter 3  |     Jon   |       Caitlin     | Brittany  |
-| 2/15/24 | Appendix   |     Jon   |        Flo        |Caitlin    |
+| 2/15/24 | Appendix   |     Jon   |        Flo        |    |
 | 2/15/24 | Chapter 5  | Caitlin   |                   |           |
 | 2/22/24 | Chapter 6  |           |     Brittany      |   Flo     |
 | 2/22/24 | Chapter 7  |           |                   | Caitlin   |
-| 2/29/24 | Chapter 8  |  Brittany  |                   |           |
+| 2/29/24 | Chapter 8  |  Brittany |                   |Caitlin           |
 | 2/29/24 | Chapter 9  |      Flo  |                   |           |
 | 3/07/24 | Chapter 10 |           |                   |      Brittany     |
 | 3/07/24 | Chapter 11 |  Caitlin  |       Brittany            |           |
