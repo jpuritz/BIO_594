@@ -12,5 +12,5 @@
 | 3/07/24 | Chapter 10 |           |                |      |
 | 3/07/24 | Chapter 11 |           |              |   |
 | 3/07/24 | Chapter 12 |           | Caitlin           |  |
-| 3/21/24 | Chapter 15 |           |              |      |
+| 3/21/24 | Chapter 15 |Caitlin    |              |      |
 | 3/21/24 | Chapter 16 |           |                   |    |
