@@ -16,4 +16,3 @@
 | 3/21/24 | Chapter 16 |           |     Sophia        |    |
 
 
-This is my example change
