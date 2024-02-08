@@ -11,6 +11,6 @@
 | 2/29/24 | Chapter 9  |           |                   |     |
 | 3/07/24 | Chapter 10 |           |                |      |
 | 3/07/24 | Chapter 11 |  Caitlin         |              |   |
-| 3/07/24 | Chapter 12 |           | Caitlin           |  |
-| 3/21/24 | Chapter 15 |Caitlin    |              |      |
+| 3/07/24 | Chapter 12 |   Sophia  | Caitlin           |  |
+| 3/21/24 | Chapter 15 |Caitlin    |  Sophia      |      |
 | 3/21/24 | Chapter 16 |           |                   |    |Caitlin
