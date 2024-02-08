@@ -8,7 +8,7 @@
 | 2/22/24 | Chapter 6  |           |                   |           |
 | 2/22/24 | Chapter 7  |           |                   | Caitlin       |
 | 2/29/24 | Chapter 8  |           |              |      |
-| 2/29/24 | Chapter 9  |           |                   |     |
+| 2/29/24 | Chapter 9  |      Flo  |                   |     |
 | 3/07/24 | Chapter 10 |           |                |      |
 | 3/07/24 | Chapter 11 |  Caitlin         |              |   |
 | 3/07/24 | Chapter 12 |           | Caitlin           |  |
