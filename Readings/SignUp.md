@@ -4,7 +4,7 @@
 | ------- | ---------- | --------- | ----------------- | --------- |
 | 2/8/24  | Chapter 3  |     Jon   |       Caitlin     | Brittany  |
 | 2/15/24 | Appendix   |     Jon   |        Flo        |    Angela|
-| 2/15/24 | Chapter 5  | Caitlin   |   Willow          |     Michelle      |
+| 2/15/24 | Chapter 5  | Caitlin   |           |     Michelle      |
 | 2/22/24 | Chapter 6  | Cass      |     Brittany      |   Flo     |
 | 2/22/24 | Chapter 7  |           |                   | Caitlin   |
 | 2/29/24 | Chapter 8  |  Brittany |        Cass       |Caitlin           |
