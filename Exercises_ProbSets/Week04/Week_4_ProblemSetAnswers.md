@@ -44,13 +44,13 @@
 ### Answer
 
 `The probability of having A at basepair 3 in all 3 reads of a heterozygous individual is:`
-$$ 1/2 * 1/2 * 1/2 = 1/8 $$
+$ 1/2 * 1/2 * 1/2 = 1/8 $
 
 `The probability of having A at basepair 3 in all 5 reads of a heterozygous individual is:`
-$$ 1/2 * 1/2 * 1/2 * 1/2 * 1/2 = 1/32 $$
+$ 1/2 * 1/2 * 1/2 * 1/2 * 1/2 = 1/32 $
 
 `The probability of having 4 reads with A in basepair 3 and one read with G in basepair 3 is:`
-$$  P_x = \frac {5!}{(5-4)!* 4!} * \frac{1}{2}^4 * \frac{1}{2}^1 = \frac{5}{32}$$
+$  P_x = \frac {5!}{(5-4)!* 4!} * \frac{1}{2}^4 * \frac{1}{2}^1 = \frac{5}{32}$
 
 
 
