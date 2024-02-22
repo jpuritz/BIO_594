@@ -44,7 +44,7 @@
 ### Answer
 
 `The probability of having A at basepair 3 in all 3 reads of a heterozygous individual is:`
-$ 1/2 * 1/2 * 1/2 = 1/8 $
+$1/2 * 1/2 * 1/2 = 1/8$
 
 `The probability of having A at basepair 3 in all 5 reads of a heterozygous individual is:`
 $ 1/2 * 1/2 * 1/2 * 1/2 * 1/2 = 1/32 $
