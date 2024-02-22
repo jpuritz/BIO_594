@@ -87,10 +87,12 @@ $$
 
     B. Given the observed allele frequencies, what are the genotypic frequencies expected under Hardy-Weinberg?  Using a chi-square test, how well do the observed genotype frequences agree with the HWE expecations?
 
-$$
-(p + q)^2 = p^2 + 2pq + q^2\\
-(S + S-)^2 = (S)^2 + 2(S)(S-) + (S-)^2\\
-(0.303 + 0.697)^2 = (0.303)^2 + 2(0.303)(0.697) + (0.697)^2\\
+$$(p + q)^2 = p^2 + 2pq + q^2
+
+(S + S-)^2 = (S)^2 + 2(S)(S-) + (S-)^2
+
+(0.303 + 0.697)^2 = (0.303)^2 + 2(0.303)(0.697) + (0.697)^2
+
 1 = 0.09181 + 0.4224 + 0.4858
 $$
 
