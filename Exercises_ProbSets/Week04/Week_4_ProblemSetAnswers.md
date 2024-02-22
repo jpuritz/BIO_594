@@ -80,10 +80,11 @@ Some of you might have slighly different numbers:
 
 - Allele Frequencies:
 
-$$
-p = S = \frac{2*NSS + NSS-}{2N} = \frac{2*11 + 55}{2*127} = \frac{77}{254} = 0.303
-q = S- = \frac{2*NS-S- + NSS-}{2N} = \frac{2*61 + 55}{2*127} = \frac{177}{254} = 0.697
-$$
+
+$p = S = \frac{2*NSS + NSS-}{2N} = \frac{2*11 + 55}{2*127} = \frac{77}{254} = 0.303$
+
+$q = S- = \frac{2*NS-S- + NSS-}{2N} = \frac{2*61 + 55}{2*127} = \frac{177}{254} = 0.697$
+
 
     B. Given the observed allele frequencies, what are the genotypic frequencies expected under Hardy-Weinberg?  Using a chi-square test, how well do the observed genotype frequences agree with the HWE expecations?
 
