@@ -83,6 +83,16 @@ See more information [here](https://docs.github.com/en/get-started/writing-on-gi
 ![img](./img/February%209%2C%202023/IMG_0524.jpeg)
 
 Gel C is the banding pattern from two AFLP markers (the upper and lower sets of bands).
+These are presence/absence markers.  So, there is a band or a null allele.
+
+You could also read this as a table:
+
+| Individuals | Genotype Uper Marker | Genotype Lower Marker |
+|-------------|----------------------|------------------------|
+| 6| Absent | Present |
+|101 | Present | Absent| 
+| 39 | Present | Present|
+|14 | Absent | Absent| 
     
     A. Estimate the frequency (q) of the null allele of each of the two AFLP markers assuming HWE.
     
