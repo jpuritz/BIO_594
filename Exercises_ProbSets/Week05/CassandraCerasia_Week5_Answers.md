@@ -6,7 +6,7 @@ Equation for the probability of the allele having no copies in the next generati
 
 1 - this probability (as described in the hint): $(1-(1-p)^{2N})$
 
-This equation in limit form:  $\lim\limits_{\N \to \infty}(1-(1-p)^{2N})$
+This equation in limit form:  $\lim\limits_{N \to \infty}(1-(1-p)^{2N})$
 
 Original limit given in question:  $\lim\limits_{\varepsilon \to \infty}(1+\varepsilon*x)^\frac{1}{\varepsilon} = e^x$)
 
