@@ -62,12 +62,17 @@ From Jon:
 
 ### Answer 
 
-$$H_I=\frac{(66*0)+0.06+0.12+0.20+0.03+0.09+0.15+0.06}{73}=0.0097$$
-$$H_S=\frac{(66*0)+0.24+0.32+0.42+0.08+0.08+0.4+0.16}{73}=0.0232$$
-$$H_T=2\overline{p}{q}=2(0.985)(0.015)=0.0296$$
-$$F_{IS}=1-\frac{H_I}{H_S}=1-\frac{0.0097}{0.023}=-0.582$$
-$$F_{ST}=1-\frac{H_S}{H_T}=1-\frac{0.023}{0.03}=0.216$$
-$$F_{IT}=1-\frac{H_I}{H_T}=1-\frac{0.0097}{0.03}=0.672$$
+$H_I=\frac{(66 * 0)+0.06+0.12+0.20+0.03+0.09+0.15+0.06}{73}=0.0097$
+
+$H_S=\frac{(66 * 0)+0.24+0.32+0.42+0.08+0.08+0.4+0.16}{73}=0.0232$
+
+$H_T=2\overline{p}{q}=2(0.985)(0.015)=0.0296$
+
+$F_{IS}=1-\frac{H_I}{H_S}=1-\frac{0.0097}{0.023}=-0.582$
+
+$F_{ST}=1-\frac{H_S}{H_T}=1-\frac{0.023}{0.03}=0.216$
+
+$F_{IT}=1-\frac{H_I}{H_T}=1-\frac{0.0097}{0.03}=0.672$
 
 #### From Jon
 The *F<sub>IS</sub>* is large for a nonselfing species. It could be explained partly by “bi-parental” inbreeding, that is mating with close relatives, but the *F<sub>IS</sub>* value is probably too big to be explained entirely by inbreeding. Another good possiblity is the **Wahlund effect**, which is the appearance of inbreeding from inadvertently lumping several differentiated subpopulations together. If some of these subpopulations are actually made up of more than one, then drift would cause an excess of homozygotes when the cryptic subpopulations are combined. 
@@ -180,7 +185,7 @@ change in frequency of a favored recessive allele is given by this equation:
 
 $st = \ln{\frac{p_{t}}{q_{t}}} + \frac{1}{p_{t}} - \ln{\frac{p_{0}}{q_{0}}} - \frac{1}{p_{0}} = ln{\frac{0.9747}{0.0253}} + \frac{1}{0.9747} – ln{\frac{0.1}{0.9}} – ln{\frac{1}{0.1}} = 14.8217 $
 
-$t = \frac{14.8217}{0.2} = 74.109 $ generations
+$t = \frac{14.8217}{0.2} = 74.109$ generations
 
 >6. Experimental populations of *Drosophila pseudoobscura* were established and periodically treated with weak doses of the insecticide DDT (Anderson et al. 1968). One population was initially polymorphic for five different inversions in the third chromosome, in approximately equal frequencies. After 13 generations, three of the inversions had disappeared from the population. The two that remained were *Standard* (*ST*) and Arrowhead (*AR*). Changes in frequencv of each inversion were monitored, and from the values for the first nine generations the relative fitnesses of *ST*/*ST*, *ST*/*AR*, and *AR*/*AR* genotypes were estimated as 0.47, 1.0, and 0.62, respectively. Because the inversions yield almost no recombinant gametes, each type can be considered as an "allele " What equilibrium frequency of ST is predicted? What equilibrium value of $\bar{w}$ is predicted?
 
