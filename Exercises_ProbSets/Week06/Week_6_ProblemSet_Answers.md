@@ -62,11 +62,23 @@ From Jon:
 
 ### Answer 
 
+$H_I=\frac{\sum_{i=1}^n H_O}{n} $
+
 $H_I=\frac{(66 * 0)+0.06+0.12+0.20+0.03+0.09+0.15+0.06}{73}=0.0097$
+
+$H_S=\frac{\sum_{i=1}^n 2p_iq_i}{n} $
+
+$H_S=\frac{\sum_{i=1}^n 2p_i(1-p_i)}{n} $
 
 $H_S=\frac{(66 * 0)+0.24+0.32+0.42+0.08+0.08+0.4+0.16}{73}=0.0232$
 
-$H_T=2\overline{p}{q}=2(0.985)(0.015)=0.0296$
+$H_T=2\overline{p}*\overline{q}$
+
+$\overline{p}=\frac{\sum_{i=1}^n p_i}{n}$
+
+$\overline{q}=1-\overline{p}$
+
+$H_T=2(0.985)(0.015)=0.0296$
 
 $F_{IS}=1-\frac{H_I}{H_S}=1-\frac{0.0097}{0.023}=-0.582$
 
