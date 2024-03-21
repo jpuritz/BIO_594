@@ -1,7 +1,7 @@
 ## Tutorials and Exercises
 
 ### Tutorial 1 (To be completed in class)
-#### Please follow the this [LINK](http://www.ee.surrey.ac.uk/Teaching/Unix/unix1.html) to a wonderful basic command line tutorial and please complete it
+#### Please follow the this [LINK](https://gdancik.github.io/CSC-343/data/notes/linuxtut/) to a wonderful basic command line tutorial and please complete it
 
 ### Exercise 1
 * Switch to your home directory and begin the Linux.Ex exercise by typing Linux.Ex
