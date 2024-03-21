@@ -15,13 +15,14 @@
 * Print how many individuals have a MEAN_DEPTH greater than 20.1 but less than 20.25
 * Print the average MEAN_DEPTH
 
-* Put your answers in a text file with your name on it in the `~/repos/BIO_594_2022/Exercises_ProbSets/Week08/` directory
+* Put your answers in a text file with your name on it in the `~/repos/BIO_594/Exercises_ProbSets/Week08/` directory
 * If you know how, commit the changes to the github repository
 
 ### Tutorial 2 (On your own time)
-Please follow the this [LINK](https://www.codecademy.com/learn/learn-the-command-line) to a wonderful basic command line tutorial and please complete it
 There is also the following [tutorial] (https://astrobiomike.github.io/unix/) that has no need for a subscription.
 
+
+Please follow the this [LINK](https://www.codecademy.com/learn/learn-the-command-line) to a wonderful basic command line tutorial and please complete it
 **Codecademy now charges for this, but you can do a 7 day free trial**
 
 **It is not required!**
