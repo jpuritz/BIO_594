@@ -1,0 +1,117 @@
+---
+title: "BIO 594 Week 7 answers"
+author: "Angela Nolan"
+date: "2024-03-14"
+output: pdf_document
+---
+1. Calculate the expected number of migrants per generation for each locus
+
+GAP-1: $\frac{1-.01}{4(0.1)}=2.25
+
+TPI-1: $\frac{1-0.11}{4(0.11)}=2.02
+
+IDH-1: $\frac{1-0.02}{4(0.02)}=12.25
+
+HBDH-1: $\frac{1-0.62}{4(0.62)}=0.153
+
+GPD-1: $\frac{1-0.11}{4(0.11)}=2.02
+
+PGM-1: $\frac{1-0.14}{4(0.14)}=1.53
+
+I dont think the diffientriation at these loci is soley caused by a balance between migration and drift because in order to fetermine mN via the island model, we also need to assume selective neutrality and no mutation, and demographic equality of migrants and residents, as well as an infinite number of populations of equal size 
+1b. I'm not sure what the reason for the diffientriation would be
+
+2a. Calculate the 3 F stats for the Data
+
+Hi= 0+0.06+0.12+0.2+0.03+0.09+0.15+0.06/73=0.0097
+
+Hs: 2(Pi)(1-p0)/n (first calculated 2PiQi for each population, then averaged)
+
+0.24+.32+.42+.08+.39+.16/73=0.022
+
+Calculate Ht=2(avgp)(avgq) = 2(0.985)(0.015)=0.0296
+  -not sure where 0.985 came from 
+  
+Calculate F stats:
+
+Fis= 1-(H0/Hs) = 1-(0.0097/0.022) = 0.56
+
+Fst = 1-(Hs/Ht) = 1-(0.022/0.0296) = 0.257
+
+Fit = 1-(H0/Ht) = 1-(0.0097/0.0296) = 0.68
+
+Fis is not 0=excess of homozygotes
+Fst is 0.925=heterozygosity is 93% lower than we would expect if this population was panmatic (wahlund effect). this could also demonstrate population subdivision.
+
+2b. Calculate Nem
+
+mN= (1-Fst)/4Fst
+  = (1-0.257)/4(0.256)=0.73
+
+if Ne=0.1: 0.73/0.1=7.3
+
+2c: using rearranged equation from 6.9
+
+10 Generations:
+  68: 0.985+(0.8-0.985)(1-.1)^10=0.92
+  69: 0.985+(0.7-0.985)(1-.1)^10=0.88
+
+25 generations:
+  68: 0.985(0.8-0.985)(1-.1)^25=0.97
+  69: 0.985(0.7-0.985)(1-.1)^25=0.96
+  
+Biological principal illustrated: maybe reduced divergence as the allele frequency increased from 10-25 generations?
+
+3. Relative fitness of +/+: Cy/+ is 1:1
+  P=(0+.168)/2=0.084
+  Q=1-0.084=0.916
+  
+Relative fitness of +/+ Cy/+ is 1:0.5
+  P=(1+.5*.168)/2=0.584
+  Q=1-0.584=0.416
+  
+4. Relative fitness of A1A1=1.5/1.5=1
+  A1A2=1.1/1.5=0.73
+  A2A2 1/1.5=0.66
+  
+  Selection coefficent: 1-0.66=0.34
+  
+  Heterozygous effect: 1-0.73-0.27
+    =1-0.27
+    =0.75<1=overdominance
+    
+5a. 
+  1. 1-.87=.13
+      sqrt 0.13=0.36=1
+  2. P=1-.36=0.64=freq of dominant allele
+  
+Heterozygous frequency
+
+2pq= (2)(.64)(.36)=0.46
+.46/0.97=52.8%
+
+5b: 
+  q^50=1-0.95=0.05
+    sqrt0.05=0.2236
+    
+  Q^20=1-0.01
+    sqrt0.99=0.995
+
+I'm not sure how to calculate the changes 
+
+6. Using table on 8.1:
+
+ST/ST=0.47=w11
+ST/AR=1=w12
+AR/AR=0.62=w22
+
+
+
+
+
+
+
+
+
+
+

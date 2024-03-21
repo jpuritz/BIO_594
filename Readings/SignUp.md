@@ -12,7 +12,7 @@
 | 3/07/24 | Chapter 10 |  Willow   |        Angela           |      Brittany     |
 | 3/07/24 | Chapter 11 |  Flo  |       Brittany            |  Cass         |
 | 3/07/24 | Chapter 12 |  Sophia   | Caitlin           |        Michelle   |
-| 3/21/24 | Chapter 15 |  Michelle  |         Flo       |           |
+| 3/21/24 | Chapter 15 |  Michelle  |         Flo       |   Angela        |
 | 3/21/24 | Chapter 16 | Angela        |     Sophia        |   Flo |
 
 
