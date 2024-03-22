@@ -3,9 +3,15 @@
 ### Tutorial 1 (To be completed in class)
 #### Please follow the this [LINK](https://gdancik.github.io/CSC-343/data/notes/linuxtut/) to a wonderful basic command line tutorial and please complete it
 
+
+
+# Exercises below are now due in two weeks
+
+
 ### Exercise 1
 * Switch to your home directory and begin the Linux.Ex exercise by typing Linux.Ex
 * Follow the prompts and commands
+
 
 ### Exercise 2- Answer these challenges with one line of code
 * I have put a text file, named file, in the directory `sneaky` that’s within the directory `Exercises` that’s within the directory `BIO594` in the `home` directory.  Tell me what the contents of the file are.
