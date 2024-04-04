@@ -64,6 +64,7 @@ PopB_14 8370    20.2419
 * [ccerasia@KITT ~]$  awk '{sum=sum+$3} END {print sum/NR}' /home/BIO594/Exercises/Week_2/out.idepth
 
 19.3738
+## 3 
 * [ccerasia@KITT realdata]$ bwa mem reference.fasta JC_1119.R1.fq.gz JC_1119.R2.fq.gz -I 200,40 -t 3 -B 3 -O 5 -L 20,5 2>/dev/null | mawk '!/\t[2-9].[SH].*/' | mawk '!/[2-9].[SH]\t/'| samtools view -@16 -q 5 -SbT reference.fasta - | samtools flagstat - > relaxed.stats
 
 [ccerasia@KITT realdata]$ bwa mem reference.fasta JC_1119.R1.fq.gz JC_1119.R2.fq.gz -I 200,40 -t 3 -L 20,5 2>/dev/null | mawk '!/\t[2-9].[SH].*/' | mawk '!/[2-9].[SH]\t/'| samtools view -@16 -q 5 -SbT reference.fasta - | samtools flagstat - > normal.stats
