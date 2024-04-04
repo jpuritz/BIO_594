@@ -58,3 +58,8 @@ Using your new RADSeq assembly skills:
 * Post a `reference.fasta` file with your assembled reference
 
 * You can use the material from class or anything else you might find at [dDocent.com](https://www.ddocent.com/)
+
+
+## Extra
+
+Want to not worry about personal access tokens again?  Try setting up an ssh key for github: https://docs.github.com/en/authentication/connecting-to-github-with-ssh
