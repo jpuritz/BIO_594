@@ -9,28 +9,6 @@ bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
 rm -rf ~/miniconda3/miniconda.sh
 ```
 
-This will start an install script.  It will ask a few questions:
-
-```
-Welcome to Miniconda3 py39_23.1.0-1
-
-In order to continue the installation process, please review the license
-agreement.
-Please, press ENTER to continue
-```
-
-Just press enter
-
-You will then have to press spacebar to scroll through the user agreement.  Then you will encounter a second prompt:
-
-```
-Do you accept the license terms? [yes|no]
-```
-
-Type `yes` and press enter.
-
-Another prompt:
-
 ```
 Miniconda3 will now be installed into this location:
 /home/maestro/miniconda3
@@ -38,6 +16,14 @@ Miniconda3 will now be installed into this location:
   - Press ENTER to confirm the location
   - Press CTRL-C to abort the installation
   - Or specify a different location below
+```
+
+Don't worry about the `$PYTHONPATH` warning.
+
+Now run these two commands:
+```
+~/miniconda3/bin/conda init bash
+~/miniconda3/bin/conda init zsh
 ```
 
 Press enter and you are good to go.  
@@ -54,6 +40,11 @@ conda config --set channel_priority strict
 conda install mamba
 ```
 
+## Exercise Part 1
+
+Run the `Ref.Ex` command line tutorial
+
+## Exercise Part 2
 
 ### How many loci are there?
 
