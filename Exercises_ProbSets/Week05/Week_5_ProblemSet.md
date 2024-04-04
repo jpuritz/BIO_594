@@ -27,19 +27,26 @@ probability for entire population: 1 - $(1 - $\frac{1}{2}$N)^2$
 | 1961 | 1400 |   0.00071429
    * Assuming that the actual size of the population in any year equals the effective population size in that year, estimate the average effective number over the entire 12-year period.
    
-   $N_{e}$ = $frac\{t}{$Sigma$ $frac\{1}{$N_{i}$}$}$
+   $N_{e}$ = $\frac{t}{$Sigma$ $\frac{1}{$N_{i}$}$}$
    
-   $N_{e}$ = $frac\{12}{0.00304}
+   $N_{e}$ = $\frac{12}{0.00304}$
    
    $N_{e}$ = 3947.37
    
 
 3.  A dairy farmer has a herd consisting of 200 cows and 2 bulls.  What is the effective population size?
 
-
-
-
+  $N_{e}$ = $\frac{4$N_{f}$$N_{m}$}{$N_{f}$$N_{m}$}$
+  $N_{e}$ = $\frac {1600} {202}$
+  $N_{e}$ = 7.92
+  
 4.  A rare triggerplant from Australia (*Stylidium coroniforme*) has only five known populations (Coates 1992).  One of these populations has been monitored for several years, and over five years in the early 1980s: 2, 3, 25, 32, and 86 plants were recoreded.  Assuming *N<sub>e</sub>* = *N<sub>c</sub>* in that year, estimate *N<sub>e</sub>* as well as the average *N<sub>c</sub>* over this period.  What biological principle is illustrated by this example?
+
+  This is example is illustrating the concept of harmonic mean.
+  
+  $N_{e}$ = $\frac{t}{sum$\frac{1}{$N_{i}$}$}$
+  $N_{e}$ = $\frac{5}{0.916}$ --> 5.457
+  Average $N_{c}$ over 5 years: $\frac{2+3+25+32+86}{5}$ --> 29.6
 
 5.  You genotyep a species of grasshopper along a transect in the European Alsp.  Near Munich, Germany, you sample 120 individuals; near Inssbruck, Austria, you sample 122 individuals;  near Verona, Italy you sample 118 individuals.  You find the following genotypes:
 
@@ -55,3 +62,5 @@ probability for entire population: 1 - $(1 - $\frac{1}{2}$N)^2$
 * Calculate *F<sub>IS</sub>* for each of the populations and how does this related to B and C?
    * Hint: this the equation $F_{IS} = \frac{H_S - H_I}{H_S}$
    * I suggest looking it up, but you can likely figure it out from context
+   
+   

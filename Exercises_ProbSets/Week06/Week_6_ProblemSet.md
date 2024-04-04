@@ -1,14 +1,7 @@
-# Problem Set 3
-## Due 3/6/2024
-
-### Instructions
-
-* Please answer all questions using a Mardown or RMarkdown, showing all work.
-* Please place your files in this same directory in the format of `YourName_Week6_Answers.md`
-* Problem sets can be worked on collaboratively, but please note who you worked with in your answer document
+### Brittany Hanley
 
 
-## Problems
+## Week 6 problem set
 
 1.  The fly *Eurosta solidaginis* forms galls (enlarged areas) on goldenrod plants within which the fly larvae feed and develop.  A studoy of allozyme frequencies in 21 subpopulations of *E. solidaginis* on two different speices of goldenrod distributed from Minnesota to Maine (Waring et al. 1990) produced the following estimates of *F<sub>ST</sub>*:
 
@@ -22,6 +15,8 @@
 | *PGM-1*| 0.14|
 
 * Calculate the expected number of migrants per generation for each locus.  What is your interpretation of these data?  Do you think the differentiation at these loci is caused soley by a balance between migration and drift?  Why or why not?
+
+  Island model of migration for finite number of subpops: $/alpha a$ = $$\frac{n}{n-1}$^{2}$
 
 * Most of the differentiation at *HBDH-1* show in the data occurs btween the two species of host plants; nine of the subpopulations occured on *Solidago altissima* and the other 12 subpops were on *S. gigantean*.  The frequency of one of the two *HBDH* alleles is 0.84 on *S. altissima* and 0.13 on *S. gigantea*.  How does this affect your interpretation of the results?
 
