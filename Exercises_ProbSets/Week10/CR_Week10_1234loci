@@ -1,0 +1,41 @@
+                                                                                                                       
+                                                                                                                        
+                                          Histogram of number of reference contigs                                      
+     250 +----------------------------------------------------------------------------------------------------------+   
+         |                 +                 +               * +                +                 +                 |   
+         |                                                  '*lot.kopt.data' using (bin($1,binwidth)):(1.0) ******* |   
+         |                                                   *                                                      |   
+         |                                                   *                                                      |   
+     200 |-+                                                 *                                                    +-|   
+         |                                                   *                                                      |   
+         |                                                   *                                                      |   
+         |                                                   *                                                      |   
+     150 |-+                                                 *                                                    +-|   
+         |                                                   *                                                      |   
+         |                                                   *                                                      |   
+         |                                                   *                                                      |   
+         |                                                   *                                                      |   
+     100 |-+                                                 *                                                    +-|   
+         |                                                   *                                                      |   
+         |                                                   *                                                      |   
+         |                                                   *                                                      |   
+      50 |-+                                                 *                                                    +-|   
+         |                                                   *                                                      |   
+         |                                                   *                                                      |   
+         |                                                   *                                                      |   
+         |                 +                 +               * +                +                 +                 |   
+       0 +----------------------------------------------------------------------------------------------------------+   
+        1220              1225              1230              1235             1240              1245              1250 
+                                                 Number of reference contigs                                            
+                                                                                                                        
+Average contig number = 1234.27
+The top three most common number of contigs
+X	Contig number
+191	1234
+52	1235
+6	1236
+The top three most common number of contigs (with values rounded)
+X	Contig number
+250	1200
+
+
