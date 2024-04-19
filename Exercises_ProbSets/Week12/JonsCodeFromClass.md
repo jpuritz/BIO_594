@@ -1,4 +1,6 @@
 Jon’s code from class (Incomplete)
+
+See markdown in lecture for more!
 ================
 
 ``` bash
