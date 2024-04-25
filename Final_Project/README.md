@@ -11,8 +11,6 @@ knitr::opts_chunk$set(echo = TRUE)
 
 This is an R Markdown format used for publishing markdown documents to GitHub. When you click the **Knit** button all R code chunks are run and a markdown file (.md) suitable for publishing to GitHub is generated.
 
-# Link to original github: https://github.com/pdimens/2022-Tatlanticus_popgen
-
 # Data setup
 * Population: 12 populations from 5 different localities (10 near sewage effluent sources, 2 controls)
 * The sequenced data files are located on KITT and can be accessed via
