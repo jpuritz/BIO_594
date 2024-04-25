@@ -25,28 +25,28 @@ This is an R Markdown format used for publishing markdown documents to GitHub. W
   * Count the RAW reads
   * Examine quality of data (fastqc)
 
-## Reference assembly (Cass)
+## Reference assembly (Cass) "due" Monday night, should be done by tuesday morning
    * De Novo Reference Assembly 
       * Include optimization
       * Assemble only a subset of individuals
 
-## RADSeq Bioinformatics (Caitlin)
+## RADSeq Bioinformatics (Caitlin) "due" Thursday night, should be done by friday morning 
    * Trimming adapters and low quality reads (fastp via dDocent)
    * Read Mapping (BWA & SAMtools via dDocent)
       * Try using different mappaing parameters on a subset and pick the best ones
    * SNP calling and filtering (FreeBayes via dDocent)
 
-## SNP Filtering (VCFtools, vcflib, rad_haplotyper) (Michelle)
+## SNP Filtering (VCFtools, vcflib, rad_haplotyper) (Michelle and Flo) data available sunday night 
 
 # Population-level Analyses
 
-## Detecting Selection Via Outlier Detection Programs (Willow)
+## Detecting Selection Via Outlier Detection Programs (Willow) done by tuesday night 
       * RDA 
       * Bayenv2
       * PCAadapt
       * Outflank
 
-## Detecting Population Structure (Brittany and Angela)
+## Detecting Population Structure (Brittany and Angela) may 9th
       * Pairwise *F~ST~*
       * Genetic diversity (observed and expected heterozygosity)
       * EEMS (https://www.nature.com/articles/ng.3464)
