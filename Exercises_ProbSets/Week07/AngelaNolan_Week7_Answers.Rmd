@@ -1,0 +1,162 @@
+---
+title: "AngelaNolan Week 7 answers"
+author: "Angela Nolan"
+date: "2024-04-25"
+output: html_document
+---
+
+```{r}
+1. 1. Cross and Birley (1986) studied restriction site vvariation in the region of alccohol dehydrogenase (*Adh*)gene of *D. melanogaster* ina  population descended from flies trapped at a Dutch fruit market in Groningen.  The following data was collected:
+
+| *Adh* Allele | *Eco*RI Allele| Individuals|
+|-------------|----------------|------------|
+|*Adh<sup>F</sup>*| *Eco*RI<sup>+</sup> | 22|
+|*Adh<sup>S</sup>*| *Eco*RI<sup>+</sup> | 4|
+|*Adh<sup>F</sup>*| *Eco*RI<sup>-</sup> | 3|
+|*Adh<sup>S</sup>*| *Eco*RI<sup>-</sup> | 5|
+
+
+Where *Adh<sup>F</sup>* and *Adh<sup>S</sup>* are the allozyme alleles of *Adh* and *Eco*RI<sup>+</sup> and *Eco*RI<sup>-</sup> indicate the presence or absence of an *Eco*RI restriction site 3.5 kb downstream
+   * Test for the presence of linkage disequilibrium
+| *Adh* Allele | *Eco*RI Allele| Individuals| Allele frequency| gamete frequency
+|-------------|----------------|------------|-----------------|-----------------|
+|*Adh<sup>F</sup>*| *Eco*RI<sup>+</sup> | 22|p1=0.74| G1=(p1)(p2)=(0.74)(0.26)=0.14|
+|*Adh<sup>S</sup>*| *Eco*RI<sup>+</sup> | 4|p2=0.26| G2=(p1)(q2)=(0.74)(0.24)=0.18|
+|*Adh<sup>F</sup>*| *Eco*RI<sup>-</sup> | 3|q1=0.76| G3=(q1)(p2)=(0.76)(0.26)=0.2|
+|*Adh<sup>S</sup>*| *Eco*RI<sup>-</sup> | 5|q2=0.24| G4=(q1)(q2)=(0.76)(0.24)=0.18|
+
+Calculate coefficent of linkeage disequilibrium D
+
+D=(G1*G4)-(G2*G3)=(0.19*0.18)-(0.18*0.2)
+=-0.002 is in disequilibrium
+```
+
+```{r}
+2. Three linked loci in a random mating population have the gametic frequencies shown in the table below. Calculate the linkage disequilibrium *D*/*D<sub>max</sub>* between each pair of genes. Explain why the results seem paradoxical.
+
+** D'=D/Dmax
+**D=(G1*G4)-(G2*G3)
+|Genotype | Frequency|
+|---------|------|
+| *ABC*| 0.25|
+| *ABc*| 0|
+| *AbC*| 0.25|
+|*Abc*| 0|
+|*aBC* | 0|
+|*aBc* | 0.25|
+|*abC* | 0|
+|*abc*|0.25|
+  
+For AB: (0.25*0.25)-(0.25*0.25)=0 and is in linkage equilibrium
+  G1=AB
+  G2=Ab
+  G3=aB
+  G4=ab
+  
+For BC: (0.25*0.25)-(0.25*0.25)=0 and is in linkage equilibrium
+  G1=BC
+  G2=Bc
+  G3=bC
+  G4=bc
+  
+For AC: (0.5*0.5)-(0*0)=0.25 and is in linkage disequilibrium
+  G1=AC
+  G2=Ac
+  G3=aC
+  G4=ac
+  
+these results are paradoxical because AB and BC are in linkage equilibrium but AC isnt, I would expect AC to be in linkage equilibrium as well
+```
+
+```{r}
+
+Calculate the two-locus gamete frequencies for each population and the gameticphase imbalance (linkage disequilibrium). Is any population out of linkage equilibrium?
+
+For Population 1 locus gamete frequencies 
+(G1) AB=720/1000=0.72
+(G2) Ab=180/1000=0.18
+(G3) aB=80/1000=0.08
+(G4) ab=20/1000=0.02
+
+For population 1 linkage disequilibrium D=(G1*G4)-(G2*G3):
+(0.72*0.02)-(0.18*0.08)=0 is in linkage equilibrium 
+
+Population 2 locus gamete frequencies 
+(G1) AB=300/10000=0.03
+(G2) Ab=2700/10000=0.27
+(G3) aB=700/10000=0.07
+(G4) ab=6300/10000=0.63
+
+Population 2 linkage disequilibrium:
+  (0.03*0.63)-(0.27*0.07)=0 in linkage equilibrium
+
+Population 3 locus gamete frequency
+(G1) AB=1020/11000=0.09
+(G2) Ab=2880/11000=0.26
+(G3) aB=780/11000=0.07
+(G4) ab=6320/11000=0.57
+
+population 3 linkage disequilibrium:
+  (0.09*0.57)-(0.26*0.07)=0.032 is in linkage disequilibrium
+
+3b. the affect of pooling of the 2 populations in linkage equilibrium causes linkage disequilibrium
+
+3c. Suppose that the recombination rate between loci A/a and B/b is 0.1. What is the expected disequibrium in the offspring of population 3 (the parental gene pool), assuming random mating? In the second generation
+
+D'=D(1-r)=0.032(1-0.1)=0.0288
+
+In the second generation:
+Dt=D0(1-r)^t=0.023(1-0.1)^2=0.0259
+
+3d. Can this single episode of admixture be detected in the population established from population 3 after two generations of random mating? Can it be detected in the genotype frequencies at the A/a locus after two generations of random mating? Can it be detected in the genotype frequencies at the B/b locus after two generations of random mating?
+  Yes, it will still be detected in the genotype frequencies in both loci after 2 generations of random mating. eventually, disequilibrium will equal 0, but will take about 40 generations of random mating to acheive that 
+```
+
+```{r}
+4. A continuous trait is distributed approximately according to a normal distribution with mean 100 and standard deviation of 15.  What proportion of the population is expected to have a phenotypic value above 130?  Below 85?  Above 85?
+  Above 130: 130-100/15=0.28% of the population
+
+  below 85: 85-100/15=15.87% of the population
+  
+  above 85: 85=1-0.1587=0.8413=84.13% of the population
+```
+
+```{r}
+5. A genetically heterogeneous population of wheat has a variance in the number A days to maturation of 40, whereas two inbred populations derived from it have a variance in the number of days to maturation of 10.  
+   * What is the genotypic variance (V<sub>G</sub> or $\sigma_{g}^2$), the environmental variance (V<sub>E</sub> or $\sigma_{e}^2$), and the broad sense heritablilty *H*<sup>2</sup>, of days to maturation in this population?
+  
+  genotypic variance: VP=VE+VG.       40=10+GV
+VP=40
+VE=10 (enviromental variance)
+VG=30 (genotypic variance)
+
+Broad sense heritability:
+  Hb=VG/VP=30/40=0.75 days to maturation
+
+* If the inbred lines were crossed, what would be the predicted variance in days to maturation of the F<sub>1</sub> generation?
+  since theyre inbred, crossing them would result in the same variance results 
+```
+
+```{r}
+6. In comparing a quantitative trait in the F<sub>1</sub> and F<sub>2</sub> generations obtained by crossing two highly inbred strains: 
+   * Which set of progeny provides an estimate of the environmental variance?
+        F1
+   * What determins the variance of the other set of progeny?
+        F2, genotypic variance 
+```
+
+```{r}
+7. In a cross between two cultivated inbred varieties of tobacco, the variance in leaf number per plant in the F<sub>1</sub> generation is 1.46 and in the F<sub>2</sub> generation it is
+5.97. What are the genotypic and environmental variances? 
+  
+  VE=1.46 (as stated in previous question)
+  VP=5.97
+  
+*VP=VE+VG=5.97=1.46+VG
+    VG=4.51
+    
+What is the broad-sense heritability in leaf number?
+  HB=VG/VP=4.51/5.97=0.75 leaves per plant
+```
+
+
