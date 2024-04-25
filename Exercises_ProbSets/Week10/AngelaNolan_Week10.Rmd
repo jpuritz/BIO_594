@@ -1,0 +1,136 @@
+---
+title: "AngelaNolan_Week10_Answers"
+author: "Angela Nolan"
+date: "2024-04-25"
+output: html_document
+---
+Make working directory
+```{bash}
+$ mkdir week10
+```
+
+change directory and use mamba create/activate
+```{bash}
+$ cd week10
+$ mamba create -n week10 ddocent
+$ source activate week10
+```
+
+download dataset
+```{bash}
+$ cp -r /home/BIO594/DATA/Week10/* .
+```
+
+samples aready demultiplexed so we can skip the first few steps and move on to creating a set of unique reads with counts for each individual
+```{bash}
+ls *.F.fq.gz > namelist
+sed -i'' -e 's/.F.fq.gz//g' namelist
+AWK1='BEGIN{P=1}{if(P==1||P==2){gsub(/^[@]/,">");print}; if(P==4)P=0; P++}'
+AWK2='!/>/'
+AWK3='!/NNN/'
+PERLT='while (<>) {chomp; $z{$_}++;} while(($k,$v) = each(%z)) {print "$v\t$k\n";}'
+
+cat namelist | parallel --no-notice -j 8 "zcat {}.F.fq.gz | mawk '$AWK1' | mawk '$AWK2' > {}.forward"
+cat namelist | parallel --no-notice -j 8 "zcat {}.R.fq.gz | mawk '$AWK1' | mawk '$AWK2' > {}.reverse"
+cat namelist | parallel --no-notice -j 8 "paste -d '-' {}.forward {}.reverse | mawk '$AWK3' | sed 's/-/NNNNNNNNNN/' | perl -e '$PERLT' > {}.uniq.seqs"
+```
+
+Then sum up the number within individual coverage level of unique reads in the data set
+```{bash}
+cat *.uniq.seqs > uniq.seqs
+for i in {2..20};
+do 
+echo $i >> pfile
+done
+cat pfile | parallel --no-notice "echo -n {}xxx && mawk -v x={} '\$1 >= x' uniq.seqs | wc -l" | mawk  '{gsub("xxx","\t",$0); print;}'| sort -g > uniqseq.data
+rm pfile
+```
+
+view contents on uniqseq.data
+```{bash}
+more uniqseq.data
+```
+
+choose a cutoff calue of 4 to get diverse data and eliminate sequences that came as errors
+```{bash}
+parallel --no-notice -j 8 mawk -v x=4 \''$1 >= x'\' ::: *.uniq.seqs | cut -f2 | perl -e 'while (<>) {chomp; $z{$_}++;} while(($k,$v) = each(%z)) {print "$v\t$k\n";}' > uniqCperindv
+wc -l uniqCperindv
+```
+
+restrict data by number of different individuals a sequence appears within
+```{bash}
+for ((i = 2; i <= 10; i++));
+do
+echo $i >> ufile
+done
+
+cat ufile | parallel --no-notice "echo -n {}xxx && mawk -v x={} '\$1 >= x' uniqCperindv | wc -l" | mawk  '{gsub("xxx","\t",$0); print;}'| sort -g > uniqseq.peri.data
+rm ufile
+```
+
+choose another cutoff value of 4 and reduce data
+```{bash}
+mawk -v x=4 '$1 >= x' uniqCperindv > uniq.k.4.c.4.seqs
+wc -l uniq.k.4.c.4.seqs
+```
+
+convert to fasta format
+```{bash}
+cut -f2 uniq.k.4.c.4.seqs > totaluniqseq
+mawk '{c= c + 1; print ">Contig_" c "\n" $1}' totaluniqseq > uniq.fasta
+```
+
+start assembling refrence contigs: extract forward reads
+```{bash}
+sed -e 's/NNNNNNNNNN/\t/g' uniq.fasta | cut -f1 > uniq.F.fasta
+```
+
+cluster off all the forward reads by 80% similarity
+```{bash}
+cd-hit-est -i uniq.F.fasta -o xxx -c 0.8 -T 0 -M 0 -g 1
+```
+
+convert the output of the CD-hit to match output of the first phase of rainbow
+```{bash}
+mawk '{if ($1 ~ /Cl/) clus = clus + 1; else  print $3 "\t" clus}' xxx.clstr | sed 's/[>Contig_,...]//g' | sort -g -k1 > sort.contig.cluster.ids
+paste sort.contig.cluster.ids totaluniqseq > contig.cluster.totaluniqseq
+sort -k2,2 -g contig.cluster.totaluniqseq | sed -e 's/NNNNNNNNNN/\t/g' > rcluster
+#there are 1234 clusters
+```
+
+split clusters formed in first step into smaller clusters representing diff variants and change paramater
+```{bash}
+rainbow div -i rcluster -o rbdiv.out -f 0.5 -K 10
+```
+
+use paired end reads to merge divided clusters to help double check clustering
+```{bash}
+rainbow merge -o rbasm.out -a -i rbdiv.out
+#add -rparamater (minimum number of reads to assemble)
+rainbow merge -o rbasm.out -a -i rbdiv.out -r 2
+```
+
+extract optimal contigs
+```{bash}
+cat rbasm.out <(echo "E") |sed 's/[0-9]*:[0-9]*://g' | mawk ' {
+if (NR == 1) e=$2;
+else if ($1 ~/E/ && lenp > len1) {c=c+1; print ">dDocent_Contig_" e "\n" seq2 "NNNNNNNNNN" seq1; seq1=0; seq2=0;lenp=0;e=$2;fclus=0;len1=0;freqp=0;lenf=0}
+else if ($1 ~/E/ && lenp <= len1) {c=c+1; print ">dDocent_Contig_" e "\n" seq1; seq1=0; seq2=0;lenp=0;e=$2;fclus=0;len1=0;freqp=0;lenf=0}
+else if ($1 ~/C/) clus=$2;
+else if ($1 ~/L/) len=$2;
+else if ($1 ~/S/) seq=$2;
+else if ($1 ~/N/) freq=$2;
+else if ($1 ~/R/ && $0 ~/0/ && $0 !~/1/ && len > lenf) {seq1 = seq; fclus=clus;lenf=len}
+else if ($1 ~/R/ && $0 ~/0/ && $0 ~/1/) {seq1 = seq; fclus=clus; len1=len}
+else if ($1 ~/R/ && $0 ~!/0/ && freq > freqp && len >= lenp || $1 ~/R/ && $0 ~!/0/ && freq == freqp && len > lenp) {seq2 = seq; lenp = len; freqp=freq}
+}' > rainbow.fasta
+```
+
+align and cluster contigs by sequence similarity
+```{bash}
+cd-hit-est -i rainbow.fasta -o referenceRC.fasta -M 0 -T 0 -c 0.9
+
+#output states 1235 clusters=1235 loci
+#dDocent assembled 7989 sequences (after cutoffs) into 1235 contigs
+head reference.fasta
+```
