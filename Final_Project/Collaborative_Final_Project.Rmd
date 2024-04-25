@@ -11,8 +11,6 @@ knitr::opts_chunk$set(echo = TRUE)
 
 This is an R Markdown format used for publishing markdown documents to GitHub. When you click the **Knit** button all R code chunks are run and a markdown file (.md) suitable for publishing to GitHub is generated.
 
-# Link to original github: https://github.com/pdimens/2022-Tatlanticus_popgen
-
 # Data setup
 * Population: 12 populations from 5 different localities (10 near sewage effluent sources, 2 controls)
 * The sequenced data files are located on KITT and can be accessed via
@@ -24,32 +22,37 @@ This is an R Markdown format used for publishing markdown documents to GitHub. W
 # Bioinformatics
 
 ## Initial Raw Data Assessment and Characterization (Jon)
-  * Count the RAW reads
-  * Examine quality of data (fastqc)
 
-## Reference assembly (Cass) - "due" Monday night, should be done by tuesday morning 
-   * De Novo Reference Assembly 
-      * Include optimization
-      * Assemble only a subset of individuals
+- Count the RAW reads
+- Examine quality of data (fastqc)
 
-## RADSeq Bioinformatics (Caitlin) - "due" Thursday night, should be done by friday morning 
-   * Trimming adapters and low quality reads (fastp via dDocent)
-   * Read Mapping (BWA & SAMtools via dDocent)
-      * Try using different mappaing parameters on a subset and pick the best ones
-   * SNP calling and filtering (FreeBayes via dDocent)
+## Reference assembly (Cass)
 
-## SNP Filtering (VCFtools, vcflib, rad_haplotyper) (Willow) - monday, done mid-day on tuesday 
+- De Novo Reference Assembly
+  - Include optimization
+  - Assemble only a subset of individuals
+
+## RADSeq Bioinformatics (Caitlin)
+
+- Trimming adapters and low quality reads (fastp via dDocent)
+- Read Mapping (BWA & SAMtools via dDocent)
+  - Try using different mappaing parameters on a subset and pick the
+    best ones
+- SNP calling and filtering (FreeBayes via dDocent)
+
+## SNP Filtering (VCFtools, vcflib, rad_haplotyper) (Willow)
 
 # Population-level Analyses
 
-## Detecting Selection Via Outlier Detection Programs (Flow and Michelle) - sunday 
+## Detecting Selection Via Outlier Detection Programs (Flow and Michelle)
+
       * RDA 
       * Bayenv2
       * PCAadapt
       * Outflank
 
-## Detecting Population Structure (Brittany and Angela) - due may 9th 
+## Detecting Population Structure (Brittany and Angela)
+
       * Pairwise *F~ST~*
       * Genetic diversity (observed and expected heterozygosity)
       * EEMS (https://www.nature.com/articles/ng.3464)
-
