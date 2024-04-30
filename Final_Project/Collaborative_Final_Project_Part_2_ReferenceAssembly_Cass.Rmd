@@ -256,17 +256,76 @@ In real world data, it is difficult to know the correct number of reference cont
 curl -L -O https://github.com/jpuritz/dDocent/raw/master/scripts/remake_reference.sh
 ```
 
-I then remade the reference with the above script and parameters. 
+I then remade the reference with the below script and parameters. This remade the reference with a cutoff of 20 copies of a unique sequence for use in assembly and with a final clustering calue of 90%. It output the number of reference sequences and created a new, indexed reference with the parameters used. I had to up the processors (last flag) from 2 to 32 in order to get the script to run.
 ```{bash}
-bash remake_reference.sh 4 4 0.90 PE 2
+bash remake_reference.sh 4 4 0.90 PE 32
+```
+Output
+```{bash}
+dDocent assembled 556692 sequences (after cutoffs) into 71558 contigs
 ```
 
-OUTPUT: ERRORS!!
+I then used the script below to automate the process to choose the final number of contigs. 
 ```{bash}
+curl -L -O https://github.com/jpuritz/dDocent/raw/master/scripts/ReferenceOpt.sh
+```
+Then to examine the referene:
+```{bash}
+bash remake_reference.sh 4 4 0.90 PE 32
+```
 
-All required software is installed!
+Output:
+```{bash}
+dDocent assembled 556692 sequences (after cutoffs) into 71558 contigs
+```
 
-dDocent remake_reference version 2.8.7
-sort: write failed: standard output: Broken pipe
-sort: write error
+```{bash}
+head reference.fasta
+```
+Output:
+```{bash}
+>dDocent_Contig_8
+NAATTCTTCCAAGGGCTAAAGCCTTCCCTGGTTTCCATAGGAAGGCATGTAAGGTCAACGAAAAGTTGCGGCGACTCTGCGAGGGAGGTGTGGGATTCATTAGTACATGGGCACACTTTTACAACCACACCTTTATCGTCGTGACGGCCTCCTCTTAAACGATGAGGGTTTAGGCAGGCTTTTGAACTCGGCAGTAGTCAGTTTTTCAAAAAACTGCCAGCGCGAGAGGGGCACAGGCAGCCCCTAAGTGGTCAGAACGGCCCGN
+>dDocent_Contig_17
+NAATTCTTCCAAGGGCTAAAGCCTTCCCTGGTTTCCATAGGAAGGCATGTGAGGTCAACGAAAAGTTGCGGCGACTCTGCGAGGAAGAAGTTGTGGGATTCATCAGTACATGGGCACACTTTTACGACCAACCACACCTCTATCGTCGTGACGGCCTCCACTTGAACGATGACGGTTCAGCCCGCTTAGGCAGGCTTTTGAACTCGGCAGTACTCAGTTTTTCAAAAAAAAAAAAAAACTGCCAGCGAGGGAGGGGCACAGGCAGCCCCTAAGTGGTCTGAACGGCCCGN
+>dDocent_Contig_22
+NAATTCTTCCAAGGGCTAAAGCCTTCCCTGGTTTCCATAGGAAGGCATGTGAGGTCAACGAAAAGTTGCGGCGACTCTGCGAGGACGAAGGTGTAGGGTTCATCAGTACATGGGCATACTTTTACGACCAACCACACCTATATCTTCGTGATGGCCTCCACTTGAACGACGAGGGTTCGGCCCGCTTTGGCAGGCTTCTGAACGCGGTAGTATTCAGTTTTTCAAAAAACTGCCAACGAGGGAGGGGCTTAGGCAGCCCCTAAGTTCTCCGAGCGGATCAACTGTCAGAAACACATCCGN
+>dDocent_Contig_31
+NAATTCTTCCAAGGACTAATGCCTTCCCTGGTTTCCATAGGAAAGCTTGCAAGGTCAACAAAAAGTTGCGGCGACTCTGCGAGGACGAGGGTGTGGGGTTCACCAGTACATGGGAACACTTTTTTGACCAACCACATCTATCTCGTCGTGATGGCCTCCACTTGAACGATGAGGGTTCAGCCCGCTTCGGCAGGCTTCAGGACTCGGTAGCAGTCAGTTTTACAAAACACTGCCTACGAGGGAGGGGCACAGTCAGCCCCTAAGTTCTCCGAGCGGCCCGN
+>dDocent_Contig_295
+NAATTCTTCCAGGGGCTAAAGCCTTCCCTGGTTTCCATAGGAAGGCATGTGAGGTCAACGAAAAGTTGCGGTGACTCTGCGAGGAAGAAGGAGTGGGGTTCATCAGTACATGGGCACACTTTTACGACCATCATCATCATCATCAATGGGGAGCATACGCCTGGTGGCGCGTTGCTTCACTCACTCGGCGCCTCCAGCCAGGGCGGTCCCTCCGN
+```
+Above you can see that I have complete RAD fragments that begin with the EcoRI restriction site (AATT). This is then followed by R2 ending with the mspI restriction site which is CCG. The start and end of the sequence each has an N.
+Then, to see how many lines are in the file, which is double the number of sequences:
+```{bash}
+wc -l reference.fasta
+```
+Output:
+```{bash}
+143116 reference.fasta
+```
+To find out how many sequences there are directly via counting the lines starting with the header character > (see above):
+```{bash}
+mawk '/>/' reference.fasta | wc -l 
+```
+Output:
+```{bash}
+71558
+```
+To test that all sequences follow the correct format: 
+```{bash}
+mawk '/^NAATT.*N*.*CCGN$/' reference.fasta | wc -l
+grep '^NAATT.*N*.*CCGN$' reference.fasta | wc -l
+```
+Output: Is it a problem that this is less than the number above?
+```{bash}
+70001
+```
+I then used the script below to optimize the reference assmeblies:
+```{bash}
+curl -L -O https://raw.githubusercontent.com/jpuritz/WinterSchool.2016/master/RefMapOpt.sh
+```
+Then I used this next script to assemble references across cutoff values and map 20 random samples and evaluate mapping to the reference, with number of conrigs and coverage. This loops across cutoffs 4-8 using a similarity of 90% for clustering and is parallized across 64 processors witha PE assemble technique. The output is stored in mapping.results. 
+```{bash}
+RefMapOpt.sh 4 8 4 8 0.9 64 PE
 ```
