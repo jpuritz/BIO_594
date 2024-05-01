@@ -65,3 +65,11 @@ Next, I ran RefMapOpt.sh.
 curl -L -O https://raw.githubusercontent.com/jpuritz/WinterSchool.2016/master/RefMapOpt.sh
 RefMapOpt.sh 4 8 4 8 0.9 64 PE
 ```
+Output: I am not sure how to fix this. I feel like the order of the 64 and PE in the above command is wrong but that would be so many processors! My idea is "RefMapOpt.sh 4 8 4 8 0.9 PE 64" but 64 processors is way too many.
+```{bash EVAL = FALSE}
+Checking for required software
+
+All required software is installed!
+Usage is RefMapOpt minK1 maxK1 minK2 maxK2 cluster_similarity Assembly_Type Num_of_Processors optional_list_of_individuals
+Please make sure to choose assembly type.
+```
