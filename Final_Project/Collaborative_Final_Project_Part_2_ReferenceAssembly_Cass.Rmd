@@ -35,21 +35,19 @@ mamba activate rawseq
 First, I copied the forward and reverse reads for three individuals per treatment into the "assembly" folder that is in the BIO594/Final_Project folder. I did this with the following command. I altered the command for every file I linked over.
 
 ```{bash, eval= FALSE}
+cd raw_seq
 ln -s /home/BIO594/Final_Project/raw_seq/FBN_309.F.fq.gz
 ```
 
-After this subset of individuals was in this folder, I ran ReferenceOpt.sh
-``````{bash, eval= FALSE}
+After this subset of individuals was in this folder, I ran ReferenceOpt.sh:
+```{bash, eval= FALSE}
 curl -L -O https://github.com/jpuritz/dDocent/raw/master/scripts/ReferenceOpt.sh
 bash ReferenceOpt.sh 4 8 4 8 PE 16
 ```
-
-```{bash, eval= FALSE}
-cp /home/BIO594/Final_Project/assembly/ .
-```
-Output:.
-```{R}
-source("/home/BIO594/Final_Project/assembly")
+After running this, I plotted the data with the below script. This visualized the data in kopt.data. The values for the k1k2 combinations were plot against similarity thresholds. I picked a similarity threshold at the point of the inflection on the curve which was 0.9.
+Output:
+```{r}
+setwd("/home/BIO594/Final_Project/assembly")
 library(ggplot2)
 
 data.table <- read.table("kopt.data", header = FALSE, col.names= c("k1","k2","Similarity", "Contigs"))
@@ -61,4 +59,9 @@ df$K1K2 <- as.factor(df$K1K2)
 
 p <- ggplot(df, aes(x=Similarity, y=Contigs, group=K1K2)) + scale_x_continuous(breaks=seq(0.8,0.98,0.01)) + geom_line(aes(colour = K1K2))
 p
+```
+Next, I ran RefMapOpt.sh. 
+```{bash, EVAL = FALSE}
+curl -L -O https://raw.githubusercontent.com/jpuritz/WinterSchool.2016/master/RefMapOpt.sh
+RefMapOpt.sh 4 8 4 8 0.9 64 PE
 ```
