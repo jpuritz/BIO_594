@@ -28,304 +28,37 @@ This is an R Markdown format used for publishing markdown documents to GitHub. W
       
 Create Environment:
 ```{bash, eval=FALSE}
-cd BIO594/Final_Project/raw_seq
-mamba create -n rawseq ddocent
+cd /home/BIO594/Final_Project/raw_seq
+mamba create -n rawseq
 mamba activate rawseq
 ```
+First, I copied the forward and reverse reads for three individuals per treatment into the "assembly" folder that is in the BIO594/Final_Project folder. I did this with the following command. I altered the command for every file I linked over.
 
-First, I created a set of unique reads with counts for each individual. The first four lines of this code set variables for the AWK and perl code. After that, the code makes a set of forward reads for each individual using mawk. This sorts through the fastq files and and strips the quality scores away. Then, the next line does the PE reads. Finally, the last line concatonates the forward and PE reads together with 10 Ns between and then finds the unique reads within that individaul and coutns the occurances. 
-```{bash}
-ls *.F.fq.gz > namelist
-sed -i'' -e 's/.F.fq.gz//g' namelist
-AWK1='BEGIN{P=1}{if(P==1||P==2){gsub(/^[@]/,">");print}; if(P==4)P=0; P++}'
-AWK2='!/>/'
-AWK3='!/NNN/'
-PERLT='while (<>) {chomp; $z{$_}++;} while(($k,$v) = each(%z)) {print "$v\t$k\n";}'
-cat namelist | parallel --no-notice -j 8 "zcat {}.F.fq.gz | mawk '$AWK1' | mawk '$AWK2' > {}.forward"
-cat namelist | parallel --no-notice -j 8 "zcat {}.R.fq.gz | mawk '$AWK1' | mawk '$AWK2' > {}.reverse"
-cat namelist | parallel --no-notice -j 8 "paste -d '-' {}.forward {}.reverse | mawk '$AWK3' | sed 's/-/NNNNNNNNNN/' | perl -e '$PERLT' > {}.uniq.seqs"
-```
-Next, I got rid of the reads with low copy numbers to get rid of uninformative data. This is to get rid of any sequencing errors. First I summed up the number within individual coverage levels of unique reads in the data set. This is a BASH for loop sthat uses mawk to go through the first column and selects data above a a copy number from 2-20 and prints that to a file.
-```{bash}
-cat *.uniq.seqs > uniq.seqs
-for i in {2..20};
-do 
-echo $i >> pfile
-done
-cat pfile | parallel --no-notice "echo -n {}xxx && mawk -v x={} '\$1 >= x' uniq.seqs | wc -l" | mawk  '{gsub("xxx","\t",$0); print;}'| sort -g > uniqseq.data
-rm pfile
-```
-To look at the contents of uniqseq.data: 
-```{bash}
-more uniqseq.data
-```
-To plot this in terminal via gnuplot: 
-```{bash}
-gnuplot << \EOF 
-set terminal dumb size 120, 30
-set autoscale
-set xrange [2:20] 
-unset label
-set title "Number of Unique Sequences with More than X Coverage (Counted within individuals)"
-set xlabel "Coverage"
-set ylabel "Number of Unique Sequences"
-plot 'uniqseq.data' with lines notitle
-pause -1
-EOF
+```{bash, eval= FALSE}
+ln -s /home/BIO594/Final_Project/raw_seq/FBN_309.F.fq.gz
 ```
 
-```{bash}
-
-
-                       Number of Unique Sequences with More than X Coverage (Counted within individuals)
-
-    4e+07 ++----------+-----------+----------+-----------+-----------+-----------+----------+-----------+----------++
-          *           +           +          +           +           +           +          +           +           +
-          |*                                                                                                        |
-  3.5e+07 +*                                                                                                       ++
-          | *                                                                                                       |
-          | *                                                                                                       |
-          |  *                                                                                                      |
-    3e+07 ++ *                                                                                                     ++
-          |   *                                                                                                     |
-          |   *                                                                                                     |
-  2.5e+07 ++   *                                                                                                   ++
-          |    *                                                                                                    |
-          |     ***                                                                                                 |
-    2e+07 ++       **                                                                                              ++
-          |          *                                                                                              |
-          |           *****                                                                                         |
-  1.5e+07 ++               *                                                                                       ++
-          |                 ******                                                                                  |
-          |                       *****                                                                             |
-          |                            ******                                                                       |
-    1e+07 ++                                 ******************                                                    ++
-          |                                                    *****************************                        |
-          +           +           +          +           +           +           +          *************************
-    5e+06 ++----------+-----------+----------+-----------+-----------+-----------+----------+-----------+----------++
-          2           4           6          8           10          12          14         16          18          20
-                                                           Coverage
-```
-Next I chose a cutoff calue. I tried 4, in an attempt to choose a calue that captures as much of the diversity of the data as possible while also eliminating sequencies that are likely errors. 
-```{bash}
-parallel --no-notice -j 8 mawk -v x=4 \''$1 >= x'\' ::: *.uniq.seqs | cut -f2 | perl -e 'while (<>) {chomp; $z{$_}++;} while(($k,$v) = each(%z)) {print "$v\t$k\n";}' > uniqCperindv
-wc -l uniqCperindv
-```
-Output: 
-```{bash}
-3575452 uniqCperindv
-```
-Next, I restricted the data by the number of different indviduals a sequence appears within:
-```{bash}
-for ((i = 2; i <= 10; i++));
-do
-echo $i >> ufile
-done
-
-cat ufile | parallel --no-notice "echo -n {}xxx && mawk -v x={} '\$1 >= x' uniqCperindv | wc -l" | mawk  '{gsub("xxx","\t",$0); print;}'| sort -g > uniqseq.peri.data
-rm ufile
-```
-Next, I plot the data the same way as above:
-```{bash}
-gnuplot << \EOF 
-set terminal dumb size 120, 30
-set autoscale 
-unset label
-set title "Number of Unique Sequences present in more than X Individuals"
-set xlabel "Number of Individuals"
-set ylabel "Number of Unique Sequences"
-plot 'uniqseq.peri.data' with lines notitle
-pause -1
-EOF
-```
-
-```{bash}
-
-
-                                 Number of Unique Sequences present in more than X Individuals
-
-  1.3e+06 ++-----------+-------------+------------+------------+------------+-------------+------------+-----------++
-          +            +             +            +            +            +             +            +            +
-  1.2e+06 ***                                                                                                      ++
-          |  *                                                                                                      |
-  1.1e+06 ++  **                                                                                                   ++
-          |     *                                                                                                   |
-    1e+06 ++     *                                                                                                 ++
-          |       **                                                                                                |
-   900000 ++        *                                                                                              ++
-          |          **                                                                                             |
-   800000 ++                                                                                                       ++
-          |            *****                                                                                        |
-          |                 **                                                                                      |
-   700000 ++                  ***                                                                                  ++
-          |                      ***                                                                                |
-   600000 ++                        *                                                                              ++
-          |                          **********                                                                     |
-   500000 ++                                   ***                                                                 ++
-          |                                       **********                                                        |
-   400000 ++                                                ***                                                    ++
-          |                                                    *************                                        |
-   300000 ++                                                                ***************************            ++
-          +            +             +            +            +            +             +            *************+
-   200000 ++-----------+-------------+------------+------------+------------+-------------+------------+-----------+*
-          2            3             4            5            6            7             8            9            10
-                                                     Number of Individuals
-```
-Time to choose a cutoff calue again. I chose a cutoff value that captures as much of the diversity of the data while also eliminating sequences that don't have a lot of value on the population scale - 4.
-```{bash}
-mawk -v x=4 '$1 >= x' uniqCperindv > uniq.k.4.c.4.seqs
-wc -l uniq.k.4.c.4.seqs
-```
-Output:
-```{bash}
-556692 uniq.k.4.c.4.seqs
-```
-The next step was to convert these sequences back to fasta format. This is done below. This reads the totaluniqseq file one line at a time and adds a sequence header of >ContigX. 
-```{bash}
-cut -f2 uniq.k.4.c.4.seqs > totaluniqseq
-mawk '{c= c + 1; print ">Contig_" c "\n" $1}' totaluniqseq > uniq.fasta
-```
-The reduced data set is completed! Now it is time to start assembling reference contigs. First, I extracted the forward reads below. This utilized the sed command to replace the 10N separator into a tab character. It then uses the cut function to split the files into forward reads. 
-```{bash}
-sed -e 's/NNNNNNNNNN/\t/g' uniq.fasta | cut -f1 > uniq.F.fasta
-```
-dDocent then uses clustering by alignment via the program CD-hit to achieve more accurate clustering. This clusters all the forward reads by 80% similarity. A low value is used at this step since other functions of rainbow will later break up clusters given the number and frequency of variants.
-```{bash}
-cd-hit-est -i uniq.F.fasta -o xxx -c 0.8 -T 0 -M 0 -g 1
-```
-Output:
-```{bash}
-   556692  finished      70380  clusters
-```
-This next code converts the output of CD-hit to match the output of rainbow's first phase. 
-```{bash}
-mawk '{if ($1 ~ /Cl/) clus = clus + 1; else  print $3 "\t" clus}' xxx.clstr | sed 's/[>Contig_,...]//g' | sort -g -k1 > sort.contig.cluster.ids
-paste sort.contig.cluster.ids totaluniqseq > contig.cluster.totaluniqseq
-sort -k2,2 -g contig.cluster.totaluniqseq | sed -e 's/NNNNNNNNNN/\t/g' > rcluster
-```
-I then got the number of clusters in rclusters with the code below:
-```{bash}
-cut -f2 rcluster | uniq | wc -l
-```
-Output:
-```{bash}
-70380
-```
-The next step of rainbow is to split the clusters that were formed in the first step into smallwe cluster that represent significant variants. he first clustering step I completed found RAD loci, and this step splits the loci into alleles. This also aids in breaking up over clustered sequences.
-```{bash}
-rainbow div -i rcluster -o rbdiv.out 
-```
-The output of this dev process is simillar to the previous output except the second column now is the new divided cluster_ID and there was an additional column made at the end of the file that holds the original cluster ID. The -f flag controls the minimum frequency of an allele that is needed to divide it into its own cluster.
-```{bash}
-rainbow div -i rcluster -o rbdiv.out -f 0.5 -K 10
-```
-
-Next, I used paired ends to merge divided clusters. This aids to check the clustering and dividing of the previous steps that were based on the forward read only. If divided clusters represent allelese from the same homologus locus, they should have similar paired end reads (PE) and forward reads. Divided clusters that do not share similarity in the PE read represent cluster paralogs or representative regions. After the divided clusters are combined, all the forward and reverse reads are pooled and assembled for the specific cluster.
-```{bash}
-rainbow merge -o rbasm.out -a -i rbdiv.out
-```
-Next, I used the -r parameter. -r is the minimum number of reads to assmble. I used a cutoff of 2, since we are not assembling reads from a single individual. 
-```{bash}
-rainbow merge -o rbasm.out -a -i rbdiv.out -r 2
-```
-The rbasm output lists both optimal and suboptimal contigs. dDocent uses customized AWK code to extract optimal contigs for RAD sequencing. The code below performs an algorithm. First. The script first looks at all the contigs assembled for a cluster. If any of the contigs contain forward and PE reads, then that list conrig is output as optimal. If there are no overlaping contigs, which is the usual for most RAD data sets, the contig with the most assembled reads PA is output with the forward read contig with a 10 N spacer. If two contigs have equal numbers of reads, the longer contig is then output.
-```{bash}
-cat rbasm.out <(echo "E") |sed 's/[0-9]*:[0-9]*://g' | mawk ' {
-if (NR == 1) e=$2;
-else if ($1 ~/E/ && lenp > len1) {c=c+1; print ">dDocent_Contig_" e "\n" seq2 "NNNNNNNNNN" seq1; seq1=0; seq2=0;lenp=0;e=$2;fclus=0;len1=0;freqp=0;lenf=0}
-else if ($1 ~/E/ && lenp <= len1) {c=c+1; print ">dDocent_Contig_" e "\n" seq1; seq1=0; seq2=0;lenp=0;e=$2;fclus=0;len1=0;freqp=0;lenf=0}
-else if ($1 ~/C/) clus=$2;
-else if ($1 ~/L/) len=$2;
-else if ($1 ~/S/) seq=$2;
-else if ($1 ~/N/) freq=$2;
-else if ($1 ~/R/ && $0 ~/0/ && $0 !~/1/ && len > lenf) {seq1 = seq; fclus=clus;lenf=len}
-else if ($1 ~/R/ && $0 ~/0/ && $0 ~/1/) {seq1 = seq; fclus=clus; len1=len}
-else if ($1 ~/R/ && $0 ~!/0/ && freq > freqp && len >= lenp || $1 ~/R/ && $0 ~!/0/ && freq == freqp && len > lenp) {seq2 = seq; lenp = len; freqp=freq}
-}' > rainbow.fasta
-```
-Next, I aligned the resulting contigs and clustered them by sequence similarity with cd-hit. -M and -T represent instructions on memory usage (-M) and number of threads (-T). When set to 0, they use all that is avalible. -c sets the percentage of sequence similarity to group contigs. The code below uses 90%.
-```{bash}
-cd-hit-est -i rainbow.fasta -o referenceRC.fasta -M 0 -T 0 -c 0.9
-```
-Output: 
-```{bash}
-76067  finished      71499  clusters
-```
-In real world data, it is difficult to know the correct number of reference contigs and takes a lot of data exploration. The script downloaded below automates this process.
-```{bash}
-curl -L -O https://github.com/jpuritz/dDocent/raw/master/scripts/remake_reference.sh
-```
-
-I then remade the reference with the below script and parameters. This remade the reference with a cutoff of 20 copies of a unique sequence for use in assembly and with a final clustering calue of 90%. It output the number of reference sequences and created a new, indexed reference with the parameters used. I had to up the processors (last flag) from 2 to 32 in order to get the script to run.
-```{bash}
-bash remake_reference.sh 4 4 0.90 PE 32
-```
-Output
-```{bash}
-dDocent assembled 556692 sequences (after cutoffs) into 71558 contigs
-```
-
-I then used the script below to automate the process to choose the final number of contigs. 
-```{bash}
+After this subset of individuals was in this folder, I ran ReferenceOpt.sh
+``````{bash, eval= FALSE}
 curl -L -O https://github.com/jpuritz/dDocent/raw/master/scripts/ReferenceOpt.sh
-```
-Then to examine the referene:
-```{bash}
-bash remake_reference.sh 4 4 0.90 PE 32
+bash ReferenceOpt.sh 4 8 4 8 PE 16
 ```
 
-Output:
-```{bash}
-dDocent assembled 556692 sequences (after cutoffs) into 71558 contigs
+```{bash, eval= FALSE}
+cp /home/BIO594/Final_Project/assembly/ .
 ```
+Output:.
+```{R}
+source("/home/BIO594/Final_Project/assembly")
+library(ggplot2)
 
-```{bash}
-head reference.fasta
-```
-Output:
-```{bash}
->dDocent_Contig_8
-NAATTCTTCCAAGGGCTAAAGCCTTCCCTGGTTTCCATAGGAAGGCATGTAAGGTCAACGAAAAGTTGCGGCGACTCTGCGAGGGAGGTGTGGGATTCATTAGTACATGGGCACACTTTTACAACCACACCTTTATCGTCGTGACGGCCTCCTCTTAAACGATGAGGGTTTAGGCAGGCTTTTGAACTCGGCAGTAGTCAGTTTTTCAAAAAACTGCCAGCGCGAGAGGGGCACAGGCAGCCCCTAAGTGGTCAGAACGGCCCGN
->dDocent_Contig_17
-NAATTCTTCCAAGGGCTAAAGCCTTCCCTGGTTTCCATAGGAAGGCATGTGAGGTCAACGAAAAGTTGCGGCGACTCTGCGAGGAAGAAGTTGTGGGATTCATCAGTACATGGGCACACTTTTACGACCAACCACACCTCTATCGTCGTGACGGCCTCCACTTGAACGATGACGGTTCAGCCCGCTTAGGCAGGCTTTTGAACTCGGCAGTACTCAGTTTTTCAAAAAAAAAAAAAAACTGCCAGCGAGGGAGGGGCACAGGCAGCCCCTAAGTGGTCTGAACGGCCCGN
->dDocent_Contig_22
-NAATTCTTCCAAGGGCTAAAGCCTTCCCTGGTTTCCATAGGAAGGCATGTGAGGTCAACGAAAAGTTGCGGCGACTCTGCGAGGACGAAGGTGTAGGGTTCATCAGTACATGGGCATACTTTTACGACCAACCACACCTATATCTTCGTGATGGCCTCCACTTGAACGACGAGGGTTCGGCCCGCTTTGGCAGGCTTCTGAACGCGGTAGTATTCAGTTTTTCAAAAAACTGCCAACGAGGGAGGGGCTTAGGCAGCCCCTAAGTTCTCCGAGCGGATCAACTGTCAGAAACACATCCGN
->dDocent_Contig_31
-NAATTCTTCCAAGGACTAATGCCTTCCCTGGTTTCCATAGGAAAGCTTGCAAGGTCAACAAAAAGTTGCGGCGACTCTGCGAGGACGAGGGTGTGGGGTTCACCAGTACATGGGAACACTTTTTTGACCAACCACATCTATCTCGTCGTGATGGCCTCCACTTGAACGATGAGGGTTCAGCCCGCTTCGGCAGGCTTCAGGACTCGGTAGCAGTCAGTTTTACAAAACACTGCCTACGAGGGAGGGGCACAGTCAGCCCCTAAGTTCTCCGAGCGGCCCGN
->dDocent_Contig_295
-NAATTCTTCCAGGGGCTAAAGCCTTCCCTGGTTTCCATAGGAAGGCATGTGAGGTCAACGAAAAGTTGCGGTGACTCTGCGAGGAAGAAGGAGTGGGGTTCATCAGTACATGGGCACACTTTTACGACCATCATCATCATCATCAATGGGGAGCATACGCCTGGTGGCGCGTTGCTTCACTCACTCGGCGCCTCCAGCCAGGGCGGTCCCTCCGN
-```
-Above you can see that I have complete RAD fragments that begin with the EcoRI restriction site (AATT). This is then followed by R2 ending with the mspI restriction site which is CCG. The start and end of the sequence each has an N.
-Then, to see how many lines are in the file, which is double the number of sequences:
-```{bash}
-wc -l reference.fasta
-```
-Output:
-```{bash}
-143116 reference.fasta
-```
-To find out how many sequences there are directly via counting the lines starting with the header character > (see above):
-```{bash}
-mawk '/>/' reference.fasta | wc -l 
-```
-Output:
-```{bash}
-71558
-```
-To test that all sequences follow the correct format: 
-```{bash}
-mawk '/^NAATT.*N*.*CCGN$/' reference.fasta | wc -l
-grep '^NAATT.*N*.*CCGN$' reference.fasta | wc -l
-```
-Output: Is it a problem that this is less than the number above?
-```{bash}
-70001
-```
-I then used the script below to optimize the reference assmeblies:
-```{bash}
-curl -L -O https://raw.githubusercontent.com/jpuritz/WinterSchool.2016/master/RefMapOpt.sh
-```
-Then I used this next script to assemble references across cutoff values and map 20 random samples and evaluate mapping to the reference, with number of conrigs and coverage. This loops across cutoffs 4-8 using a similarity of 90% for clustering and is parallized across 64 processors witha PE assemble technique. The output is stored in mapping.results. 
-```{bash}
-RefMapOpt.sh 4 8 4 8 0.9 64 PE
+data.table <- read.table("kopt.data", header = FALSE, col.names= c("k1","k2","Similarity", "Contigs"))
+
+data.table$K1K2 <- paste(data.table$k1, data.table$k2, sep=",")
+
+df=data.frame(data.table)
+df$K1K2 <- as.factor(df$K1K2)
+
+p <- ggplot(df, aes(x=Similarity, y=Contigs, group=K1K2)) + scale_x_continuous(breaks=seq(0.8,0.98,0.01)) + geom_line(aes(colour = K1K2))
+p
 ```
