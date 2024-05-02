@@ -104,7 +104,7 @@ cassandra.cerasia@uri.edu
 ```
 Next, I ran RefMapOpt.sh. 
 ```{bash, EVAL = FALSE}
-curl -L -O https://raw.githubusercontent.com/jpuritz/WinterSchool.2016/master/RefMapOpt.sh
+curl -L -O https://raw.githubusercontent.com/jpuritz/dDocent/master/scripts/RefMapOpt.sh
 RefMapOpt.sh 4 8 4 8 0.9 64 PE
 ```
 After this was done running, I ran dDocent with the following parameters: 
