@@ -42,7 +42,7 @@ ln -s /home/BIO594/Final_Project/raw_seq/FBN_309.F.fq.gz
 After this subset of individuals was in this folder, I ran ReferenceOpt.sh:
 ```{bash, eval= FALSE}
 curl -L -O https://github.com/jpuritz/dDocent/raw/master/scripts/ReferenceOpt.sh
-bash ReferenceOpt.sh 2 8 2 8 PE 16
+bash ReferenceOpt.sh 4 8 4 8 PE 16
 ```
 After running this, I plotted the data with the below script. This visualized the data in kopt.data. The values for the k1k2 combinations were plot against similarity thresholds. I picked a similarity threshold at the point of the inflection on the curve which was 0.9.
 Output:
@@ -105,7 +105,7 @@ cassandra.cerasia@uri.edu
 Next, I ran RefMapOpt.sh. 
 ```{bash, EVAL = FALSE}
 curl -L -O https://raw.githubusercontent.com/jpuritz/dDocent/master/scripts/RefMapOpt.sh
-RefMapOpt.sh 4 8 4 8 0.9 64 PE
+RefMapOpt.sh 2 8 2 8 0.9 64 PE
 ```
 After this was done running, I ran dDocent with the following parameters: 
 ```{bash, EVAL = FALSE}
