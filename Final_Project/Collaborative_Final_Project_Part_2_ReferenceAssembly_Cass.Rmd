@@ -42,7 +42,7 @@ ln -s /home/BIO594/Final_Project/raw_seq/FBN_309.F.fq.gz
 After this subset of individuals was in this folder, I ran ReferenceOpt.sh:
 ```{bash, eval= FALSE}
 curl -L -O https://github.com/jpuritz/dDocent/raw/master/scripts/ReferenceOpt.sh
-bash ReferenceOpt.sh 4 8 4 8 PE 16
+bash ReferenceOpt.sh 2 8 2 8 PE 16
 ```
 After running this, I plotted the data with the below script. This visualized the data in kopt.data. The values for the k1k2 combinations were plot against similarity thresholds. I picked a similarity threshold at the point of the inflection on the curve which was 0.9.
 Output:
@@ -190,7 +190,7 @@ sort: write error
                                                            Coverage
 
 Please choose data cutoff.  In essence, you are picking a minimum (within individual) coverage level for a read (allele) to be used in the reference assembly
-4
+2
 
 
                                  Number of Unique Sequences present in more than X Individuals
@@ -223,7 +223,7 @@ Please choose data cutoff.  In essence, you are picking a minimum (within indivi
                                                      Number of Individuals
 
 Please choose data cutoff.  Pick point right before the assymptote. A good starting cutoff might be 10% of the total number of individuals
-4
+2
 
 At this point, all configuration information has been entered and dDocent may take several hours to run.
 It is recommended that you move this script to a background operation and disable terminal input and output.
@@ -235,7 +235,7 @@ Type disown -h and press enter
 Now sit back, relax, and wait for your analysis to finish
 your 131072x1 screen size is bogus. expect trouble
 
-dDocent assembled 76627 sequences (after cutoffs) into 19754 contigs
+dDocent assembled 388789 sequences (after cutoffs) into 51933 contigs
 
 dDocent has finished with an analysis in /home/BIO594/Final_Project/assembly 
 
