@@ -1,0 +1,494 @@
+---
+title: "Week 11"
+output: github_document
+---
+
+Make Directory
+
+```{BASH}
+mkdir Week11 
+cd Week11
+```
+
+Copy files into my directory
+
+```{bash}
+cp /home/BIO594/Exercises/Week_11/*.fq.gz .
+```
+
+Made Conda Environment and ran dDocent
+
+```{bash}
+conda create -n Week11 ddocent
+conda activate Week11
+dDocent
+```
+
+dDocent 2.9.7 
+
+\
+
+Contact jpuritz\@uri.edu with any problems 
+
+\
+
+ 
+
+Checking for required software
+
+\
+
+All required software is installed!
+
+\
+
+dDocent version 2.9.7 started Tue Apr 23 14:59:07 EDT 2024 
+
+\
+
+80 individuals are detected. Is this correct? Enter yes or no and press [ENTER]
+
+yes
+
+Proceeding with 80 individuals
+
+dDocent detects 80 processors available on this system.
+
+Please enter the maximum number of processors to use for this analysis.
+
+20
+
+\
+
+Do you want to quality trim your reads?
+
+Type yes or no and press [ENTER]?
+
+yes
+
+\
+
+Do you want to perform an assembly?
+
+Type yes or no and press [ENTER].
+
+yes
+
+What type of assembly would you like to perform?  Enter SE for single end, PE for paired-end, RPE for paired-end sequencing for RAD protocols with random shearing, or OL for paired-end sequencing that has substantial overlap.
+
+Then press [ENTER]
+
+PE
+
+Reads will be assembled with Rainbow
+
+CD-HIT will cluster reference sequences by similarity. The -c parameter (% similarity to cluster) may need to be changed for your taxa.
+
+Would you like to enter a new c parameter now? Type yes or no and press [ENTER]
+
+yes
+
+Please enter new value for c. Enter in decimal form (For 90%, enter 0.9)
+
+0.9
+
+Do you want to map reads?  Type yes or no and press [ENTER]
+
+yes
+
+BWA will be used to map reads.  You may need to adjust -A -B and -O parameters for your taxa.
+
+Would you like to enter a new parameters now? Type yes or no and press [ENTER]
+
+yes
+
+Please enter new value for A (match score).  It should be an integer.  Default is 1.
+
+1
+
+Please enter new value for B (mismatch score).  It should be an integer.  Default is 4.
+
+4
+
+Please enter new value for O (gap penalty).  It should be an integer.  Default is 6.
+
+6
+
+Do you want to use FreeBayes to call SNPs?  Please type yes or no and press [ENTER]
+
+yes
+
+\
+
+Please enter your email address.  dDocent will email you when it is finished running.
+
+Don't worry; dDocent has no financial need to sell your email address to spammers.
+
+michellebeck\@uri.edu
+
+\
+
+\
+
+dDocent will require input during the assembly stage.  Please wait until prompt says it is safe to move program to the background.
+
+\
+
+Trimming reads and simultaneously assembling reference sequences
+
+\
+
+                                                                                                                        
+
+                                                                                                                        
+
+                       Number of Unique Sequences with More than X Coverage (Counted within individuals)                
+
+   105000 +\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\--+   
+
+          \|           +           +          +           +           +           +          +           +           \|   
+
+          \|\*                                                                                                        \|   
+
+   100000 \|-\*\*\*                                                                                                   +-\|   
+
+          \|    \*\*\*\*                                                                                                 \|   
+
+          \|        \*\*\*\*\*\*                                                                                           \|   
+
+          \|              \*\*\*\*\*\*                                                                                     \|   
+
+    95000 \|-+                  \*\*\*\*\*\*\*\*\*\*\*                                                                        +-\|   
+
+          \|                               \*\*\*\*\*\*                                                                    \|   
+
+          \|                                     \*\*\*\*\*\*                                                              \|   
+
+    90000 \|-+                                         \*\*\*\*\*\*                                                      +-\|   
+
+          \|                                                 \*\*\*\*\*\*                                                  \|   
+
+          \|                                                       \*\*\*\*\*\*                                            \|   
+
+    85000 \|-+                                                           \*\*\*\*\*\*                                    +-\|   
+
+          \|                                                                   \*\*\*\*\*\*                                \|   
+
+          \|                                                                         \*\*\*\*\*\*                          \|   
+
+    80000 \|-+                                                                             \*\*\*\*\*                   +-\|   
+
+          \|                                                                                    \*\*\*\*\*\*               \|   
+
+          \|                                                                                          \*\*\*\*\*\*         \|   
+
+          \|                                                                                                \*\*\*\*\*\*   \|   
+
+    75000 \|-+                                                                                                    \*\*\*\|   
+
+          \|                                                                                                         \|   
+
+          \|           +           +          +           +           +           +          +           +           \|   
+
+    70000 +\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\--+   
+
+          2           4           6          8           10          12          14         16          18          20  
+
+                                                           Coverage                                                     
+
+                                                                                                                        
+
+Please choose data cutoff.  In essence, you are picking a minimum (within individual) coverage level for a read (allele) to be used in the reference assembly
+
+4
+
+\
+
+                                                                                                                        
+
+                                                                                                                        
+
+                                 Number of Unique Sequences present in more than X Individuals                          
+
+     3500 +\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\--+   
+
+          \|            +             +            +            +            +             +            +            \|   
+
+          \|                                                                                                         \|   
+
+          \|                                                                                                         \|   
+
+          \|    \*                                                                                                    \|   
+
+     3000 \|-+   \*                                                                                                 +-\|   
+
+          \|      \*                                                                                                  \|   
+
+          \|       \*                                                                                                 \|   
+
+          \|        \*\*                                                                                               \|   
+
+     2500 \|-+        \*                                                                                            +-\|   
+
+          \|           \*                                                                                             \|   
+
+          \|            \*\*                                                                                           \|   
+
+          \|              \*\*\*                                                                                        \|   
+
+          \|                 \*\*                                                                                      \|   
+
+     2000 \|-+                 \*\*\*                                                                                 +-\|   
+
+          \|                      \*\*\*                                                                                \|   
+
+          \|                         \*\*\*\*\*\*\*                                                                         \|   
+
+          \|                                \*\*\*\*\*\*                                                                   \|   
+
+     1500 \|-+                                    \*\*\*\*\*\*\*\*                                                         +-\|   
+
+          \|                                              \*\*\*\*\*\*\*\*\*\*\*\*\*                                              \|   
+
+          \|                                                           \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*                              \|   
+
+          \|                                                                           \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*            \|   
+
+          \|            +             +            +            +            +             +            +\*\*\*\*\*\*\*\*\*\*\*\*\|   
+
+     1000 +\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\--+   
+
+          0            5             10           15           20           25            30           35           40  
+
+                                                     Number of Individuals                                              
+
+                                                                                                                        
+
+Please choose data cutoff.  Pick point right before the assymptote. A good starting cutoff might be 10% of the total number of individuals
+
+4
+
+\
+
+At this point, all configuration information has been entered and dDocent may take several hours to run.
+
+It is recommended that you move this script to a background operation and disable terminal input and output.
+
+All data and logfiles will still be recorded.
+
+To do this:
+
+Press **control** and **Z** simultaneously
+
+Type **bg** and press enter
+
+Type **disown -h** and press enter
+
+Now sit back, relax, and wait for your analysis to finish
+
+dDocent assembled 2472 sequences (after cutoffs) into 1000 contigs
+
+dDocent has finished with an analysis in /home/mbeck/Week11 
+
+dDocent started Tue Apr 23 14:59:07 EDT 2024 
+
+dDocent finished Tue Apr 23 15:02:55 EDT 2024 
+
+After filtering, kept 3122 out of a possible 3273 Sites 
+
+**FIltering SNP's**
+
+```{bash}
+mkdir FilterSNP
+cd FilterSNO 
+```
+
+```{bash}
+ln -s ../TotalRawSNPs.vcf
+```
+
+VCF tools to filter totalrawSNP file
+
+```{bash}
+vcftools --vcf TotalRawSNPs.vcf --max-missing 0.5 --minQ 30 --mac 3 --recode --recode-INFO-all --out raw.g5mac3
+```
+
+After filtering, kept 1953 out of a possible 3273 Sites
+
+```{bash}
+vcftools --vcf raw.g5mac3.recode.vcf --minDP 3 --recode --recode-INFO-all --out raw.g5mac3dp3
+```
+
+After filtering, kept 1953 out of a possible 1953 Sites
+
+Now we check for errors
+
+```{bash}
+curl -L -O https://github.com/jpuritz/dDocent/raw/master/scripts/ErrorCount.sh
+chmod +x ErrorCount.sh 
+./ErrorCount.sh raw.g5mac3dp3.recode.vcf
+```
+
+This script counts the number of potential genotyping errors due to low read depth It report a low range, based on a 50% binomial probability of observing the second allele in a heterozygote and a high range based on a 25% probability. Potential genotyping errors from genotypes from only 1 read range from 0.0 to 0.0 Potential genotyping errors from genotypes from only 2 reads range from 0.0 to 0.0 Potential genotyping errors from genotypes from only 3 reads range from 52.75 to 177.23999999999998 Potential genotyping errors from genotypes from only 4 reads range from 23.4375 to 118.5 Potential genotyping errors from genotypes from only 5 reads range from 14.59375 to 110 80 number of individuals and 1953 equals 156240 total genotypes Total genotypes not counting missing data 155662 Total potential error rate is between 0.0005831946782130514 and 0.0026065449499556733 SCORCHED EARTH SCENARIO WHAT IF ALL LOW DEPTH HOMOZYGOTE GENOTYPES ARE ERRORS????? The total SCORCHED EARTH error rate is 0.008120157777749226.
+
+Remove poorly sequenced sequences
+
+```{bash}
+vcftools --vcf raw.g5mac3dp3.recode.vcf --missing-indv
+```
+
+plot the histogram
+
+```{bash}
+mawk '!/IN/' out.imiss | cut -f5 > totalmissing
+gnuplot << \EOF
+set terminal dumb size 120, 30
+set autoscale
+unset label
+set title "Histogram of % missing data per individual"
+set ylabel "Number of Occurrences"
+set xlabel "% of missing data"
+binwidth=0.01
+bin(x,width)=width*floor(x/width) + binwidth/2.0
+set lmargin 10
+plot 'totalmissing' using (bin($1,binwidth)):(1.0) smooth freq with boxes
+pause -1
+EOF
+```
+
+                                          Histogram of % missing data per individual                                    
+       50 +---------------------------------------------------------------------------------------------------------+   
+          |*****************************************************          +         +          +         +          |   
+       45 |-+                                                 '*otalmissing' using (bin($1,binwidth)):(1.0) *******-|   
+          |                                                    *                                                    |   
+          |                                                    *                                                    |   
+       40 |-+                                                  *                                                  +-|   
+          |                                                    *                                                    |   
+       35 |-+                                                  *                                                  +-|   
+          |                                                    *****************************************************|   
+       30 |-+                                                  *                                                  +-|   
+          |                                                    *                                                    |   
+       25 |-+                                                  *                                                  +-|   
+          |                                                    *                                                    |   
+          |                                                    *                                                    |   
+       20 |-+                                                  *                                                  +-|   
+          |                                                    *                                                    |   
+       15 |-+                                                  *                                                  +-|   
+          |                                                    *                                                    |   
+       10 |-+                                                  *                                                  +-|   
+          |                                                    *                                                    |   
+          |                                                    *                                                    |   
+        5 |-+                                                  *                                                  +-|   
+          |          +         +          +         +          *          +         +          +         +          |   
+        0 +---------------------------------------------------------------------------------------------------------+   
+        0.005      0.006     0.007      0.008     0.009       0.01      0.011     0.012      0.013     0.014      0.015 
+                                                       % of missing data      
+                                                       
+                                                       
+                                                       
+                                                       
+
+From the graph decided 0.5 was a good cutoff value
+
+```{bash}
+vcftools --vcf raw.g5mac3dp3.recode.vcf --max-missing 0.95 --maf 0.05 --recode --recode-INFO-all --out DP3g95maf05 --min-meanDP 20
+```
+
+After filtering, kept 1148 out of a possible 1953 Sites
+
+Use POPMAP
+
+```{bash}
+head ../popmap
+```
+
+use VCF to assess missing data and combine files
+
+```{bash}
+vcftools --vcf DP3g95maf05.recode.vcf --keep A.keep --missing-site --out A
+
+vcftools --vcf DP3g95maf05.recode.vcf --keep B.keep --missing-site --out B
+
+vcftools --vcf DP3g95maf05.recode.vcf --keep C.keep --missing-site --out C
+
+vcftools --vcf DP3g95maf05.recode.vcf --keep D.keep --missing-site --out D
+cat A.lmiss B.lmiss C.lmiss D.lmiss | mawk '!/CHR/' | mawk '$6 > 0.1' | cut -f1,2 >> badloci
+
+vcftools --vcf DP3g95maf05.recode.vcf --exclude-positions badloci --recode --recode-INFO-all --out DP3g95p5maf05
+
+vcffilter -s -f "AB > 0.25 & AB < 0.75 | AB < 0.01" DP3g95p5maf05.recode.vcf > DP3g95p5maf05.fil1.vcf
+
+```
+
+After filtering, kept 20 out of 80 Individuals Outputting Site Missingness After filtering, kept 1148 out of a possible 1148 Sites
+
+determined number of LOCI
+
+```{bash}
+mawk '!/#/' DP3g95p5maf05.recode.vcf | wc -l
+1148
+mawk '!/#/' DP3g95p5maf05.fil1.vcf | wc -l
+1140
+```
+
+USed VCF: it filters out sites that have reads from both strands
+
+```{bash}
+vcffilter -f "SAF / SAR > 100 & SRF / SRR > 100 | SAR / SAF > 100 & SRR / SRF > 100" -s DP3g95p5maf05.fil1.vcf > DP3g95p5maf05.fil2.vcf
+mawk '!/#/' DP3g95p5maf05.fil2.vcf | wc -l
+1140
+```
+
+```{bash}
+ vcffilter -f "MQM / MQMR > 0.9 & MQM / MQMR < 1.05" DP3g95p5maf05.fil2.vcf > DP3g95p5maf05.fil3.vcf
+ mawk '!/#/' DP3g95p5maf05.fil3.vcf | wc -l
+1140
+vcffilter -f "PAIRED > 0.05 & PAIREDR > 0.05 & PAIREDR / PAIRED < 1.75 & PAIREDR / PAIRED > 0.25 | PAIRED < 0.05 & PAIREDR < 0.05" -s DP3g95p5maf05.fil3.vcf > DP3g95p5maf05.fil4.vcf
+vcffilter -f "QUAL / DP > 0.25" DP3g95p5maf05.fil4.vcf > DP3g95p5maf05.fil5.vcf
+```
+
+Depth of each loci & quality squares
+
+```{bash}
+cut -f8 DP3g95p5maf05.fil5.vcf | grep -oe "DP=[0-9]*" | sed -s 's/DP=//g' > DP3g95p5maf05.fil5.DEPTH
+mawk '!/#/' DP3g95p5maf05.fil5.vcf | cut -f1,2,6 > DP3g95p5maf05.fil5.vcf.loci.qual
+```
+
+Mean Depth Calculation
+
+```{bash}
+mawk '{ sum += $1; n++ } END { if (n > 0) print sum / n; }' DP3g95p5maf05.fil5.DEPTH
+4702.94
+
+python2.7 -c "print int(4703+3*(4703**0.5))"
+4908
+
+```
+
+recalculate the depth across loci using vcftools
+
+```{bash}
+vcftools --vcf DP3g95p5maf05.fil5.vcf --site-depth --exclude-positions DP3g95p5maf05.fil5.lowQDloci --out DP3g95p5maf05.fil5
+```
+
+After filtering, kept 80 out of 80 Individuals Outputting Depth for Each Site After filtering, kept 1097 out of a possible 1137 Sites Run Time = 0.00 seconds
+
+Depth SCores
+
+```{bash}
+mawk '!/D/' DP3g95p5maf05.fil5.site.depth | mawk -v x=31 '{print $1/x}' > meandepthpersite
+```
+
+```{bash}
+vcftools --vcf  DP3g95p5maf05.fil5.vcf --recode-INFO-all --out DP3g95p5maf05.FIL --max-meanDP 102.5 --exclude-positions DP3g95p5maf05.fil5.lowQDloci --recode 
+
+vcfallelicprimitives DP3g95p5maf05.FIL.recode.vcf --keep-info --keep-geno > DP3g95p5maf05.prim.vcf
+
+vcftools --vcf DP3g95p5maf05.prim.vcf --remove-indels --recode --recode-INFO-all --out SNP.DP3g95p5maf05
+```
+
+HWE FILTER
+
+```{bash}
+perl filter_hwe_by_pop.pl -v SNP.DP3g95p5maf05.recode.vcf -p popmap -o SNP.DP3g95p5maf05.HWE -h 0.01
+
