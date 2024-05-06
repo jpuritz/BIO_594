@@ -1,0 +1,38 @@
+(base) [mbeck@KITT realdata]$ bwa mem reference.fasta JC_1119.R1.fq.gz JC_1119.R2.fq.gz -I 200,40 -t 3 -B 3 -O 5 -L 20,5 2>/dev/null | mawk '!/\t[2-9].[SH].*/' | mawk '!/[2-9].[SH]\t/'| samtools view -@16 -q 5 -SbT reference.fasta - | samtools flagstat - > relaxed.stats
+(base) [mbeck@KITT realdata]$ bwa mem reference.fasta JC_1119.R1.fq.gz JC_1119.R2.fq.gz -I 200,40 -t 3 -L 20,5 2>/dev/null | mawk '!/\t[2-9].[SH].*/' | mawk '!/[2-9].[SH]\t/'| samtools view -@16 -q 5 -SbT reference.fasta - | samtools flagstat - > normal.stats
+(base) [mbeck@KITT realdata]$ paste <(cut -f1 -d + relaxed.stats) <(cut -f1 -d + normal.stats) <(cut -f4-10 -d " " relaxed.stats)
+2217934 	2206471 	in total (QC-passed reads + QC-failed reads)
+2217934 	2206471 	primary
+0 	0 	secondary
+0 	0 	supplementary
+0 	0 	duplicates
+0 	0 	primary duplicates
+2217934 	2206471 	mapped (100.00% : N/A)
+2217934 	2206471 	primary mapped (100.00% : N/A)
+2217934 	2206471 	paired in sequencing
+1131358 	1123539 	read1
+1086576 	1082932 	read2
+2103108 	2092133 	properly paired (94.82% : N/A)
+2169304 	2157042 	with itself and mate mapped
+48630 	49429 	singletons (2.19% : N/A)
+66004 	64712 	with mate mapped to a different chr
+66004 	64712 	with mate mapped to a different chr
+(base) [mbeck@KITT realdata]$ bwa mem reference.fasta JC_1119.R1.fq.gz JC_1119.R2.fq.gz -I 200,40 -t 3 -B 3 -O 5 -L 20,5 2>/dev/null | mawk '!/\t[2-9].[SH].*/' | mawk '!/[2-9].[SH]\t/'| samtools view -@16 -q 10 -SbT reference.fasta - | samtools flagstat - > relaxed.stats
+(base) [mbeck@KITT realdata]$ bwa mem reference.fasta JC_1119.R1.fq.gz JC_1119.R2.fq.gz -I 200,40 -t 3 -L 20,5 2>/dev/null | mawk '!/\t[2-9].[SH].*/' | mawk '!/[2-9].[SH]\t/'| samtools view -@16 -q 10 -SbT reference.fasta - | samtools flagstat - > normal.stats
+(base) [mbeck@KITT realdata]$ paste <(cut -f1 -d + relaxed.stats) <(cut -f1 -d + normal.stats) <(cut -f4-10 -d " " relaxed.stats)
+2201764 	2192629 	in total (QC-passed reads + QC-failed reads)
+2201764 	2192629 	primary
+0 	0 	secondary
+0 	0 	supplementary
+0 	0 	duplicates
+0 	0 	primary duplicates
+2201764 	2192629 	mapped (100.00% : N/A)
+2201764 	2192629 	primary mapped (100.00% : N/A)
+2201764 	2192629 	paired in sequencing
+1119342 	1117075 	read1
+1082422 	1075554 	read2
+2100814 	2089604 	properly paired (95.42% : N/A)
+2157734 	2147053 	with itself and mate mapped
+44030 	45576 	singletons (2.00% : N/A)
+56754 	57277 	with mate mapped to a different chr
+56754 	57277 	with mate mapped to a different chr

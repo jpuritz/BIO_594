@@ -1,0 +1,99 @@
+###BIO 594- Using genomic techniques to examine the evolution of populations ###
+
+###Exercise 1: Understanding advanced UNIX command line programs
+
+ Signed into KITT which switched the directory to the home directory. 
+
+	[ffields@KITT ~]$ 
+
+Typed in Linux.Ex which began the exercise. Followed the prompt and commands. Type Linux.Ex next to move foward in the command line
+
+	[ffields@KITT ~]$ Linux.Ex
+	[ffields@KITT ~]$ Linux.Ex next
+
+
+Exercise 2- Answer these challenges with one line of code
+
+Go to the home directory and open the folder sneaky found in Exercises
+
+	[ffields@KITT ~]$ cd /home/BIO594/Exercises
+	[ffields@KITT ~]$ ls
+	[ffields@KITT ~]$ cd sneaky 
+	[ffields@KITT ~]$ ls
+	[ffields@KITT ~]$ less file
+
+The contents in the sneaky file are 
+
+```
+Oh me! Oh life! of the questions of these recurring,
+Of the endless trains of the faithless, of cities fill’d with the foolish,
+Of myself forever reproaching myself, (for who more foolish than I, and who more faithless?)
+Of eyes that vainly crave the light, of the objects mean, of the struggle ever renew’d,
+Of the poor results of all, of the plodding and sordid crowds I see around me,
+Of the empty and useless years of the rest, with the rest me intertwined,
+The question, O me! so sad, recurring—What good amid these, O me, O life?
+
+                                       Answer.
+That you are here—that life exists and identity,
+That the powerful play goes on, and you may contribute a verse.
+```
+
+Print the first 5 lines of the third column of out.idepth in /home/BIO594/Exercises/Week_2
+* Current directory is /home/BIO594/Exercises/sneaky so go back one and open Week_2 folder
+
+	[ffields@KITT ~]$ cd ..
+	[ffields@KITT ~]$ cd Week_2
+	[ffields@KITT ~]$ less out.idepth
+
+First 5 lines of the third column of out.idepth
+
+```
+MEAN_DEPTH
+ 19.7475
+ 19.8769
+ 20.2284
+ 19.4391
+ 20.4425
+```
+
+Print only the 19th line of the second column of out.idepth
+
+	8428
+
+Print how many individuals have a MEAN_DEPTH greater than 20.1
+
+	[ffields@KITT ~]$ 3 > 20 out.idepth
+
+Permission denied so I did them manually
+
+```
+PopA_03 8453    20.2284
+PopA_05 8448    20.4425
+PopA_08 8454    20.1047
+PopA_09 8341    20.2223
+PopA_13 8408    20.6407
+PopA_20 8342    20.1082
+PopB_07 8392    20.2092
+PopB_08 8382    20.2733
+PopB_09 8262    20.2642
+PopB_14 8370    20.2419
+```
+
+Print how many individuals have a MEAN_DEPTH greater than 20.1 but less than 20.25
+
+```
+PopA_03 8453    20.2284
+PopA_08 8454    20.1047
+PopA_09 8341    20.2223
+PopA_20 8342    20.1082
+PopB_07 8392    20.2092
+PopB_14 8370    20.2419
+```
+
+Print the average MEAN_DEPTH
+
+	[ffields@KITT Week_2]$ awk '{sum=sum+$3} END {print sum/NR}' out.idepth
+	19.3738
+
+Pushed this file to Github
+

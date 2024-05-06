@@ -1,0 +1,249 @@
+---
+title: "Final Project for BIO 594"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## GitHub Documents
+
+This is an R Markdown format used for publishing markdown documents to GitHub. When you click the **Knit** button all R code chunks are run and a markdown file (.md) suitable for publishing to GitHub is generated.
+
+# Data setup
+* Population: 12 populations from 5 different localities (10 near sewage effluent sources, 2 controls)
+* The sequenced data files are located on KITT and can be accessed via
+
+  PATH:  `/home/BIO594/Final_Project`
+* Size: 376 individuals (28-33 per population), 150bp sequences
+* Sequences were previously demultiplexed with barcodes and individuals from a different species were removed (completed by Dr. Jon Puritz)
+
+# Bioinformatics
+
+## Reference assembly (Cass)
+   * De Novo Reference Assembly 
+      * Include optimization
+      * Assemble only a subset of individuals
+      
+Create Environment:
+```{bash, eval=FALSE}
+cd /home/BIO594/Final_Project/raw_seq
+mamba create -n rawseq
+mamba activate rawseq
+```
+First, I copied the forward and reverse reads for three individuals per treatment into the "assembly" folder that is in the BIO594/Final_Project folder. I did this with the following command. I altered the command for every file I linked over.
+
+```{bash, eval= FALSE}
+cd raw_seq
+ln -s /home/BIO594/Final_Project/raw_seq/FBN_309.F.fq.gz
+```
+
+After this subset of individuals was in this folder, I ran ReferenceOpt.sh:
+```{bash, eval= FALSE}
+curl -L -O https://github.com/jpuritz/dDocent/raw/master/scripts/ReferenceOpt.sh
+bash ReferenceOpt.sh 4 8 4 8 PE 16
+```
+After running this, I plotted the data with the below script. This visualized the data in kopt.data. The values for the k1k2 combinations were plot against similarity thresholds. I picked a similarity threshold at the point of the inflection on the curve which was 0.9.
+Output:
+```{r}
+setwd("/home/BIO594/Final_Project/assembly")
+library(ggplot2)
+
+data.table <- read.table("kopt.data", header = FALSE, col.names= c("k1","k2","Similarity", "Contigs"))
+
+data.table$K1K2 <- paste(data.table$k1, data.table$k2, sep=",")
+
+df=data.frame(data.table)
+df$K1K2 <- as.factor(df$K1K2)
+
+p <- ggplot(df, aes(x=Similarity, y=Contigs, group=K1K2)) + scale_x_continuous(breaks=seq(0.8,0.98,0.01)) + geom_line(aes(colour = K1K2))
+p
+```
+Next, I ran dDocent with only read trimming to have the trimmed read files that I need (.R1.fq.gz and *.R2.fq.gz) to run RefMapOpt.sh.
+```{bash}
+dDocent
+
+dDocent 2.9.7
+
+Contact jpuritz@uri.edu with any problems
+
+
+Checking for required software
+
+All required software is installed!
+
+dDocent version 2.9.7 started Wed May 1 11:17:05 EDT 2024
+
+36 individuals are detected. Is this correct? Enter yes or no and press [ENTER]
+yes
+Proceeding with 36 individuals
+dDocent detects 80 processors available on this system.
+Please enter the maximum number of processors to use for this analysis.
+20
+
+Do you want to quality trim your reads?
+Type yes or no and press [ENTER]?
+yes
+
+Do you want to perform an assembly?
+Type yes or no and press [ENTER].
+no
+
+Reference contigs need to be in a file named reference.fasta
+
+Do you want to map reads?  Type yes or no and press [ENTER]
+no
+Mapping will not be performed
+Do you want to use FreeBayes to call SNPs?  Please type yes or no and press [ENTER]
+no
+
+Please enter your email address.  dDocent will email you when it is finished running.
+Don't worry; dDocent has no financial need to sell your email address to spammers.
+cassandra.cerasia@uri.edu
+```
+Next, I ran RefMapOpt.sh. 
+```{bash, EVAL = FALSE}
+curl -L -O https://raw.githubusercontent.com/jpuritz/dDocent/master/scripts/RefMapOpt.sh
+RefMapOpt.sh 2 8 2 8 0.9 64 PE
+```
+After this was done running, I ran dDocent with the following parameters: 
+```{bash, EVAL = FALSE}
+dDocent
+dDocent 2.9.7 
+
+Contact jpuritz@uri.edu with any problems 
+
+ 
+Checking for required software
+
+All required software is installed!
+
+dDocent version 2.9.7 started Wed May 1 20:31:14 EDT 2024 
+
+36 individuals are detected. Is this correct? Enter yes or no and press [ENTER]
+yes
+Proceeding with 36 individuals
+dDocent detects 80 processors available on this system.
+Please enter the maximum number of processors to use for this analysis.
+20
+
+Do you want to quality trim your reads?
+Type yes or no and press [ENTER]?
+no
+
+Do you want to perform an assembly?
+Type yes or no and press [ENTER].
+yes
+What type of assembly would you like to perform?  Enter SE for single end, PE for paired-end, RPE for paired-end sequencing for RAD protocols with random shearing, or OL for paired-end sequencing that has substantial overlap.
+Then press [ENTER]
+PE
+Reads will be assembled with Rainbow
+CD-HIT will cluster reference sequences by similarity. The -c parameter (% similarity to cluster) may need to be changed for your taxa.
+Would you like to enter a new c parameter now? Type yes or no and press [ENTER]
+yes
+Please enter new value for c. Enter in decimal form (For 90%, enter 0.9)
+0.9
+Do you want to map reads?  Type yes or no and press [ENTER]
+no
+Mapping will not be performed
+Do you want to use FreeBayes to call SNPs?  Please type yes or no and press [ENTER]
+no
+
+Please enter your email address.  dDocent will email you when it is finished running.
+Don't worry; dDocent has no financial need to sell your email address to spammers.
+cassandra.cerasia@uri.edu
+
+
+dDocent will require input during the assembly stage.  Please wait until prompt says it is safe to move program to the background.
+sort: write failed: standard output: Broken pipe
+sort: write error
+
+
+                       Number of Unique Sequences with More than X Coverage (Counted within individuals)
+
+    4e+06 ++----------+-----------+----------+-----------+-----------+-----------+----------+-----------+----------++
+          *           +           +          +           +           +           +          +           +           +
+          |*                                                                                                        |
+  3.5e+06 +*                                                                                                       ++
+          | *                                                                                                       |
+          | *                                                                                                       |
+          |  *                                                                                                      |
+    3e+06 ++ *                                                                                                     ++
+          |   *                                                                                                     |
+          |   *                                                                                                     |
+  2.5e+06 ++   *                                                                                                   ++
+          |    *                                                                                                    |
+          |     ***                                                                                                 |
+    2e+06 ++       *                                                                                               ++
+          |         **                                                                                              |
+          |                                                                                                         |
+  1.5e+06 ++          ******                                                                                       ++
+          |                 ******                                                                                  |
+          |                       *****                                                                             |
+          |                            ******                                                                       |
+    1e+06 ++                                 ******************                                                    ++
+          |                                                    ***********************************                  |
+          +           +           +          +           +           +           +          +     *******************
+   500000 ++----------+-----------+----------+-----------+-----------+-----------+----------+-----------+----------++
+          2           4           6          8           10          12          14         16          18          20
+                                                           Coverage
+
+Please choose data cutoff.  In essence, you are picking a minimum (within individual) coverage level for a read (allele) to be used in the reference assembly
+2
+
+
+                                 Number of Unique Sequences present in more than X Individuals
+ Number of Unique Sequences
+   180000 *+-----------+-------------+------------+------------+------------+-------------+------------+-----------++
+          +*           +             +            +            +            +             +            +            +
+          | *                                                                                                       |
+   160000 ++*                                                                                                      ++
+          |  *                                                                                                      |
+   140000 ++  *                                                                                                    ++
+          |    *                                                                                                    |
+          |    *                                                                                                    |
+   120000 ++    *                                                                                                  ++
+          |      ***                                                                                                |
+   100000 ++        *                                                                                              ++
+          |          **                                                                                             |
+          |                                                                                                         |
+    80000 ++           ******                                                                                      ++
+          |                  *                                                                                      |
+    60000 ++                  *******                                                                              ++
+          |                          ******                                                                         |
+          |                                *******                                                                  |
+    40000 ++                                      ******                                                           ++
+          |                                             ********************                                        |
+    20000 ++                                                                ********************                   ++
+          |                                                                                     *********************
+          +            +             +            +            +            +             +            +            +
+        0 ++-----------+-------------+------------+------------+------------+-------------+------------+-----------++
+          2            4             6            8            10           12            14           16           18
+                                                     Number of Individuals
+
+Please choose data cutoff.  Pick point right before the assymptote. A good starting cutoff might be 10% of the total number of individuals
+2
+
+At this point, all configuration information has been entered and dDocent may take several hours to run.
+It is recommended that you move this script to a background operation and disable terminal input and output.
+All data and logfiles will still be recorded.
+To do this:
+Press control and Z simultaneously
+Type bg and press enter
+Type disown -h and press enter
+Now sit back, relax, and wait for your analysis to finish
+your 131072x1 screen size is bogus. expect trouble
+
+dDocent assembled 388789 sequences (after cutoffs) into 51933 contigs
+
+dDocent has finished with an analysis in /home/BIO594/Final_Project/assembly 
+
+dDocent started Wed May 1 20:31:14 EDT 2024 
+
+dDocent finished Wed May 1 20:37:38 EDT 2024
+```
+Finally, I copied my final reference.fasta into dDocent_working_dir.
+```{bash}
+cp /home/BIO594/Final_Project/assembly/reference.fasta /home/BIO594/Final_Project/dDocent_working_dir/
+```

@@ -1,0 +1,65 @@
+---
+title: "HW_042424"
+output: github_document
+---
+
+```{bash, eval = FALSE}
+mkdir week12hw #make directory for hw 
+cd /home/BIO594/Exercises/Week_12/
+cp -R realdata/ ../../../wdunster/week12hw/ #copy files 
+cp -R simulated/ ../../../wdunster/week12hw/ #copy files 
+
+conda create -n Week12 #create a conda enviro
+conda activate Week12 #activate the conda enviro 
+```
+
+```{bash, eval=FALSE}
+### Simulated Data ####
+cd simulated/
+
+#Filter SNPs
+vcftools --vcf TotalRawSNPs.vcf --max-missing 0.5 --maf 0.001 --minQ 20 --recode --recode-INFO-all --out TRS 
+vcftools --vcf TRS.recode.vcf --minDP 5 --recode --recode-INFO-all --out TRSdp5
+pop_missing_filter.sh TRSdp5.recode.vcf ../popmap 0.05 1 TRSdp5p05
+dDocent_filters TRSdp5p05.recode.vcf TRSdp5p05 #dDocent program to filter SNPs -- used 69 as cutoff 
+vcfallelicprimitives -k TRSdp5p05.FIL.recode.vcf | sed 's:\.|\.:\.\/\.:g' > TRSdp5p05F.prim
+vcftools --vcf TRSdp5p05F.prim --recode --recode-INFO-all --remove-indels --out SNP.TRSdp5p05F
+vcftools --vcf SNP.TRSdp5p05F.recode.vcf --maf 0.05 --recode --recode-INFO-all --out SNP.TRSdp5p05Fmaf05
+
+#Outlier detection programs 
+conda install pgdspider
+PGDSpider2-cli -inputfile SNP.TRSdp5p05Fmaf05.recode.vcf -outputfile SNP.TRSdp5p05Fmaf05BS -spid BSsnp.spid
+BayeScan2.1_linux64bits SNP.TRSdp5p05Fmaf05BS -nbp 30 -thin 20
+
+cp /home/BIO594/DATA/Week7/example/plot_R.r .
+
+#Determine which SNPs are adaptive vs neutral?? I did not do this 
+sed '1d' SNP.TRSdp5p05Fmaf_fst.txt | awk '{print $2}' | grep -Eo '[-]?[0-9]+([.][0-9]+)?' | awk '$1 < 0'
+```
+
+```{r}
+source("~/week12hw/simulated/plot_R.r")
+plot_bayescan("~/week12hw/simulated/SNP.TRSdp5p05Fmaf_fst.txt")
+
+```
+
+
+```{bash, eval=FALSE}
+### Real Data ###
+cd /home/wdunster/week12hw/realdata
+conda install pgdspider
+
+PGDSpider2-cli -inputfile SNP.DP3g98maf01_85INDoutFIL.NO2a.HWE.FIL.recode.vcf -outputfile DP3g98maf01_85INDoutFIL.NO2a.HWE.FIL -spid BSsnp.spid
+
+BayeScan2.1_linux64bits DP3g98maf01_85INDoutFIL.NO2a.HWE.FIL -nbp 30 -thin 20
+
+Bayeenv2 -i DP3g98maf01_85INDoutFIL.NO2a.HWE_fst.txt -p environ -k 100000 -r 1000 -X -o bayenv2-out #command not found
+```
+
+```{r}
+source("~/week12hw/realdata/plot_R.r")
+plot_bayescan("~/week12hw/realdata/DP3g98maf01_85INDoutFIL.NO2a.HWE_fst.txt")
+```
+
+cp -r ~/week12hw/WD_HW_Part1.md ~/repos/BIO_594/Exercises_ProbSets/Week12/WD_Answers
+
