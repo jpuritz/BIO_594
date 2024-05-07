@@ -132,7 +132,7 @@ df=data.frame(mismatch)
 p <- ggplot(df, aes(x=Mismatches, y=Number_of_Loci)) + geom_point() +theme_bw() + scale_x_continuous(minor_breaks = seq(1,20,by=1))
 p
 ```
-![mismatched](https://github.com/amaeliazyck/RADseq_Uca-rapax_2016/blob/master/Output/Filtering/mismatched.png)
+
 
 I decided to filter out loci with mismatched values > 6.
 ```bash
