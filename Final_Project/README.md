@@ -7,7 +7,6 @@ Coastal urban areas, home to over 50% of the population in the USA and over 60% 
 
 To characterize the evolutionary impacts of sewage effluent on other marine intertidal communities, an experiment was conducted on the mudflat fiddler crab (_Uca rapax_), a benthic, demersal species that is reliant on pelagic larvae for dispersal. The crabs were sampled near three different wastewater outfalls in the City of Corpus Christi, and at two control sites that are not likely influenced by sewage effluent. This study will determine if:
 
-<<<<<<< Updated upstream
 # Data setup
 =======
 1.	Fiddler crab populations located near sewage effluent sources will have lower genetic diversity and heterozygosity compared to the control populations.
@@ -24,7 +23,6 @@ Individuals of _Uca rapax_ were genotyped across tens of thousands of loci using
 
 #### _Data_
 
->>>>>>> Stashed changes
 * Population: 12 populations from 5 different localities (10 near sewage effluent sources, 2 controls)
 * The sequenced data files are located on KITT and can be accessed via
 
