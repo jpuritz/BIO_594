@@ -33,7 +33,6 @@ Individuals of _Uca rapax_ were genotyped across tens of thousands of loci using
 * Sequences were previously demultiplexed with barcodes and individuals from a different species were removed (completed by Dr. Jon Puritz)
 
 
-<<<<<<< Updated upstream
 ## Initial Raw Data Assessment and Characterization (Jon)
   * Count the RAW reads
   * Examine quality of data (fastqc)
@@ -49,11 +48,11 @@ Individuals of _Uca rapax_ were genotyped across tens of thousands of loci using
       * Try using different mappaing parameters on a subset and pick the best ones
    * SNP calling and filtering (FreeBayes via dDocent)
 
-## SNP Filtering (VCFtools, vcflib, rad_haplotyper) (Michelle and Flo) data available sunday night 
+## SNP Filtering (VCFtools, vcflib, rad_haplotyper) (Willow) data available sunday night 
 
 # Population-level Analyses
 
-## Detecting Selection Via Outlier Detection Programs (Willow) done by tuesday night 
+## Detecting Selection Via Outlier Detection Programs (Michelle and Flo) done by tuesday night 
       * RDA 
       * Bayenv2
       * PCAadapt
@@ -61,31 +60,11 @@ Individuals of _Uca rapax_ were genotyped across tens of thousands of loci using
 
 ## Detecting Population Structure (Brittany and Angela) may 9th
       * Pairwise *F~ST~*
-=======
-#### _Bioinformatic Analysis_
-* Initial Raw Data Assessment and Characterization
-   * Count the RAW reads
-   * Examine quality of data (fastqc)
-* Bioinformatic Processing - completed using dDocent 
-   * Trimming adapters and low quality reads (fastp)
-   * De Novo Reference Assembly (rainbow)
-   * Read Mapping (BWA & SAMtools)
-   * SNP calling and filtering (FreeBayes)
-   * SNP Filtering (VCFtools, vcflib, rad_haplotyper)
-* Population-level Analyses
-   * Outlier Detection Programs
-      * Bayscan
-      * Bayenv2
-      * PCAadapt
-      * Outflank
-   * Population Structure
-      * Spatial Principal Components Analysis (sPCA)
-      * Pairwise Fst
->>>>>>> Stashed changes
+      * PCA
+      * DAPC
       * Genetic diversity (observed and expected heterozygosity)
       * EEMS (https://www.nature.com/articles/ng.3464)
-      
-*Using the results from these 4 analyses, the data set will be divided in two categories: putatively neutral SNPs and SNPs putatively under selection.
+         * Only if there is time
 
 #### _References_
 
