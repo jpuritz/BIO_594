@@ -51,18 +51,19 @@ Individuals of _Uca rapax_ were genotyped across tens of thousands of loci using
 # Population-level Analyses
 
 ## Detecting Selection Via Outlier Detection Programs (Michelle and Flo) done by tuesday night 
-      * RDA 
-      * Bayenv2
-      * PCAadapt
-      * Outflank
+  * RDA 
+  * Bayenv2
+  * PCAadapt
+  * Outflank
 
 ## Detecting Population Structure (Brittany and Angela) may 9th
-      * Pairwise *F~ST~*
-      * PCA
-      * DAPC
-      * Genetic diversity (observed and expected heterozygosity)
-      * EEMS (https://www.nature.com/articles/ng.3464)
-         * Only if there is time
+  * Pairwise *FST*
+  * PCA
+  * DAPC
+  * Genetic diversity (observed and expected heterozygosity)
+    * Only if there is time  
+  * EEMS (https://www.nature.com/articles/ng.3464)
+    * Only if there is time
 
 #### _References_
 
