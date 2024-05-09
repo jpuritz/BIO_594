@@ -77,3 +77,21 @@ multiqc .
 
 ```{bash, eval=FALSE}
 cp -r /home/BIO594/Final_Project/QC/multiqc* ~/repos/BIO_594/Final_Project
+cd ~/repos/BIO_594/Final_Project
+git pull
+git lfs install
+git lfs track "*.json"
+git add .gitattributes
+git commit -a -m "add LFS"
+git push
+```
+
+```{bash, eval=FALSE}
+git add multiqc_report.html
+cd multiqc_data/
+git add multiqc_data.json
+git add *
+git commit -m "add multiqc report"
+git push
+```
+
