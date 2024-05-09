@@ -7,7 +7,6 @@ Coastal urban areas, home to over 50% of the population in the USA and over 60% 
 
 To characterize the evolutionary impacts of sewage effluent on other marine intertidal communities, an experiment was conducted on the mudflat fiddler crab (_Uca rapax_), a benthic, demersal species that is reliant on pelagic larvae for dispersal. The crabs were sampled near three different wastewater outfalls in the City of Corpus Christi, and at two control sites that are not likely influenced by sewage effluent. This study will determine if:
 
-<<<<<<< Updated upstream
 # Data setup
 =======
 1.	Fiddler crab populations located near sewage effluent sources will have lower genetic diversity and heterozygosity compared to the control populations.
@@ -24,7 +23,6 @@ Individuals of _Uca rapax_ were genotyped across tens of thousands of loci using
 
 #### _Data_
 
->>>>>>> Stashed changes
 * Population: 12 populations from 5 different localities (10 near sewage effluent sources, 2 controls)
 * The sequenced data files are located on KITT and can be accessed via
 
@@ -33,7 +31,6 @@ Individuals of _Uca rapax_ were genotyped across tens of thousands of loci using
 * Sequences were previously demultiplexed with barcodes and individuals from a different species were removed (completed by Dr. Jon Puritz)
 
 
-<<<<<<< Updated upstream
 ## Initial Raw Data Assessment and Characterization (Jon)
   * Count the RAW reads
   * Examine quality of data (fastqc)
@@ -49,43 +46,24 @@ Individuals of _Uca rapax_ were genotyped across tens of thousands of loci using
       * Try using different mappaing parameters on a subset and pick the best ones
    * SNP calling and filtering (FreeBayes via dDocent)
 
-## SNP Filtering (VCFtools, vcflib, rad_haplotyper) (Michelle and Flo) data available sunday night 
+## SNP Filtering (VCFtools, vcflib, rad_haplotyper) (Willow) data available sunday night 
 
 # Population-level Analyses
 
-## Detecting Selection Via Outlier Detection Programs (Willow) done by tuesday night 
-      * RDA 
-      * Bayenv2
-      * PCAadapt
-      * Outflank
+## Detecting Selection Via Outlier Detection Programs (Michelle and Flo) done by tuesday night 
+  * RDA 
+  * Bayenv2
+  * PCAadapt
+  * Outflank
 
 ## Detecting Population Structure (Brittany and Angela) may 9th
-      * Pairwise *F~ST~*
-=======
-#### _Bioinformatic Analysis_
-* Initial Raw Data Assessment and Characterization
-   * Count the RAW reads
-   * Examine quality of data (fastqc)
-* Bioinformatic Processing - completed using dDocent 
-   * Trimming adapters and low quality reads (fastp)
-   * De Novo Reference Assembly (rainbow)
-   * Read Mapping (BWA & SAMtools)
-   * SNP calling and filtering (FreeBayes)
-   * SNP Filtering (VCFtools, vcflib, rad_haplotyper)
-* Population-level Analyses
-   * Outlier Detection Programs
-      * Bayscan
-      * Bayenv2
-      * PCAadapt
-      * Outflank
-   * Population Structure
-      * Spatial Principal Components Analysis (sPCA)
-      * Pairwise Fst
->>>>>>> Stashed changes
-      * Genetic diversity (observed and expected heterozygosity)
-      * EEMS (https://www.nature.com/articles/ng.3464)
-      
-*Using the results from these 4 analyses, the data set will be divided in two categories: putatively neutral SNPs and SNPs putatively under selection.
+  * Pairwise *FST*
+  * PCA
+  * DAPC
+  * Genetic diversity (observed and expected heterozygosity)
+    * Only if there is time  
+  * EEMS (https://www.nature.com/articles/ng.3464)
+    * Only if there is time
 
 #### _References_
 

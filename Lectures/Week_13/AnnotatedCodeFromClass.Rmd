@@ -1,0 +1,323 @@
+---
+title: "Code From Class"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Code from Population Structure
+
+
+First, remember to create a week13 directory and copy the data
+
+```{bash, eval=FALSE}
+mkdir -p week12ps
+cd week12ps
+cp /home/BIO594/DATA/Week8/* .
+```
+
+Let's load two R packages that we will use for this analysis
+
+```{r}
+library(adegenet)
+library(vcfR)
+```
+
+
+First, we can use the package VCFr to "read" our VCF file into R
+
+```{r}
+my_vcf <- read.vcfR("./week12ps/SNPs.vcf")
+```
+
+
+We can then convert the VCF to a `genind` file which the package `adegenet` can use for analyses
+```{r}
+
+my_genind <- vcfR2genind(my_vcf)
+```
+
+
+
+We can add information like population, library, sample name, etc. with strata (short for stratification).  It's a simple tab deliminted text file:
+
+```{bash}
+cat ./week12ps/strata
+```
+
+
+
+
+
+```{r}
+strata<- read.table("./week12ps/strata", header=TRUE)
+strata_df <- data.frame(strata)
+strata(my_genind) <- strata_df
+setPop(my_genind) <- ~Population
+```
+
+
+#Test Population Structure
+
+Let's calculate *F~ST~*
+
+## Pairwise Fst
+First, we convert our genid format file to hierfstat format.  Second command calculates *F~ST~* values
+```{r}
+library("hierfstat")
+neutral_hstat <- genind2hierfstat(my_genind, pop = my_genind@pop)
+neutral_hstat.mat <- pairwise.WCfst(neutral_hstat)
+```
+
+Next, we will conver the results to a nice pairwise matrix and then melt the matrix for plotting in ggplot
+```{r}
+library("reshape2")
+neutral_hstat.matriN <- as.matrix(neutral_hstat.mat)
+melted_neutral_hstat.matriN <- melt(neutral_hstat.matriN, na.rm =TRUE)
+round(neutral_hstat.matriN,4)
+```
+
+```{r}
+summary(melted_neutral_hstat.matriN$value)
+```
+
+```{r}
+library(ggplot2)
+#Plotting Pairwise fst
+neut_fst <- ggplot(data = melted_neutral_hstat.matriN, aes(Var2, Var1, fill = value))+ geom_tile(color = "white")+ 
+  scale_fill_gradient(low = "white", high = "chocolate1", name="FST")  +
+  ggtitle("Pairwise FST, WC (1984) Neutral SNPs", )+
+  labs( x = "Sampling Site", y = "Sampling Site") + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, size = 12, hjust = 1),axis.text.y = element_text(size = 12)) + 
+  theme(axis.title = element_text(size = 12),legend.text = element_text(size =14), legend.title = element_text(size =14)) +
+  theme(plot.title = element_text(size = 14)) +
+coord_fixed()
+neut_fst
+```
+
+
+#PCA
+We will use adegenet to calculate our PCA.  See tutorials [here](https://github.com/thibautjombart/adegenet/wiki/Tutorials).
+
+You can use the command `pca1 <- dudi.pca(X, scale = FALSE)` to interactively pick your PCs, but we cannot do that in RMarkdown, so will will just pick the first three.
+
+```{r}
+X <- tab(my_genind, freq = TRUE, NA.method = "mean")
+pca1 <- dudi.pca(X, scale = FALSE, scannf = FALSE, nf = 3)
+```
+
+Let's plot the PCA eigenvalues
+```{r}
+barplot(pca1$eig[1:50], main = "PCA eigenvalues", col = heat.colors(50))
+```
+
+Now the PCA
+```{r}
+s.class(pca1$li, pop(my_genind))
+title("PCA of simulated dataset\naxes 1-2")
+add.scatter.eig(pca1$eig[1:20], 3,1,2)
+```
+
+
+Ok, let's make it look better
+```{r}
+col <- funky(15)
+s.class(pca1$li, pop(my_genind),xax=1,yax=2, col=col, axesell=FALSE, cstar=0, cpoint=3, grid=FALSE)
+```
+
+
+
+#Missing Data
+
+Too much missing data can make your PCA look wonky.  Take a look at this example:
+
+Our original VCF had less than 1% missing data.  Let's look at one with more.
+This is the same but now with 5% missing data.
+```{r}
+my_vcf <- read.vcfR("./week12ps/SNP.missing.vcf")
+my_genind <- vcfR2genind(my_vcf)
+```
+```{r}
+strata<- read.table("./week12ps/strata", header=TRUE)
+strata_df <- data.frame(strata)
+strata(my_genind) <- strata_df
+
+setPop(my_genind) <- ~Population
+
+X <- tab(my_genind, freq = TRUE, NA.method = "mean")
+pca1 <- dudi.pca(X, scale = FALSE, scannf = FALSE, nf = 3)
+s.class(pca1$li, pop(my_genind),xax=1,yax=2, col=col, axesell=FALSE, cstar=0, cpoint=3, grid=FALSE)
+```
+
+This vcf has 10% missing data
+```{r}
+my_vcf <- read.vcfR("./week12ps/SNP.missing2.vcf")
+
+
+my_genind <- vcfR2genind(my_vcf)
+
+
+strata<- read.table("./week12ps/strata", header=TRUE)
+strata_df <- data.frame(strata)
+strata(my_genind) <- strata_df
+
+setPop(my_genind) <- ~Population
+
+X <- tab(my_genind, freq = TRUE, NA.method = "mean")
+pca1 <- dudi.pca(X, scale = FALSE, scannf = FALSE, nf = 3)
+s.class(pca1$li, pop(my_genind),xax=1,yax=2, col=col, axesell=FALSE, cstar=0, cpoint=3, grid=FALSE)
+```
+Notice how all individuals are moving towards the origin.
+
+Let's look at one with only missing data in one population "D"
+```{r}
+my_vcf <- read.vcfR("./week12ps/SNP.missingPopD2.vcf")
+
+
+my_genind <- vcfR2genind(my_vcf)
+
+
+strata<- read.table("./week12ps/strata", header=TRUE)
+strata_df <- data.frame(strata)
+strata(my_genind) <- strata_df
+
+setPop(my_genind) <- ~Population
+
+X <- tab(my_genind, freq = TRUE, NA.method = "mean")
+pca1 <- dudi.pca(X, scale = FALSE, scannf = FALSE, nf = 3)
+s.class(pca1$li, pop(my_genind),xax=1,yax=2, col=col, axesell=FALSE, cstar=0, cpoint=3, grid=FALSE)
+```
+See how several D indivials are now on the x axis.
+
+
+
+# Related
+Related individals can also skew PCA results
+
+
+```{r}
+my_vcf <- read.vcfR("./week12ps/SNP.related.vcf")
+
+
+my_genind <- vcfR2genind(my_vcf)
+
+
+strata<- read.table("./week12ps/strata", header=TRUE)
+strata_df <- data.frame(strata)
+strata(my_genind) <- strata_df
+
+setPop(my_genind) <- ~Population
+
+X <- tab(my_genind, freq = TRUE, NA.method = "mean")
+pca1 <- dudi.pca(X, scale = FALSE, scannf = FALSE, nf = 3)
+s.class(pca1$li, pop(my_genind),xax=1,yax=2, col=col, axesell=FALSE, cstar=0, cpoint=3, grid=FALSE)
+```
+See how the two green "D" individuals are apart from everyone else but close to each other
+
+
+
+# Isolation by distance
+
+```{r}
+my_vcf <- read.vcfR("./week12ps/SNPs.vcf")
+
+
+my_genind <- vcfR2genind(my_vcf)
+
+
+strata<- read.table("./week12ps/strata", header=TRUE)
+strata_df <- data.frame(strata)
+strata(my_genind) <- strata_df
+
+setPop(my_genind) <- ~Population
+
+xy <-read.table("./week12ps/dist.mat")
+xy
+my_genind@other$xy <- xy
+
+
+toto <- genind2genpop(my_genind)
+Dgeo <- dist(my_genind$other$xy)
+Dgen <- dist.genpop(toto,method=2)
+ibd <- mantel.randtest(Dgen,Dgeo)
+
+plot(ibd)
+plot(Dgeo, Dgen)
+abline(lm(Dgen~Dgeo), col="red",lty=2)
+```
+
+#DAPC
+
+First let's estimate if there are any clusters:
+
+This code is interactive and must be run in the r console
+`grp <- find.clusters(my_genind, max.n.clust=40)`
+
+Choose "80" first and then look for the elbow.  Here it's at "2".
+
+Now we can plot assignment 
+```{r}
+grp <- find.clusters(my_genind, max.n.clust=40,n.pca=80,n.clust=2)
+table(pop(my_genind), grp$grp)
+table.value(table(pop(my_genind), grp$grp), col.lab=paste("inf", 1:2), row.lab=paste("ori", 1:4))
+```
+We can see that there are two inferred clusters.  All individuals from PopA, PopB, and PopC are in group 1 and PopD is in Group 2
+
+
+We can run a DAPC on this using the inferred groups:
+
+This code is also interactive:
+`dapc1 <- dapc(my_genind, grp$grp)`
+
+This time we want to use as few as PCs as possbible, enough to capture 80& of the variance.  We'll use 60.  
+
+We have only two groups, so one discriminant function.
+
+Let's take a look:
+
+```{r}
+dapc1 <- dapc(my_genind, grp$grp,n.pc=60, n.da = 1)
+scatter(dapc1,col=col,bg="white", solid=1)
+```
+
+There's only one function, but we can see what loci are driving this pattern:
+
+```{r}
+contrib <- loadingplot(dapc1$var.contr, axis=1, thres=.01, lab.jitter=1)
+
+```
+Looks like it's quite a few scattered across the genome.
+
+
+
+We can also use this technique to look for batch effects or library effects.  We have a Library parameter in our strata file.  We can use that.
+
+```{r}
+setPop(my_genind) <- ~Library
+dapc1 <- dapc(my_genind, pop(my_genind), n.pca=60, n.da=1)
+```
+
+Now we can look to see if there are any artifactual loci driving differences between libraries or batches
+```{r}
+contrib <- loadingplot(dapc1$var.contr, axis=1, thres=.05, lab.jitter=1)
+```
+
+Oh no!  Looks like there is a locus with a big batch effect.  That's something we will need to filter out.
+
+
+
+#Structure Like
+We can also make STRUCTURE like plots using DAPC.
+
+```{r}
+compoplot(dapc1, posi="bottomright",txt.leg=paste("Cluster", 1:2), lab="", ncol=1, xlab="individuals")
+
+```
+
+## How do I filter outlier loci out to create a neutral VCF file?
+
+See code below "Combine all outlier loci into one file" [here](https://github.com/amyzyck/RADseq_Uca-rapax_2016/blob/master/Scripts/OutlierDetection/OutlierDetection_UcaRapax.md#combine-all-outlier-loci-into-one-file)
+
+Many different ways to do this though!!!
