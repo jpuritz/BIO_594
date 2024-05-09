@@ -5,49 +5,75 @@ output: github_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(engine.opts = list(bash = "-l"))
 ```
 
-## GitHub Documents
 
-This is an R Markdown format used for publishing markdown documents to GitHub. When you click the **Knit** button all R code chunks are run and a markdown file (.md) suitable for publishing to GitHub is generated.
+# Let's generate some data QC
+```{bash, eval=FALSE}
+mkdir -p /home/BIO594/Final_Project/QC
+```
 
-# Data setup
-* Population: 12 populations from 5 different localities (10 near sewage effluent sources, 2 controls)
-* The sequenced data files are located on KITT and can be accessed via
+```{bash, eval=FALSE}
+mamba create -n QC ddocent fastqc multiqc
+```
 
-  PATH:  `/home/BIO594/Final_Project`
-* Size: 376 individuals (28-33 per population), 150bp sequences
-* Sequences were previously demultiplexed with barcodes and individuals from a different species were removed (completed by Dr. Jon Puritz)
+```{bash, eval=FALSE}
+cd /home/BIO594/Final_Project/QC
+ln -s ../dDocent_working_dir/*.fq.gz .
+mamba activate QC
+ls *.fq.gz | parallel -j 16 "fastqc -t 4 {}"
+```
 
-# Bioinformatics
+Truncated output:
 
-## Initial Raw Data Assessment and Characterization (Jon)
-  * Count the RAW reads
-  * Examine quality of data (fastqc)
+```
+Academic tradition requires you to cite works you base your article on.
+If you use programs that use GNU Parallel to process data for an article in a
+scientific publication, please cite:
 
-## Reference assembly (Cass)
-   * De Novo Reference Assembly 
-      * Include optimization
-      * Assemble only a subset of individuals
+  Tange, O. (2024, March 22). GNU Parallel 20240322 ('Sweden').
+  Zenodo. https://doi.org/10.5281/zenodo.10901541
 
-## RADSeq Bioinformatics (Caitlin)
-   * Trimming adapters and low quality reads (fastp via dDocent)
-   * Read Mapping (BWA & SAMtools via dDocent)
-      * Try using different mappaing parameters on a subset and pick the best ones
-   * SNP calling and filtering (FreeBayes via dDocent)
+This helps funding further development; AND IT WON'T COST YOU A CENT.
+If you pay 10000 EUR you should feel free to use GNU Parallel without citing.
 
-## SNP Filtering (VCFtools, vcflib, rad_haplotyper) (Willow)
+More about funding GNU Parallel and the citation notice:
+https://www.gnu.org/software/parallel/parallel_design.html#citation-notice
 
-# Population-level Analyses
+To silence this citation notice: run 'parallel --citation' once.
 
-## Detecting Selection Via Outlier Detection Programs (Flow and Michelle)
-      * RDA 
-      * Bayenv2
-      * PCAadapt
-      * Outflank
+application/gzip
+Analysis complete for FBN_309.F.fq.gz
+Started analysis of FBN_309.F.fq.gz
+Approx 5% complete for FBN_309.F.fq.gz
+Approx 10% complete for FBN_309.F.fq.gz
+Approx 15% complete for FBN_309.F.fq.gz
+Approx 20% complete for FBN_309.F.fq.gz
+Approx 25% complete for FBN_309.F.fq.gz
+Approx 30% complete for FBN_309.F.fq.gz
+Approx 35% complete for FBN_309.F.fq.gz
+Approx 40% complete for FBN_309.F.fq.gz
+Approx 45% complete for FBN_309.F.fq.gz
+Approx 50% complete for FBN_309.F.fq.gz
+Approx 55% complete for FBN_309.F.fq.gz
+Approx 60% complete for FBN_309.F.fq.gz
+Approx 65% complete for FBN_309.F.fq.gz
+Approx 70% complete for FBN_309.F.fq.gz
+Approx 75% complete for FBN_309.F.fq.gz
+Approx 80% complete for FBN_309.F.fq.gz
+Approx 85% complete for FBN_309.F.fq.gz
+Approx 90% complete for FBN_309.F.fq.gz
+Approx 95% complete for FBN_309.F.fq.gz
+application/gzip
+Analysis complete for FBN_309.R1.fq.gz
+```
 
-## Detecting Population Structure (Brittany and Angela)
-      * Pairwise *F~ST~*
-      * Genetic diversity (observed and expected heterozygosity)
-      * EEMS (https://www.nature.com/articles/ng.3464)
+```{bash, engine.opts='-l'}
+mamba activate QC
+cd /home/BIO594/Final_Project/QC
+multiqc .
+```
 
+```{bash, eval=FALSE}
+cp -r /home/BIO594/Final_Project/QC/multiqc* ~/repos/BIO_594/Final_Project
