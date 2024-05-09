@@ -1,0 +1,25 @@
+[2024-05-09 15:57:39,335] multiqc                                            [DEBUG  ]  This is MultiQC v1.21
+[2024-05-09 15:57:39,335] multiqc                                            [DEBUG  ]  Command used: /home/maestro/miniconda3/envs/QC/bin/multiqc .
+[2024-05-09 15:57:39,814] multiqc                                            [DEBUG  ]  Latest MultiQC version is v1.21, released 2024-02-28
+[2024-05-09 15:57:39,814] multiqc                                            [DEBUG  ]  Working dir : /home/BIO594/Final_Project/QC
+[2024-05-09 15:57:39,814] multiqc                                            [DEBUG  ]  Template    : default
+[2024-05-09 15:57:39,814] multiqc                                            [DEBUG  ]  Running Python 3.11.9 | packaged by conda-forge | (main, Apr 19 2024, 18:36:13) [GCC 12.3.0]
+[2024-05-09 15:57:39,815] multiqc                                            [DEBUG  ]  Analysing modules: custom_content, ccs, ngsderive, purple, conpair, isoseq, lima, peddy, somalier, methylqa, mosdepth, phantompeakqualtools, qualimap, bamdst, preseq, hifiasm, quast, qorts, rna_seqc, rockhopper, rsem, rseqc, busco, bustools, goleft_indexcov, gffcompare, disambiguate, supernova, deeptools, sargasso, verifybamid, mirtrace, happy, mirtop, sambamba, gopeaks, homer, hops, macs2, theta2, snpeff, gatk, htseq, bcftools, featureCounts, fgbio, dragen, dragen_fastqc, dedup, pbmarkdup, damageprofiler, mapdamage, biobambam2, jcvi, mtnucratio, picard, vep, bakta, prokka, qc3C, nanostat, samblaster, samtools, sexdeterrmine, seqera_cli, eigenstratdatabasetools, bamtools, jellyfish, vcftools, longranger, stacks, varscan2, snippy, umitools, truvari, megahit, bbmap, bismark, biscuit, diamond, hicexplorer, hicup, hicpro, salmon, kallisto, slamdunk, star, hisat2, tophat, bowtie2, bowtie1, cellranger, snpsplit, odgi, pangolin, nextclade, freyja, humid, kat, leehom, librarian, nonpareil, adapterRemoval, bbduk, clipandmerge, cutadapt, flexbar, sourmash, kaiju, bracken, kraken, malt, motus, trimmomatic, sickle, skewer, sortmerna, biobloomtools, fastq_screen, afterqc, fastp, fastqc, filtlong, prinseqplusplus, pychopper, porechop, pycoqc, minionqc, anglerfish, multivcfanalyzer, clusterflow, checkqc, bcl2fastq, bclconvert, interop, ivar, flash, seqyclean, optitype, whatshap, spaceranger, xenome, xengsort, metaphlan, seqwho
+[2024-05-09 15:57:39,815] multiqc                                            [DEBUG  ]  Using temporary directory for creating report: /tmp/tmpczaitc7t
+[2024-05-09 15:57:39,815] multiqc                                            [INFO   ]  Search path : /home/BIO594/Final_Project/QC
+[2024-05-09 15:58:00,974] multiqc                                            [DEBUG  ]  Summary of files that were skipped by the search: [skipped_module_specific_max_filesize: 19708] // [skipped_no_match: 3032] // [skipped_ignore_pattern: 1516]
+[2024-05-09 15:58:00,993] multiqc                                            [DEBUG  ]  No samples found: custom_content
+[2024-05-09 15:58:03,165] multiqc.modules.fastqc.fastqc                      [INFO   ]  Found 1516 reports
+[2024-05-09 15:58:03,181] multiqc.utils.util_functions                       [DEBUG  ]  Wrote data file multiqc_fastqc.txt
+[2024-05-09 15:58:05,545] multiqc.plots.plotly.heatmap                       [DEBUG  ]  Resizing from 450x16676 to fit the maximum size 900x500
+[2024-05-09 15:58:05,545] multiqc.plots.plotly.heatmap                       [DEBUG  ]  Heatmap size: 900x500, px per element: 90.00x0.33
+[2024-05-09 15:58:05,549] multiqc.utils.software_versions                    [DEBUG  ]  Reading software versions from config.software_versions
+[2024-05-09 15:58:05,550] multiqc.utils.util_functions                       [DEBUG  ]  Wrote data file multiqc_software_versions.txt
+[2024-05-09 15:58:05,577] multiqc.plots.plotly.violin                        [DEBUG  ]  Table 'general_stats_table': sample number 1516 > 500, Will render only a violin plot instead of the table
+[2024-05-09 15:58:05,579] multiqc                                            [DEBUG  ]  Compressing plot data
+[2024-05-09 15:58:21,706] multiqc.utils.util_functions                       [DEBUG  ]  Wrote data file multiqc_data.json
+[2024-05-09 15:58:21,713] multiqc                                            [INFO   ]  Report      : multiqc_report.html
+[2024-05-09 15:58:21,713] multiqc                                            [INFO   ]  Data        : multiqc_data
+[2024-05-09 15:58:21,713] multiqc                                            [DEBUG  ]  Moving data file from '/tmp/tmpczaitc7t/multiqc_data' to '/home/BIO594/Final_Project/QC/multiqc_data'
+[2024-05-09 15:58:21,784] multiqc                                            [DEBUG  ]  Full report path: /home/BIO594/Final_Project/QC/multiqc_report.html
+[2024-05-09 15:58:21,915] multiqc                                            [INFO   ]  MultiQC complete
