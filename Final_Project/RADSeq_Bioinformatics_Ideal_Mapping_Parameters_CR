@@ -1,0 +1,370 @@
+---
+title: "RADSeq_Bioinformatics_Ideal_Mapping_Parameters_CR"
+author: "Caitlin Randall"
+date: '2024-05-06'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##Testing which Mapping Parameters 
+In order to determine which mapping parameters (match score, mismatch score, and gap penalty) are ideal for this data set, we constructed a subset of 6 individuals and tested various mapping parameters on this subset. 
+
+First, create a directory named "mapping_test" in the 'Final_Project' directory, and then create individual directories within the 'mapping_test' directory for each of the different dDocent runs that will be performed with different mapping parameters. 
+
+naming convention hint: m = match score, mm = mismatch score, and gp = gap penalty. The numbers following each of these variables will be the inputs in dDocent. 
+```{bash, EVAL = FALSE}
+cd /home/BIO594/Final_Project/
+mkdir mapping_test
+cd /mapping_test 
+mkdir m1mm3gp5
+mkdir m1mm4gp6
+mkdir m2mm3gp5
+```
+
+From there, link the 'reference.fasta' file from the 'assembly' directory into each directory located within the 'mapping_test' directory. Then, link 6 individuals from the assembly directory into each of the three directories. 
+```{bash, EVAL = FALSE}
+ln -s ../../assembly/reference.fasta .
+ln -s ../../assembly/OBS*.fq.gz .
+ln -s ../../assembly/FBN*.fq.gz .
+```
+
+From each directory (m1mm3gp5, m1mm4gp6, and m2mm3gp5) create your conda/mamba environment: 
+(hint: do each of these in a separate tab in terminal so that you are able to perform the dDocent runs simultaneously)
+```{bash, EVAL = FALSE}
+mamba create -n test135 vcflib=1.0.3
+mamba activate test135
+```
+
+```{bash, EVAL = FALSE}
+mamba create -n test146 vcflib=1.0.3
+mamba activate test146
+```
+
+```{bash, EVAL = FALSE}
+mamba create -n test235 vcflib=1.0.3
+mamba activate test235
+```
+
+From each directory (m1mm3gp5, m1mm4gp6, and m2mm3gp5) enter dDocent and as dDocent prompts you, answer accordingly: 
+```{bash, EVAL = FALSE}
+dDocent
+```
+
+for the m1mm3gp5 data set: 
+```{bash, EVAL = FALSE}
+6 individuals are detected. Is this correct? Enter yes or no and press [ENTER]
+yes
+Proceeding with 6 individuals
+dDocent detects 80 processors available on this system.
+Please enter the maximum number of processors to use for this analysis.
+20
+
+Do you want to quality trim your reads?
+Type yes or no and press [ENTER]?
+yes
+
+Do you want to perform an assembly?
+Type yes or no and press [ENTER].
+no
+
+Reference contigs need to be in a file named reference.fasta
+
+Do you want to map reads?  Type yes or no and press [ENTER]
+yes
+BWA will be used to map reads.  You may need to adjust -A -B and -O parameters for your taxa.
+Would you like to enter a new parameters now? Type yes or no and press [ENTER]
+yes
+Please enter new value for A (match score).  It should be an integer.  Default is 1.
+1
+Please enter new value for B (mismatch score).  It should be an integer.  Default is 4.
+3
+Please enter new value for O (gap penalty).  It should be an integer.  Default is 6.
+5
+Do you want to use FreeBayes to call SNPs?  Please type yes or no and press [ENTER]
+yes
+
+Please enter your email address.  dDocent will email you when it is finished running.
+Don't worry; dDocent has no financial need to sell your email address to spammers.
+caitlin_randall@uri.edu
+```
+
+for the m1mm4gp6 data set: 
+```{bash, EVAL = FALSE}
+6 individuals are detected. Is this correct? Enter yes or no and press [ENTER]
+yes
+Proceeding with 6 individuals
+dDocent detects 80 processors available on this system.
+Please enter the maximum number of processors to use for this analysis.
+20
+
+Do you want to quality trim your reads?
+Type yes or no and press [ENTER]?
+yes
+
+Do you want to perform an assembly?
+Type yes or no and press [ENTER].
+no
+
+Reference contigs need to be in a file named reference.fasta
+
+Do you want to map reads?  Type yes or no and press [ENTER]
+yes
+BWA will be used to map reads.  You may need to adjust -A -B and -O parameters for your taxa.
+Would you like to enter a new parameters now? Type yes or no and press [ENTER]
+yes
+Please enter new value for A (match score).  It should be an integer.  Default is 1.
+1
+Please enter new value for B (mismatch score).  It should be an integer.  Default is 4.
+4
+Please enter new value for O (gap penalty).  It should be an integer.  Default is 6.
+6
+Do you want to use FreeBayes to call SNPs?  Please type yes or no and press [ENTER]
+yes
+
+Please enter your email address.  dDocent will email you when it is finished running.
+Don't worry; dDocent has no financial need to sell your email address to spammers.
+caitlin_randall@uri.edu
+```
+
+for the m2mm3gp5 data set: 
+```{bash, EVAL = FALSE}
+6 individuals are detected. Is this correct? Enter yes or no and press [ENTER]
+yes
+Proceeding with 6 individuals
+dDocent detects 80 processors available on this system.
+Please enter the maximum number of processors to use for this analysis.
+20
+
+Do you want to quality trim your reads?
+Type yes or no and press [ENTER]?
+yes
+
+Do you want to perform an assembly?
+Type yes or no and press [ENTER].
+no
+
+Reference contigs need to be in a file named reference.fasta
+
+Do you want to map reads?  Type yes or no and press [ENTER]
+yes
+BWA will be used to map reads.  You may need to adjust -A -B and -O parameters for your taxa.
+Would you like to enter a new parameters now? Type yes or no and press [ENTER]
+yes
+Please enter new value for A (match score).  It should be an integer.  Default is 1.
+2
+Please enter new value for B (mismatch score).  It should be an integer.  Default is 4.
+3
+Please enter new value for O (gap penalty).  It should be an integer.  Default is 6.
+5
+Do you want to use FreeBayes to call SNPs?  Please type yes or no and press [ENTER]
+yes
+
+Please enter your email address.  dDocent will email you when it is finished running.
+Don't worry; dDocent has no financial need to sell your email address to spammers.
+caitlin_randall@uri.edu
+```
+
+After, disown each script by performing the following instructions:
+```{bash, EVAL = FALSE}
+Press control and Z simultaneously
+Type bg and press enter
+Type disown -h and press enter
+Now sit back, relax, and wait for your analysis to finish
+```
+
+After dDocent has completed, you should receive an email similar to the following for each dDocent run, in addition to generating an array of outputs, including SAM files that can then be converted to BAM files using SAMtools and then analyzed to determine the ideal mapping parameters, and a vcf file titled "TotalRawSNPS.vcf": 
+```{bash, EVAL = FALSE}
+dDocent has finished with an analysis in /home/BIO594/Final_Project/mapping_test/m1mm3gp5
+
+dDocent started Sun May 5 11:23:51 EDT 2024
+
+dDocent finished Sun May 5 11:55:09 EDT 2024
+
+After filtering, kept 106223 out of a possible 348086 Sites
+```
+
+```{bash, EVAL = FALSE}
+dDocent has finished with an analysis in /home/BIO594/Final_Project/mapping_test/m1mm4gp6
+
+dDocent started Sun May 5 11:14:04 EDT 2024
+
+dDocent finished Sun May 5 11:32:54 EDT 2024
+
+After filtering, kept 95592 out of a possible 243951 Sites
+```
+
+```{bash, EVAL = FALSE}
+dDocent has finished with an analysis in /home/BIO594/Final_Project/mapping_test/m2mm3gp5
+
+dDocent started Sun May 5 11:16:23 EDT 2024
+
+dDocent finished Sun May 5 11:36:42 EDT 2024
+
+After filtering, kept 103143 out of a possible 281788 Sites
+```
+
+## Making your decision 
+Upon running dDocent with a variety of mapping parameters, you must then determine which mapping parameters are the best suited for your data set. 
+
+Navigate into each of the subdirectories witin 'mapping_test' and then use 'samtools flagstat cat-RRG.bam' on each of the cat-RRG.bam files from each subdirectory to compare mapping parameters.
+```{bash, EVAL = FALSE}
+cd m1mm3gp5
+samtools flagstat cat-RRG.bam
+```
+
+your output should look like:
+```{bash, EVAL = FALSE}
+26454668 + 0 in total (QC-passed reads + QC-failed reads)
+26454665 + 0 primary
+3 + 0 secondary
+0 + 0 supplementary
+0 + 0 duplicates
+0 + 0 primary duplicates
+26454668 + 0 mapped (100.00% : N/A)
+26454665 + 0 primary mapped (100.00% : N/A)
+26454665 + 0 paired in sequencing
+13414500 + 0 read1
+13040165 + 0 read2
+21629962 + 0 properly paired (81.76% : N/A)
+26378730 + 0 with itself and mate mapped
+75935 + 0 singletons (0.29% : N/A)
+3701873 + 0 with mate mapped to a different chr
+3069154 + 0 with mate mapped to a different chr (mapQ>=5)
+```
+
+```{bash, EVAL = FALSE}
+cd m1mm4gp6
+samtools flagstat cat-RRG.bam
+```
+
+your output should look like:
+```{bash, EVAL = FALSE}
+25781689 + 0 in total (QC-passed reads + QC-failed reads)
+25781686 + 0 primary
+3 + 0 secondary
+0 + 0 supplementary
+0 + 0 duplicates
+0 + 0 primary duplicates
+25781689 + 0 mapped (100.00% : N/A)
+25781686 + 0 primary mapped (100.00% : N/A)
+25781686 + 0 paired in sequencing
+13044834 + 0 read1
+12736852 + 0 read2
+20708814 + 0 properly paired (80.32% : N/A)
+25707678 + 0 with itself and mate mapped
+74008 + 0 singletons (0.29% : N/A)
+3963187 + 0 with mate mapped to a different chr
+3325650 + 0 with mate mapped to a different chr (mapQ>=5)
+```
+
+```{bash, EVAL = FALSE}
+cd m2mm3gp5
+samtools flagstat cat-RRG.bam
+```
+
+your output should look like:
+```{bash, EVAL = FALSE}
+27071745 + 0 in total (QC-passed reads + QC-failed reads)
+27071744 + 0 primary
+1 + 0 secondary
+0 + 0 supplementary
+0 + 0 duplicates
+0 + 0 primary duplicates
+27071745 + 0 mapped (100.00% : N/A)
+27071744 + 0 primary mapped (100.00% : N/A)
+27071744 + 0 paired in sequencing
+13815194 + 0 read1
+13256550 + 0 read2
+23241304 + 0 properly paired (85.85% : N/A)
+26993352 + 0 with itself and mate mapped
+78392 + 0 singletons (0.29% : N/A)
+2721858 + 0 with mate mapped to a different chr
+2478687 + 0 with mate mapped to a different chr (mapQ>=5)
+```
+
+Looking at this data, it is apparent that the 2, 3, 5 mapping parameters are ideal for this data set, as is indicated by the highest relative properly paired percentage. 
+
+## Applying these mapping parameters to the entire data set
+Orient yourself within the correct directory, then use a config file to enter the dDocent configuration with your ideal mapping parameters
+```{bash, EVAL = FALSE}
+cd /home/BIO594/Final_Project/dDocent_working_dir
+cat config.file
+```
+
+Use these inputs:
+```{bash, EVAL = FALSE}
+Number of Processors
+72
+Trimming
+no
+Assembly?
+no
+Type_of_Assembly
+
+Clustering_Similarity%
+
+Minimum within individaul coverage level to include a read for assembly (K1)
+CUTOFF1_NOTSET
+Minimum number of individuals a read must be present in to include for assembly (K2)
+CUTOFF2_NOTSET
+Mapping_Reads?
+yes
+Mapping_Match_Value
+2
+Mapping_MisMatch_Value
+3
+Mapping_GapOpen_Penalty
+5
+Calling_SNPs?
+yes
+Email
+caitlin_randall@uri.edu
+```
+
+Create and activate your mamba/conda environment:
+```{bash, EVAL = FALSE}
+mamba create -n mapping_test ddocent
+mamba activate mapping_test
+```
+
+Enter and run dDocent on the config.file:
+```{bash, EVAL = FALSE}
+dDocent config.file
+```
+
+The output should look like this:
+```{bash, EVAL = FALSE}
+dDocent 2.9.8
+
+Contact jpuritz@uri.edu with any problems
+
+
+Checking for required software
+
+All required software is installed!
+
+dDocent version 2.9.8 started Mon May 6 10:31:51 EDT 2024
+
+
+At this point, all configuration information has been entered and dDocent may take several hours to run.
+It is recommended that you move this script to a background operation and disable terminal input and output.
+All data and logfiles will still be recorded.
+To do this:
+Press control and Z simultaneously
+Type bg and press enter
+Type disown -h and press enter
+Now sit back, relax, and wait for your analysis to finish 
+```
+
+Upon completion of your analysis, you are complete with this portion of the project. 
+If desired, you may create a symbolic link to that data file in the 'SNP_Filtering' directory:
+```{bash, EVAL = FALSE}
+cd ..
+cd SNP_Filtering
+ln -s ../../dDocent_working_dir/TotalRawSNPs.vcf .
+```
+
+good job :]
