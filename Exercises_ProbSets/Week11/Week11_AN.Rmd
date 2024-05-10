@@ -1,0 +1,68 @@
+
+```{bash}
+#SNP Calling
+#create directory
+mkdir Week_11_AN 
+cd Week_11_AN
+mamba create -n Week_11_AN ddocent
+conda activate Week_11_AN
+```
+
+```{bash}
+#copy data into working directory
+cp -r /home/BIO594/Exercises/Week_11/* .
+```
+
+VCF filtering
+```{bash}
+#keep variants that have been sucessfully genotyped in 50% of individuals, min quality score of 30, minor allele count 3
+vcftools --gzvcf TotalRawSNPs.vcf --max-missing 0.5 --mac 3 --minQ 30 --recode --recode-INFO-all --out raw.g5mac3
+
+#apply a min depth for a genotype call and min mean depth
+vcftools --vcf raw.g5mac3.recode.vcf --minDP 3 --recode --recode-INFO-all --out raw.g5mac3dp3 
+
+#asses individual levels of missing data 
+vcftools --vcf raw.g5mac3dp3.recode.vcf --missing-indv
+cat out.imiss
+
+#take a look at histogram
+$mawk '!/IN/' out.imiss | cut -f5 > totalmissing
+$gnuplot << \EOF 
+$set terminal dumb size 120, 30
+$set autoscale 
+$unset label
+$set title "Histogram of % missing data per individual"
+$set ylabel "Number of Occurrences"
+$set xlabel "% of missing data"
+$binwidth=0.01
+	$bin(x,width)=width*floor(x/width) + binwidth/2.0
+$set lmargin 10
+$plot 'totalmissing' using (bin($1,binwidth)):(1.0) smooth freq with boxes
+$pause -1
+$EOF
+
+#list of individuals with more than 50% missing data
+mawk '$5 > 0.5' out.imiss | cut -f1 > lowDP.indv
+
+#feed directly into vcftools for filtering
+vcftools --vcf raw.g5mac3dp3.recode.vcf --remove lowDP.indv --recode --recode-INFO-all --out raw.g5mac3dplm
+
+#restrict data to variants called in a high % of individuals and filter by mean depth of genotypes
+vcftools --vcf raw.g5mac3dplm.recode.vcf --max-missing 0.95 --maf 0.05 --recode --recode-INFO-all --out DP3g95maf05 --min-meanDP 20
+
+#make file to define localities
+cat popmap
+
+#create 2 lists that have the individual names for each population
+mawk '$2 == "BR"' popmap > 1.keep && mawk '$2 == "WL"' popmap > 2.keep
+
+#view vcf file
+mawk '/#/' DP3g95maf05.recode.vcf
+
+#use first filter for allele balance
+vcffilter -s -f "AB > 0.25 & AB < 0.75 | AB < 0.01" DP3g95p5maf05.recode.vcf > DP3g95p5maf05.fil1.vcf
+
+#filter out sites that have reads from both strands
+vcffilter -f "SAF / SAR > 100 & SRF / SRR > 100 | SAR / SAF > 100 & SRR / SRF > 100" -s DP3g95p5maf05.fil1.vcf > DP3g95p5maf05.fil2.vcf 
+mawk '!/#/' DP3g95p5maf05.fil2.vcf | wc -l
+```
