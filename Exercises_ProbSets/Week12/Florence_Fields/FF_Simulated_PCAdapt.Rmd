@@ -1,0 +1,88 @@
+---
+title: "Florence_Fields_week12_outlier_detection_PCAdapt"
+author: "Flo"
+output: rmarkdown::html_vignette
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{bash EVAL=FALSE}
+source activate week12
+```
+
+```{r}
+library(vcfR)
+library(pcadapt)
+setwd("~/week12/simulated")
+```
+
+```{r}
+filteredSNP <- read.pcadapt("SNP.TRSdp5p05Fmaf05.recode.vcf", type = "vcf") #load the vcf file in r
+x <- pcadapt(input = filteredSNP, K = 20) #create first PCA
+plot(x,option = "screeplot") #plot the likelihoods
+plot(x, option = "screeplot", K = 10) #plot the likelihoods for only the first K
+
+poplist.names <- c(rep("POPA", 20),rep("POPB", 20),rep("POPC", 20), rep("POPD",20)) #Create population designations
+
+plot(x, option = "scores", pop = poplist.names) #Plot the actual PCA (first two PCAs)
+plot(x, option = "scores", i = 2, j = 3, pop = poplist.names) #Plot PCA with PCA 2 and PCA 3
+plot(x, option = "scores", i = 3, j = 4, pop = poplist.names) #Plot PCA with PCA 3 and PCA 4
+
+x <- pcadapt(filteredSNP, K = 3) #Redo PCA with only 3 K
+summary(x)
+
+```
+
+```{r}
+#Start looking for outliers
+plot(x , option = "manhattan") #Make Manhattan Plot
+plot(x, option = "qqplot", threshold = 0.1) #Make qqplot
+plot(x, option = "stat.distribution") #Look at P-value distribution
+```
+
+```{r}
+# Set FDR
+library(qvalue)
+qval <- qvalue(x$pvalues)$qvalues
+alpha <- 0.1
+```
+
+```{r}
+# Save outliers
+outliers <- which(qval < alpha)
+```
+
+```{r}
+# Testing for library effects
+
+poplist.names <- c(rep("LIB1", 40),rep("LIB2", 40))
+x <- pcadapt(input = filteredSNP, K = 20)
+
+plot(x, option = "scores", pop = poplist.names)
+plot(x, option = "scores", i = 2, j = 3, pop = poplist.names)
+
+
+
+x <- pcadapt(filteredSNP, K = 2)
+
+summary(x)
+
+plot(x , option = "manhattan")
+plot(x, option = "qqplot", threshold = 0.1)
+
+plot(x, option = "stat.distribution")
+
+library(qvalue)
+qval <- qvalue(x$pvalues)$qvalues
+alpha <- 0.1
+outliers <- which(qval < alpha)
+
+
+```
+
+```{r}
+# Save outliers to .txt file
+invisible(lapply(outliers, write, "outliers_pcadapt.txt", append=TRUE))
+```
