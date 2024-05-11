@@ -1,0 +1,334 @@
+---
+title: "Final Project for BIO 594"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## GitHub Documents
+
+This is an R Markdown format used for publishing markdown documents to GitHub. When you click the **Knit** button all R code chunks are run and a markdown file (.md) suitable for publishing to GitHub is generated.
+
+# Link to original github: https://github.com/pdimens/2022-Tatlanticus_popgen
+
+# Data setup
+* Population: 12 populations from 5 different localities (10 near sewage effluent sources, 2 controls)
+* The sequenced data files are located on KITT and can be accessed via
+
+  PATH:  `/home/BIO594/Final_Project`
+* Size: 376 individuals (28-33 per population), 150bp sequences
+* Sequences were previously demultiplexed with barcodes and individuals from a different species were removed (completed by Dr. Jon Puritz)
+
+# Bioinformatics
+
+## Initial Raw Data Assessment and Characterization (Jon)
+  * Count the RAW reads
+  * Examine quality of data (fastqc)
+
+## Reference assembly (Cass)
+   * De Novo Reference Assembly 
+      * Include optimization
+      * Assemble only a subset of individuals
+
+## RADSeq Bioinformatics (Caitlin)
+   * Trimming adapters and low quality reads (fastp via dDocent)
+   * Read Mapping (BWA & SAMtools via dDocent)
+      * Try using different mappaing parameters on a subset and pick the best ones
+   * SNP calling and filtering (FreeBayes via dDocent)
+
+## SNP Filtering (VCFtools, vcflib, rad_haplotyper) (Willow)
+
+# Population-level Analyses
+
+## Detecting Selection Via Outlier Detection Programs (Flow and Michelle)
+
+```{r}
+#Load Libraries
+library(vcfR)
+library(pcadapt)
+library(OutFLANK) 
+library(vcfR)
+library(bigsnpr)
+library(qvalue)
+library(dplyr)
+```
+## PCAadapt
+```{r}
+filteredSNP <- read.pcadapt("SNP.TRSdp5g5mac3mafMIasubp9g9dMMHWEmaf0252A.recode.vcf", type = "vcf") 
+x <- pcadapt(input = filteredSNP, K = 20) 
+plot(x,option = "screeplot")
+plot(x, option = "screeplot", K = 10) 
+```
+```{bash, eval=FALSE}
+#Run in terminal
+cut -f1 out.imiss |grep -v INDV| cut -f1 -d "_" | sort | uniq -c
+#output
+#30 FBN
+#25 FBS
+#19 OBN
+#28 OBS
+#27 PCN
+#25 PCS
+#26 SPN
+#29 SPS
+#25 WC1
+#27 WC2
+#28 WC3
+#29 WC4
+```
+
+```{r}
+
+poplist.names <- c(rep("FBN", 30),rep("FBS", 25),rep("OBN", 19), rep("OBS",28), rep("PCN",27), rep("PCS",25), rep("SPN",26), rep("SPS",29), rep("WC1",25), rep("WC2",27), rep("WC3",28), rep("WC4",29))
+
+
+plot(x, option = "scores", pop = poplist.names) 
+plot(x, option = "scores", i = 2, j = 3, pop = poplist.names)
+plot(x, option = "scores", i = 3, j = 4, pop = poplist.names) 
+```
+Choosing 3 to be the cutoff
+
+```{r}
+x <- pcadapt(filteredSNP, K = 3)
+summary(x)
+
+plot(x , option = "manhattan") 
+plot(x, option = "qqplot", threshold = 0.1) 
+plot(x, option = "stat.distribution") 
+```
+
+```{r}
+# Set FDR
+qval1 <- qvalue(x$pvalues)$qvalues
+alpha <- 0.1
+```
+
+```{r}
+# Save outliers
+outliers1 <- which(qval1 < alpha)
+```
+
+```{r}
+invisible(lapply(outliers1, write, "outliers1.txt", append=TRUE))
+```
+
+```{bash eval= FALSE}
+#Run in terminal
+mawk '!/#/' SNP.TRSdp5g5mac3mafMIasubp9g9dMMHWEmaf0252A.recode.vcf | cut -f1,2 > totalloci
+NUM=(`cat totalloci | wc -l`)
+paste <(seq 1 $NUM) totalloci > loci.plus.index
+cat outliers1.txt | parallel "grep -w ^{} loci.plus.index" | cut -f2,3> outliers1.l.txt
+```
+
+
+## OutFlank
+
+```{r}
+filteredSNP <- read.vcfR("SNP.TRSdp5g5mac3mafMIasubp9g9dMMHWEmaf0252A.recode.vcf")
+```
+
+```{r}
+geno <- extract.gt(filteredSNP) 
+position <- getPOS(filteredSNP) 
+chromosome <- getCHROM(filteredSNP)
+```
+
+```{r}
+G <- matrix(NA, nrow = nrow(geno), ncol = ncol(geno))
+
+G[geno %in% c("0/0", "0|0")] <- 0
+G[geno  %in% c("0/1", "1/0", "1|0", "0|1")] <- 1
+G[geno %in% c("1/1", "1|1")] <- 2
+
+G[is.na(G)] <- 9
+
+head(G[,1:10])
+```
+
+#No need to use popmap if you have pop.list
+```{r}
+pop <- as.vector(poplist.names)
+```
+
+```{r}
+my_fst <- MakeDiploidFSTMat(t(G), locusNames = paste0(chromosome,"_", position), popNames = pop)
+plot(my_fst$He, my_fst$FST)
+my_dist <- OutFLANK(my_fst, NumberOfSamples = 12, qthreshold=0.1, RightTrimFraction=0.1, LeftTrimFraction=0.1)
+```
+
+```{r}
+
+OutFLANKResultsPlotter(my_dist)
+
+plot(my_dist$results$FST, col=as.numeric(as.factor(chromosome)))
+my_dist$results[which(my_dist$results$OutlierFlag == TRUE),]
+```
+
+```{bash eval = FALSE}
+#Run in terminal
+mawk '!/#/' SNP.TRSdp5g5mac3mafMIasubp9g9dMMHWEmaf0252A.recode.vcf | cut -f1,2 > totalloci
+NUM=(`cat totalloci | wc -l`)
+paste <(seq 1 $NUM) totalloci > loci1.plus.index
+echo -e "3209"| parallel "grep -w ^{} loci.plus.index" | cut -f2,3> outliers2.l.txt
+echo -e "3210"| parallel "grep -w ^{} loci.plus.index" | cut -f2,3> outliers3.l.txt
+echo -e "5704"| parallel "grep -w ^{} loci.plus.index" | cut -f2,3> outliers4.l.txt
+echo -e "6463"| parallel "grep -w ^{} loci.plus.index" | cut -f2,3> outliers5.l.txt
+echo -e "6464"| parallel "grep -w ^{} loci.plus.index" | cut -f2,3> outliers6.l.txt
+echo -e "7551"| parallel "grep -w ^{} loci.plus.index" | cut -f2,3> outliers7.l.txt
+```
+ 
+## Bayenv2
+## BayEnv2
+```{bash eval = FALSE}
+#Run in terminal
+mawk '!/#/' SNP.TRSdp5g5mac3mafMIasubp9g9dMMHWEmaf0252A.recode.vcf | cut -f1,2 > totalloci
+NUM=(`cat totalloci | wc -l`)
+paste <(seq 1 $NUM) totalloci > loci1.plus.index
+echo -e "3209"| parallel "grep -w ^{} loci.plus.index" | cut -f2,3> outliers2.l.txt
+echo -e "3210"| parallel "grep -w ^{} loci.plus.index" | cut -f2,3> outliers3.l.txt
+echo -e "5704"| parallel "grep -w ^{} loci.plus.index" | cut -f2,3> outliers4.l.txt
+echo -e "6463"| parallel "grep -w ^{} loci.plus.index" | cut -f2,3> outliers5.l.txt
+echo -e "6464"| parallel "grep -w ^{} loci.plus.index" | cut -f2,3> outliers6.l.txt
+echo -e "7551"| parallel "grep -w ^{} loci.plus.index" | cut -f2,3> outliers7.l.txt
+```
+First, convert vcf to BayEnv input
+```{bash eval=FALSE}
+cp /home/BIO594/DATA/Week7/example/SNPBayEnv.spid .
+cp /home/BIO594/Final_Project/dDocent_working_dir/popmap .
+cp /home/BIO594/Final_Project/environ .
+PGDSpider2-cli -inputfile SNP.TRSdp5g5mac3mafMIasubp9g9dMMHWEmaf0252A.recode.vcf -outputfile SNP.TRSdp5g5mac3mafMIasubp9g9dMMHWEmafBayEnv.txt -spid SNPBayEnv.spid
+```
+INFO 22:48:15 - load PGDSpider configuration from:
+/home/mbeck/miniconda3/share/pgdspider-2.1.1.5-1/spider.conf.xml
+Warning: Could not get charToByteConverterClass! initialize convert
+process... read input file... read input file done. write output file...
+write output file done.
+Run BayEnv to generate the covariance matrix
+
+```{bash eval=FALSE}
+bayenv2 -i SNP.TRSdp5g5mac3mafMIasubp9g9dMMHWEmafBayEnv.txt -p 12 -k 100000 -r 63479 > matrix.out
+```
+
+This code generates 100,000 iterations. We only need the last one.
+```{bash eval=FALSE}
+tail -13 matrix.out | head -12 > matrix
+cat environ
+```
+Ouptput
+0.851194237 0.739018209 1.379424387 1.19540284 0.185880782
+-0.086000325-0.862152712 -2.284603823 -0.476198768 -0.331092896
+-0.219243369 -0.091628561 0.006091651 -0.090159786 -1.693127051
+-1.588203181 1.387471969 1.3874719690.275339273 -1.069038664 0.189042281
+0.294217526 0.396376273 0.504517741
+
+Next, calculate the Bayes Factor for each SNP for each environmental
+variable:
+```{bash eval=FALSE}
+ln -s /usr/local/bin/bayenv2 .
+calc_bf.sh SNP.TRSdp5g5mac3mafMIasubp9g9dMMHWEmafBayEnv.txt environ matrix 12 10000 2
+```
+
+number of rows in the file
+```{bash eval=FALSE}
+wc -l bf_environ.environ
+```
+7942 bf_environ.environ
+
+Next, we convert the output into something suitable to input into R
+```{bash eval=FALSE}
+paste <(seq 1 7942) <(cut -f2,3 bf_environ.environ ) > bayenv.out
+cat <(echo -e "Locus\tBF1\tBF2") bayenv.out > bayenv.final
+```
+
+Now, open R
+```{R}
+table_bay <- read.table("bayenv.final",header=TRUE)
+plot(table_bay$BF1)
+table_bay[which(table_bay$BF1 > 100),]
+```
+No Outliers detected
+
+Combine all outlier loci into one file
+```{bash}
+cat outliers*.l.txt > all.outliers
+cut -f1 all.outliers | sort | uniq | wc -l
+```
+88
+
+Create a VCF file with just neutral loci
+```{bash}
+vcftools --vcf SNP.TRSdp5g5mac3mafMIasubp9g9dMMHWEmaf0252A.recode.vcf --exclude-positions all.outliers --recode-INFO-all --out neutralloci --recode
+```
+
+After filtering, kept 318 out of 318 Individuals
+Outputting VCF file...
+After filtering, kept 7835 out of a possible 7942 Sites
+Located in neutralloci.recode.vcf
+
+Create outlier only vcf file
+```{bash}
+vcftools --vcf SNP.TRSdp5g5mac3mafMIasubp9g9dMMHWEmaf0252A.recode.vcf --recode --recode-INFO-all --positions all.outliers --out outlierloci
+```
+
+After filtering, kept 318 out of 318 Individuals
+Outputting VCF file...
+After filtering, kept 107 out of a possible 7942 Sites
+All results in: /home/BIO594/Final_Project/popgen_analyses
+Results for the SNP VCF file /home/SNP.TRSdp5g5mac3mafMIasubp9g9dMMHWEmaf0252A.recode.vcf
+Neutral loci located in neutralsnploci.recode.vcf.
+outliers located in outliersnps.recode.vcf.
+
+## RDA Efforts
+
+# Preparinng the data
+my_vcf_snp_nolfmm <- read.vcfR("SNP.TRSdp5g5mac3mafMIasubp9g9dMMHWEmaf0252A.recode.vcf")
+environ_snp_nolfmm <- read.table("environ", header=TRUE)
+```
+Scanning file to determine attributes. File attributes: meta lines: 65
+header_line: 66 variant count: 7942 column count: 327
+Meta line 65 read in. All meta lines processed. gt matrix initialized.
+Character matrix gt created. Character matrix gt rows: 7942 Character
+matrix gt cols: 327 skip: 0 nrows: 7942 row_num: 0 Processed variant:
+7942 All variants processed
+Number of populations in each
+```{bash}
+cut -f1 popmap |grep -v INDV| cut -f1 -d "_" | sort | uniq -c
+```
+ 33 FBN
+     30 FBS
+     31 OBN
+     32 OBS
+     33 PCN
+     33 PCS
+     33 SPN
+     33 SPS
+     28 WC1
+     33 WC2
+     29 WC3
+     31 WC4
+```{r}
+rad_snp_nolfmm.filt <- vcfR2genind(
+  my_vcf_snp_nolfmm,
+  strata = environ_snp_nolfmm,
+  pop = c(rep("FBN", 33), rep("FBS", 30), rep("OBN", 31),
+          rep("OBS", 32), rep("PCN",33), rep("PCS",33), rep("SPN",33), rep("SPS",33), rep("WC1",28), rep("WC2",33), rep("WC3",29), rep("WC4",31)))
+```
+```{r}
+rad_out6_nolfmm.filt
+
+ALSO TRIED
+ my_vcf <- read.vcfR("SNP.TRSdp5g5mac3mafMIasubp9g9dMMHWEmaf0252A.recode.vcf")
+meta_data <- read_csv("meta_data.csv")
+pop <- read.table("popmap")
+View(meta_data)
+
+data_filt <- vcfR2genind(my_vcf, strata = meta_data, pop =c(rep("FBN", 30),rep("FBS", 25),rep("OBN", 19), rep("OBS",28), rep("PCN",27), rep("PCS",25), rep("SPN",26), rep("SPS",29), rep("WC1",25), rep("WC2",27), rep("WC3",28), rep("WC4",29)))
+
+
+## Detecting Population Structure (Brittany and Angela)
+      * Pairwise *F~ST~*
+      * Genetic diversity (observed and expected heterozygosity)
+      * EEMS (https://www.nature.com/articles/ng.3464)
+
