@@ -6,13 +6,16 @@ Copied `realdata` and `simulated` from the directory, `/home/BIO594/Exercises/We
     cp -r /home/BIO594/Exercises/Week_12/realdata/ ../ffields/week12/ 
     cp -r /home/BIO594/Exercises/Week_12/simulated/ ../ffields/week12/ 
 
+    curl -L -O https://bitbucket.org/tguenther/bayenv2_public/raw/2b2b7f20bb62fedaf5ea10b57e30bcb2807994b9/calc_bf.sh
+    chmod +x calc_bf.sh
+
 Create ddocent environment
 
     mamba create -n week12 ddocent
     mamba activate week12
 
 
-### Simulated data
+# Simulated data
 * Filtering SNPs
 ```
     vcftools --vcf TotalRawSNPs.vcf --max-missing 0.5 --maf 0.001 --minQ 20 --recode --recode-INFO-all --out TRS  ##fileting genotypes called below 50%
@@ -131,10 +134,88 @@ After filtering, kept 80 out of 80 Individuals
 Outputting VCF file...
 After filtering, kept 1008 out of a possible 2076 Sites
 ```
-### Outlier detection programs
+#### Outlier detection programs
 
-PCAdapt (done in R)
+PCAdapt (done in R as a markdown)
+Outflank (done in R as a markdown)
 
-Outflank (done in R)
+Outliers files were merged. Next generate a VCF with only neutral SNPs
+
+### VCF with only neutral SNPs
+
+mawk '!/#/' SNP.DP3g98maf01_85INDoutFIL.NO2a.HWE.FIL.recode.vcf | cut -f1,2 > totalloci
+NUM=(`cat totalloci | wc -l`)
+paste <(seq 1 $NUM) totalloci > loci.plus.index
+cat outliers.txt | parallel "grep -w ^{} loci.plus.index" | cut -f2,3> outlier.loci.txt
+
+head outlier.loci.txt
 
 
+
+# Real data
+#### Outlier detection programs
+* BayeScan
+```
+cp /home/BIO594/DATA/Week7/example/BSsnp.spid .
+ln -s ../popmap .
+mamba install pgdspider
+
+PGDSpider2-cli -inputfile SNP.DP3g98maf01_85INDoutFIL.NO2a.HWE.FIL.recode.vcf -outputfile SNP.TRSdp5p05FBS -spid BSsnp.spid
+```
+```
+BayeScan2.1_linux64bits SNP.TRSdp5p05FBS -nbp 30 -thin 20
+```
+```
+cp /home/ffields/week12/realdata/plot_R.r .
+```
+
+``` ran in Rstudio
+source("plot_R.r")
+plot_bayescan("SNP.TRSdp5p05FH_fst.txt")
+bs <-plot_bayescan("SNP.TRSdp5p05FH_fst.txt")
+ bs$outliers
+
+###Ouptput###
+$outliers
+integer(0)
+
+$nb_outliers
+[1] 0
+```
+
+* Run BayEnv
+```
+PGDSpider2-cli -inputfile SNP.DP3g98maf01_85INDoutFIL.NO2a.HWE.FIL.recode.vcf -outputfile SNP.TRSdp5p05FBayEnv.txt -spid SNPBayEnv.spid
+```
+```
+WARN  22:05:19 - PGDSpider configuration file not found! Loading default configuration.
+initialize convert process...
+read input file...
+read input file done.
+write output file...
+write output file done.
+```
+```
+bayenv2 -i SNP.TRSdp5p05FBayEnv.txt -p 16 -k 100000 -r 63479 > matrix.out
+```
+```
+tail -13 matrix.out | head -12 > matrix
+```
+```
+cat environ
+```
+```
+ln -s /usr/local/bin/bayenv2 .
+
+calc_bf.sh SNP.TRSdp5p05FBayEnv.txt environ matrix 16 10000 2 #Recieves error
+```
+```
+paste <(seq 1 923) <(cut -f2,3 bf_environ.environ ) > bayenv.out
+cat <(echo -e "Locus\tBF1\tBF2") bayenv.out > bayenv.final
+```
+``` To be done in R
+table_bay <- read.table("bayenv.final",header=TRUE)
+plot(table_bay$BF1)
+
+table_bay[which(table_bay$BF1 > 100),]
+```
