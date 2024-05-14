@@ -55,8 +55,8 @@ if (num_rows_data_frame != num_individuals_genind) {
 install.packages("hierfstat")
 library(hierfstat)
 
-neutral_hstat <- genind2hierfstat(my_genind, pop = my_genind@pop) ##this file was able to be converted
-neutral_hstat.mat <- pairwise.WCfst(neutral_hstat) #we haven't been able to run this command, as it runs for an hour or 2 for me and then causes rstudio to crash. not sure if it has something to do with the file formatting? 
+neutral_hstat <- genind2hierfstat(my_genind, pop = my_genind@pop)
+matFst <- genet.dist(neutral_hstat[1:318, ], method = "Nei87")
 
 
 ```
