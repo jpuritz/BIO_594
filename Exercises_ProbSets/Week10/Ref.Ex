@@ -142,8 +142,8 @@
 #11 Let's start by examining how the dDocent pipeline assembles RAD data.
 #11 First, we are going to create a set of uniq reads with counts for each individuals
 #11  	
-#c#11	$ls *.F.fq.gz > namelist
-#c#11	$sed -i'' -e 's/.F.fq.gz//g' namelist
+#c#11	$ls *.F.fq.gz > namelist 
+#c#11	$sed -i'' -e 's/.F.fq.gz//g' namelist [[removes .F.fq.gz from file name]]
 #c#11	$AWK1='BEGIN{P=1}{if(P==1||P==2){gsub(/^[@]/,">");print}; if(P==4)P=0; P++}'
 #c#11	$AWK2='!/>/'
 #c#11	$AWK3='!/NNN/'

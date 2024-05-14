@@ -5,51 +5,143 @@ output: github_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(engine.opts = list(bash = "-l"))
 ```
 
-## GitHub Documents
 
-This is an R Markdown format used for publishing markdown documents to GitHub. When you click the **Knit** button all R code chunks are run and a markdown file (.md) suitable for publishing to GitHub is generated.
+# Let's generate some data QC
 
-# Link to original github: https://github.com/pdimens/2022-Tatlanticus_popgen
+Let's start by making a directory on KITT
+```{bash, eval=FALSE}
+mkdir -p /home/BIO594/Final_Project/QC
+```
 
-# Data setup
-* Population: 12 populations from 5 different localities (10 near sewage effluent sources, 2 controls)
-* The sequenced data files are located on KITT and can be accessed via
+Second, I will create a conda environment
+```{bash, eval=FALSE}
+mamba create -n QC ddocent fastqc multiqc
+```
 
-  PATH:  `/home/BIO594/Final_Project`
-* Size: 376 individuals (28-33 per population), 150bp sequences
-* Sequences were previously demultiplexed with barcodes and individuals from a different species were removed (completed by Dr. Jon Puritz)
+## Fastqc
+Now, I will move into the directory and link the fastq files, activate the environment and run `fastqc` in parallel
+```{bash, eval=FALSE}
+cd /home/BIO594/Final_Project/QC
+ln -s ../dDocent_working_dir/*.fq.gz .
+mamba activate QC
+ls *.fq.gz | parallel -j 16 "fastqc -t 4 {}"
+```
 
-# Bioinformatics
+Truncated output:
 
-## Initial Raw Data Assessment and Characterization (Jon)
-  * Count the RAW reads
-  * Examine quality of data (fastqc)
+```
+Academic tradition requires you to cite works you base your article on.
+If you use programs that use GNU Parallel to process data for an article in a
+scientific publication, please cite:
 
-## Reference assembly (Cass)
-   * De Novo Reference Assembly 
-      * Include optimization
-      * Assemble only a subset of individuals
+  Tange, O. (2024, March 22). GNU Parallel 20240322 ('Sweden').
+  Zenodo. https://doi.org/10.5281/zenodo.10901541
 
-## RADSeq Bioinformatics (Caitlin)
-   * Trimming adapters and low quality reads (fastp via dDocent)
-   * Read Mapping (BWA & SAMtools via dDocent)
-      * Try using different mappaing parameters on a subset and pick the best ones
-   * SNP calling and filtering (FreeBayes via dDocent)
+This helps funding further development; AND IT WON'T COST YOU A CENT.
+If you pay 10000 EUR you should feel free to use GNU Parallel without citing.
 
-## SNP Filtering (VCFtools, vcflib, rad_haplotyper) (Willow)
+More about funding GNU Parallel and the citation notice:
+https://www.gnu.org/software/parallel/parallel_design.html#citation-notice
 
-# Population-level Analyses
+To silence this citation notice: run 'parallel --citation' once.
 
-## Detecting Selection Via Outlier Detection Programs (Flow and Michelle)
-      * RDA 
-      * Bayenv2
-      * PCAadapt
-      * Outflank
+application/gzip
+Analysis complete for FBN_309.F.fq.gz
+Started analysis of FBN_309.F.fq.gz
+Approx 5% complete for FBN_309.F.fq.gz
+Approx 10% complete for FBN_309.F.fq.gz
+Approx 15% complete for FBN_309.F.fq.gz
+Approx 20% complete for FBN_309.F.fq.gz
+Approx 25% complete for FBN_309.F.fq.gz
+Approx 30% complete for FBN_309.F.fq.gz
+Approx 35% complete for FBN_309.F.fq.gz
+Approx 40% complete for FBN_309.F.fq.gz
+Approx 45% complete for FBN_309.F.fq.gz
+Approx 50% complete for FBN_309.F.fq.gz
+Approx 55% complete for FBN_309.F.fq.gz
+Approx 60% complete for FBN_309.F.fq.gz
+Approx 65% complete for FBN_309.F.fq.gz
+Approx 70% complete for FBN_309.F.fq.gz
+Approx 75% complete for FBN_309.F.fq.gz
+Approx 80% complete for FBN_309.F.fq.gz
+Approx 85% complete for FBN_309.F.fq.gz
+Approx 90% complete for FBN_309.F.fq.gz
+Approx 95% complete for FBN_309.F.fq.gz
+application/gzip
+Analysis complete for FBN_309.R1.fq.gz
+```
 
-## Detecting Population Structure (Brittany and Angela)
-      * Pairwise *F~ST~*
-      * Genetic diversity (observed and expected heterozygosity)
-      * EEMS (https://www.nature.com/articles/ng.3464)
+## Multiqc
+
+Next I will run [multiqc](https://multiqc.info/) to aggregate the qc info.
+```{bash, engine.opts='-l', eval=FALSE}
+mamba activate QC
+cd /home/BIO594/Final_Project/QC
+multiqc .
+```
+
+```
+  /// MultiQC 🔍 | v1.21
+
+|           multiqc | Search path : /home/BIO594/Final_Project/QC
+|         searching | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 4548/4548  
+|            fastqc | Found 1516 reports
+|           multiqc | Report      : multiqc_report.html
+|           multiqc | Data        : multiqc_data
+|           multiqc | MultiQC complete
+```
+
+Now, I will copy the multiqc report `multiqc.html` and the `multiqc_data` directory to my BIO_594 Repository
+```{bash, eval=FALSE}
+cp -r /home/BIO594/Final_Project/QC/multiqc* ~/repos/BIO_594/Final_Project
+```
+
+The mutliqc.json file is big, so we need to use [git LFS](https://git-lfs.com/) to handle the file
+
+``````{bash, eval=FALSE}
+cd ~/repos/BIO_594/Final_Project
+git pull
+git lfs install
+git lfs track "*.json"
+git add .gitattributes
+git commit -a -m "add LFS"
+git push
+```
+
+
+Now, we can add the report and the data files 
+```{bash, eval=FALSE}
+git add multiqc_report.html
+cd multiqc_data/
+git add multiqc_data.json
+git add *
+git commit -m "add multiqc report"
+git push
+```
+
+Now, the report and data files are accessible on github.  To view the full interactive report, download the `multiqc_report.html` file and the whole `multiqc_data` directory and open the `multiqc_report.html` with a web browser.
+
+
+We can also export images of some of the data.
+
+### Sequence Counts
+![Sequence Counts](./Collaborative_Final_Project_Part_1_RawData_QC_Jon_files/fastqc_sequence_counts_plot.png)
+This shows a bar graph of the read counts per individual.  This has raw and trimmed reads in it.  You can see that there is a large spread of variance across samples.  Also, for RADseq, don't be alarmed by the presenence of "duplicate reads" this is an approximation and has to do with the fact that RADseq is only sampling at RAD loci.  It is not a random, shotgun sequencing approach.
+
+### Sequence Quality
+![Sequence Quality](./Collaborative_Final_Project_Part_1_RawData_QC_Jon_files/fastqc_per_base_sequence_quality_plot.png)
+This graph shows the mean quality at each position across the read. The quality looks pretty good. Quality is lower at the front and end of the sequence, but still within the green.
+
+### Per Sequence Quality scores
+
+![Sequence Quality](./Collaborative_Final_Project_Part_1_RawData_QC_Jon_files/fastqc_per_sequence_quality_scores_plot.png)
+This graph looks at the average quality scores per sequence.  I ran this on both raw and trimmed reads.  They look good!
+
+### Per Sequence GC Content
+
+![Sequence GC](./Collaborative_Final_Project_Part_1_RawData_QC_Jon_files/fastqc_per_sequence_gc_content_plot.png)
+If all individuals are from the same species, then this graph will show that the sequences are roughly normally distributed. It is possible that there are individuals from another species mixed in. These individuals (if any) will be identified using Principal Components Analysis (PCA).
 

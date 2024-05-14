@@ -1,0 +1,97 @@
+---
+title: "Part 6 Angela Nolan Brittany Hanley"
+output: html_document
+date: '2024-05-09'
+---
+
+```{bash}
+anolan@KITT Final_Project]$ mdkir Part6_AN-BH
+```
+
+#load the r packages needed
+```{r}
+install.packages("adegenet")
+library(adegenet)
+```
+```{r}
+install.packages("vcfR")
+library(vcfR)
+```
+#use the package VCFr to “read” our VCF file into R
+```{r}
+my_vcf <- read.vcfR("/home/BIO594/Final_Project/popgen_analyses/neutralloci.recode.vcf")
+strata<- read.table("/home/BIO594/Final_Project/popgen_analyses/popmap_edit2", header=TRUE)
+strata_df <- data.frame(strata)
+# Check the number of rows in the data frame
+num_rows_data_frame <- nrow(strata_df)
+
+# Check the number of individuals in the genind object
+num_individuals_genind <- nInd(my_genind)
+ # Compare the numbers
+if (num_rows_data_frame != num_individuals_genind) {
+   # Adjust the data frame to match the number of individuals
+     if (num_rows_data_frame < num_individuals_genind) {
+         # If there are fewer rows in the data frame, subset the genind object
+         my_genind <- subset(my_genind, select = 1:num_rows_data_frame)
+     } else {
+         # If there are more rows in the data frame, remove the extra rows
+         strata_df <- strata_df[1:num_individuals_genind, ]
+     }
+ }
+ 
+ # Assign strata to the genind object
+ strata(my_genind) <- strata_df
+ 
+ setPop(my_genind) <- ~Population
+ View(my_genind)
+
+```
+
+
+
+##Calculating FST
+#First, we convert our genid format file to hierfstat format. Second command calculates FST values
+```{r}
+install.packages("hierfstat")
+library(hierfstat)
+
+neutral_hstat <- genind2hierfstat(my_genind, pop = my_genind@pop)
+matFst <- genet.dist(neutral_hstat[1:318, ], method = "Nei87")
+
+
+```
+
+```{r}
+#calculating PCA
+X <- tab(my_genind, freq = TRUE, NA.method = "mean")
+pca1 <- dudi.pca(X, scale = FALSE, scannf = FALSE, nf = 3)
+barplot(pca1$eig[1:50], main = "PCA eigenvalues", col = heat.colors(50))
+```
+```{r}
+#PCA cont
+col <- funky(15)
+s.class(pca1$li, pop(my_genind),xax=1,yax=2, col=col, axesell=FALSE, cstar=0, cpoint=3, grid=FALSE)
+```
+```{r}
+#DAPC
+grp <- find.clusters(my_genind, max.n.clust=40)
+#Choose the number PCs to retain (>= 1): 
+80
+#Choose the number of clusters (>=2):
+2
+table(pop(my_genind), grp$grp)
+```
+
+
+```{r}
+table.value(table(pop(my_genind), grp$grp), col.lab=paste("inf", 1:2), row.lab=paste("ori", 1:4))
+```
+```{r}
+#This time we want to use as few as PCs as possbible, enough to capture 80& of the variance. We’ll use 60.
+dapc1 <- dapc(my_genind, grp$grp,n.pc=60, n.da = 1)
+scatter(dapc1,col=col,bg="white", solid=1)
+```
+#There’s only one function, but we can see what loci are driving this pattern:
+```{r}
+contrib <- loadingplot(dapc1$var.contr, axis=1, thres=.01, lab.jitter=1)
+```

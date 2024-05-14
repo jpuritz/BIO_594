@@ -1,0 +1,129 @@
+---
+title: "Florence_Fields_week12_outlier_detection_Outflank"
+author: "Flo"
+date: '2024-05-07'
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+# Load packages
+library(OutFLANK)  # outflank package
+library(vcfR)
+library(bigsnpr)   # package for LD pruning
+```
+
+```{r}
+#load in the dataset
+
+filteredSNP <- read.vcfR("SNP.TRSdp5p05Fmaf05.recode.vcf")
+```
+
+```{r}
+geno <- extract.gt(filteredSNP) # Character matrix containing the genotypes
+position <- getPOS(filteredSNP) # Positions in bp
+chromosome <- getCHROM(filteredSNP) # Chromosome information
+```
+
+```{r}
+G <- matrix(NA, nrow = nrow(geno), ncol = ncol(geno))
+
+G[geno %in% c("0/0", "0|0")] <- 0
+G[geno  %in% c("0/1", "1/0", "1|0", "0|1")] <- 1
+G[geno %in% c("1/1", "1|1")] <- 2
+
+G[is.na(G)] <- 9
+
+head(G[,1:10])
+```
+
+```{r}
+pop <- read.table("popmap", header=FALSE)
+pop <- pop$V2
+```
+
+```{r}
+my_fst <- MakeDiploidFSTMat(t(G), locusNames = paste0(chromosome,"_", position), popNames = pop)
+plot(my_fst$He, my_fst$FST)
+my_dist <- OutFLANK(my_fst, NumberOfSamples = 4, qthreshold=0.1, RightTrimFraction=0.1, LeftTrimFraction=0.1)
+```
+
+```{r}
+OutFLANKResultsPlotter(my_dist)
+
+plot(my_dist$results$FST, col=as.numeric(as.factor(chromosome)))
+
+my_dist$results[which(my_dist$results$OutlierFlag == TRUE),]
+```
+
+```{r}
+#To be ran in terminal
+#curl -L -O https://raw.githubusercontent.com/jpuritz/dDocent/master/scripts/untested/Filter_one_random_snp_per_contig.sh
+#chmod +x Filter_one_random_snp_per_contig.sh
+#./Filter_one_random_snp_per_contig.sh SNP.TRSdp5p05Fmaf05.recode.vcf
+
+#Filtered file now called SNP.TRSdp5p05Fmaf05.filtered1SNPper.vcf
+```
+
+```{r}
+my_vcf_sub <- read.vcfR("SNP.TRSdp5p05Fmaf05.filtered1SNPper.vcf")
+```
+
+```{r}
+geno_sub <- extract.gt(my_vcf_sub) # Character matrix containing the genotypes
+position_sub <- getPOS(my_vcf_sub) # Positions in bp
+chromosome_sub <- getCHROM(my_vcf_sub) # Chromosome information
+
+G_sub <- matrix(NA, nrow = nrow(geno_sub), ncol = ncol(geno_sub))
+
+G_sub[geno_sub %in% c("0/0", "0|0")] <- 0
+G_sub[geno_sub  %in% c("0/1", "1/0", "1|0", "0|1")] <- 1
+G_sub[geno_sub %in% c("1/1", "1|1")] <- 2
+
+G_sub[is.na(G_sub)] <- 9
+
+head(G_sub[,1:10])
+```
+
+```{r}
+pop <- read.table("popmap", header=FALSE)
+pop <- pop$V2
+my_fst_sub <- MakeDiploidFSTMat(t(G_sub), locusNames = paste0(chromosome_sub,"_", position_sub), popNames = pop)
+plot(my_fst_sub$He, my_fst_sub$FST)
+```
+
+```{r}
+out_trim <- OutFLANK(my_fst_sub, NumberOfSamples = 12, qthreshold=0.05, RightTrimFraction=0.05, LeftTrimFraction=0.05,Hmin =0.05)
+```
+```{r}
+OutFLANKResultsPlotter(out_trim, withOutliers = TRUE,
+                       NoCorr = TRUE, Hmin =0.05, binwidth = 0.001, Zoom =
+                         FALSE, RightZoomFraction = 0.05, titletext = NULL)
+```
+
+```{r}
+hist(out_trim$results$pvaluesRightTail)
+```
+
+```{r}
+P1 <- pOutlierFinderChiSqNoCorr(my_fst, Fstbar = out_trim$FSTNoCorrbar,
+                                   dfInferred = out_trim$dfInferred, qthreshold = 0.1, Hmin =0.05)
+```
+
+```{r}
+my_out <- P1$OutlierFlag==TRUE
+plot(P1$He, P1$FST, pch=19, col=rgb(0,0,0,0.1))
+points(P1$He[my_out], P1$FST[my_out], col="blue")
+```
+
+```{r}
+P1[which(P1$OutlierFlag == TRUE),]
+
+```
+```{r}
+
