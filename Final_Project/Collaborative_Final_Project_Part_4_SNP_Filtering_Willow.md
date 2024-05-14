@@ -98,6 +98,7 @@ Run Time = 188.00 seconds
 ```
 
 Now we will filter out individuals that did not sequence well
+\<\<\<\<\<\<\< HEAD
 
 ``` bash
 curl -L -O https://raw.githubusercontent.com/jpuritz/dDocent/master/scripts/filter_missing_ind.sh #bash script 
@@ -106,6 +107,7 @@ chmod +x filter_missing_ind.sh
 ```
 
 ``` bash
+
 After filtering, kept 379 out of 379 Individuals
 Outputting Individual Missingness
 After filtering, kept 168317 out of a possible 168317 Sites
@@ -414,16 +416,20 @@ paste <(echo $i) <(mawk -v x=$i '$1 > x' mismatched.loci | wc -l) >> mismatch.tx
 done
 ```
 
+\<\<\<\<\<\<\< HEAD
+
 In RStudio
 
 ``` r
 library(ggplot2)
-mismatch <- read.table("mismatch.txt", header = TRUE)
+mismatch <- read.table("/home/BIO594/Final_Project/SNP_Filtering/mismatch.txt", header = TRUE)
 df=data.frame(mismatch)
 
 p <- ggplot(df, aes(x=Mismatches, y=Number_of_Loci)) + geom_point() +theme_bw() + scale_x_continuous(minor_breaks = seq(1,20,by=1))
 p
 ```
+
+![](Collaborative_Final_Project_Part_4_SNP_Filtering_Willow_files/figure-gfm/unnamed-chunk-22-1.png)<!-- -->
 
 Filter out loci with mismatch \> 6
 

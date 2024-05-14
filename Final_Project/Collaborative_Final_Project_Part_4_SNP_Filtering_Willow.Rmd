@@ -404,9 +404,9 @@ done
 <<<<<<< HEAD
 
 In RStudio 
-```{r, eval=FALSE}
+```{r}
 library(ggplot2)
-mismatch <- read.table("mismatch.txt", header = TRUE)
+mismatch <- read.table("/home/BIO594/Final_Project/SNP_Filtering/mismatch.txt", header = TRUE)
 df=data.frame(mismatch)
 
 p <- ggplot(df, aes(x=Mismatches, y=Number_of_Loci)) + geom_point() +theme_bw() + scale_x_continuous(minor_breaks = seq(1,20,by=1))
