@@ -46,6 +46,7 @@ conda activate Final #activate the conda enviro
 
 ### We will apply 3 basic filtering steps 
 Remove genotypes with less than 5 reads 
+
 ```{bash, eval=FALSE}
 vcftools --vcf TotalRawSNPs.vcf --recode-INFO-all --minDP 5 --out TRSdp5 --recode 
 ```
@@ -84,13 +85,16 @@ Run Time = 188.00 seconds
 ```
 
 Now we will filter out individuals that did not sequence well 
+<<<<<<< HEAD
 ```{bash, eval=FALSE}
 curl -L -O https://raw.githubusercontent.com/jpuritz/dDocent/master/scripts/filter_missing_ind.sh #bash script 
 chmod +x filter_missing_ind.sh
 ./filter_missing_ind.sh TRSdp5g5mac3maf.recode.vcf TRSdp5g5mac3maf5MIa
 ```
 
+
 ```{bash, eval=FALSE}
+
 After filtering, kept 379 out of 379 Individuals
 Outputting Individual Missingness
 After filtering, kept 168317 out of a possible 168317 Sites
@@ -148,6 +152,7 @@ vcftools --vcf TRSdp5g5mac3maf5MIa.recode.vcf --remove indv_to_remove.txt --reco
 
 
 We will now filter out missing data at the population level 
+
 ```{bash, eval=FALSE}
 ln -s ../assembly/popmap . #create a link to the popmap in the assembly file 
 curl -L -O https://raw.githubusercontent.com/jpuritz/dDocent/master/scripts/pop_missing_filter.sh
@@ -273,9 +278,9 @@ Run Time = 27.00 seconds
 
 
 This data set has technical replicates. JP provided a bash script and tsv file with duplicate sample names. Run the program to produce a list of mismatched loci (i.e. where one replicate has a and another has a g)
+
 ```{bash, eval=FALSE}
 bash dup_sample_filter SNP.TRSdp5g5mac3mafMIasubp9g9d.recode.vcf duplicates.samples
-
 ```
 
 I got this error when trying to execute the script 
@@ -387,6 +392,7 @@ rm: cannot remove ‘keep.OBS_245d’: No such file or directory
 ```
 
 JP helped me troubleshoot - the duplicates.samples file was had spaces seperating the columns instead of tabs 
+
 ```{bash, eval=FALSE}
 echo -e "Mismatches\tNumber_of_Loci" > mismatch.txt
 for i in {2..20}
@@ -395,6 +401,7 @@ paste <(echo $i) <(mawk -v x=$i '$1 > x' mismatched.loci | wc -l) >> mismatch.tx
 done
 ```
 
+<<<<<<< HEAD
 
 In RStudio 
 ```{r, eval=FALSE}
@@ -533,16 +540,6 @@ copy it into the popgen analyses folder
       * Pairwise *F~ST~*
       * Genetic diversity (observed and expected heterozygosity)
       * EEMS (https://www.nature.com/articles/ng.3464)
-
-
-
-
-
-
-
-
-
-
 
 
 
